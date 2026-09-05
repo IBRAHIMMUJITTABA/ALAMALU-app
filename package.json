@@ -1,0 +1,15 @@
+{
+  "name": "hadisi-app",
+  "displayName": "Hadisi",
+  "version": "1.0.0",
+  "description": "App na karanta Hadisan Manzon Allah (SAW) a Hausa, rukuni-rukuni.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"no test specified\" && exit 0"
+  },
+  "cordova": {
+    "platforms": [
+      "android"
+    ]
+  }
+}

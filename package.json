@@ -1,8 +1,8 @@
 {
-  "name": "hadisi-app",
-  "displayName": "Hadisi",
+  "name": "alamalu-app",
+  "displayName": "Alamalu",
   "version": "1.0.0",
-  "description": "App na karanta Hadisan Manzon Allah (SAW) a Hausa, rukuni-rukuni.",
+  "description": "App na karanta Hadisan Manzon Allah (SAW) a Hausa, rukuni-rukuni. Karkashin AL IKWAN GROUP ASSOCIATION.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"no test specified\" && exit 0"

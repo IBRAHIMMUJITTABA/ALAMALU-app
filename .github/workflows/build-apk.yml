@@ -1,1 +1,43 @@
+name: Gina APK
 
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Karbi lambar
+        uses: actions/checkout@v4
+
+      - name: Shirya Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Shirya Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Shirya Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Shigar da Cordova
+        run: npm install -g cordova
+
+      - name: Kara dandalin Android
+        run: cordova platform add android
+
+      - name: Gina APK
+        run: cordova build android
+
+      - name: Dora APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hadisi-APK
+          path: platforms/android/app/build/outputs/apk/debug/app-debug.apk

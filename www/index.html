@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Hadisi — App na Karatu</title>
+<title>Alamalu — App na Karatu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -21,10 +21,12 @@
   html,body{height:100%;}
   body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;}
   #app{max-width:420px;margin:0 auto;min-height:100vh;background:var(--cream);position:relative;overflow-x:hidden;}
-  .topbar{background:linear-gradient(160deg,var(--deep-green) 0%,var(--deep-green-2) 100%);color:var(--cream);padding:22px 20px 26px;position:relative;}
+  .topbar{background:linear-gradient(160deg,var(--deep-green) 0%,var(--deep-green-2) 100%);color:var(--cream);padding:18px 20px 26px;position:relative;}
   .topbar::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:18px;background:var(--cream);border-radius:18px 18px 0 0;}
-  .app-title{font-family:'Amiri',serif;font-size:28px;font-weight:700;letter-spacing:.3px;}
-  .app-sub{margin-top:4px;font-size:13px;color:var(--gold-soft);font-weight:500;}
+  .brand-row{display:flex;align-items:center;gap:12px;}
+  .brand-logo{width:42px;height:42px;border-radius:10px;object-fit:cover;border:1px solid rgba(255,255,255,.25);flex-shrink:0;}
+  .app-title{font-family:'Amiri',serif;font-size:26px;font-weight:700;letter-spacing:.3px;}
+  .app-sub{margin-top:2px;font-size:12.5px;color:var(--gold-soft);font-weight:500;}
   .search-row{margin-top:16px;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:11px 14px;}
   .search-row input{background:transparent;border:0;outline:0;color:var(--cream);font-size:14px;width:100%;font-family:'Inter',sans-serif;}
   .search-row input::placeholder{color:rgba(247,243,233,.55);}
@@ -40,101 +42,137 @@
   .screen{display:none;animation:fadeIn .18s ease;}
   .screen.active{display:block;}
   @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
-  .back-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;cursor:pointer;}
+  .back-row{display:flex;align-items:center;gap:10px;margin-bottom:0;cursor:pointer;padding:14px 20px 0;}
   .back-row svg{width:20px;height:20px;color:var(--deep-green);}
   .back-row span{font-size:14px;font-weight:600;color:var(--deep-green);}
-  .cat-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
-  .cat-header .cat-emblem{margin-bottom:0;width:44px;height:44px;font-size:20px;}
-  .cat-header h2{font-family:'Amiri',serif;font-size:20px;color:var(--deep-green);}
-  .cat-header p{font-size:12px;color:var(--muted);margin-top:2px;}
-  .hadith-card{background:#fff;border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:14px 16px;margin-bottom:12px;cursor:pointer;}
-  .hadith-card:active{background:#FBF8F0;}
-  .hadith-excerpt{font-size:14px;line-height:1.55;color:var(--ink);}
-  .hadith-meta{display:flex;justify-content:flex-end;align-items:center;margin-top:10px;}
-  .hadith-num{font-size:11px;color:var(--gold);font-weight:700;background:rgba(201,162,75,.12);padding:2px 8px;border-radius:20px;}
-  .detail-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 20px;position:relative;overflow:hidden;}
-  .detail-card::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--deep-green),var(--gold));}
-  .detail-arabic{font-family:'Amiri',serif;font-size:19px;line-height:2;text-align:right;direction:rtl;color:var(--deep-green);padding-bottom:14px;border-bottom:1px dashed var(--line);margin-bottom:16px;}
-  .detail-text{font-size:15.5px;line-height:1.75;color:var(--ink);}
-  .detail-footer{margin-top:20px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
-  .detail-src{font-size:12.5px;color:var(--muted);}
-  .save-btn{display:flex;align-items:center;gap:6px;background:var(--deep-green);color:var(--gold-soft);border:none;border-radius:20px;padding:8px 14px;font-size:12.5px;font-weight:600;cursor:pointer;}
-  .save-btn.saved{background:var(--gold);color:var(--deep-green);}
-  .save-btn svg{width:14px;height:14px;}
-  .note-banner{margin-top:16px;font-size:11.5px;color:var(--muted);background:#EFEAD9;border-radius:10px;padding:10px 12px;line-height:1.5;}
-  .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:#fff;border-top:1px solid var(--line);display:flex;padding:10px 10px calc(10px + env(safe-area-inset-bottom));}
-  .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--muted);font-size:10.5px;font-weight:600;cursor:pointer;}
-  .nav-item.active{color:var(--deep-green);}
-  .nav-item svg{width:20px;height:20px;}
   .no-result{text-align:center;color:var(--muted);font-size:13px;padding:30px 10px;}
+
+  /* Book-page reading style */
+  .page-band{background:var(--deep-green);color:var(--gold-soft);text-align:center;padding:16px 14px;font-family:'Amiri',serif;font-size:19px;font-weight:700;direction:rtl;letter-spacing:.5px;}
+  .page-sub{text-align:center;font-size:11.5px;color:var(--muted);padding:8px 20px 0;}
+  .verse-row{padding:16px 20px;border-bottom:1px solid var(--line);}
+  .verse-ar{text-align:right;direction:rtl;font-family:'Amiri',serif;font-size:19px;line-height:1.9;color:var(--deep-green);}
+  .verse-ar .ornament{color:var(--gold);margin-left:6px;}
+  .verse-ha{font-size:14px;line-height:1.6;color:var(--ink);margin-top:8px;}
+  .pager{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 90px;gap:10px;}
+  .pager button{flex:1;background:var(--deep-green);color:var(--gold-soft);border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;}
+  .pager button:disabled{background:var(--line);color:var(--muted);}
+  .pager .page-indicator{font-size:12.5px;color:var(--muted);white-space:nowrap;}
+
+  .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:#fff;border-top:1px solid var(--line);display:flex;padding:10px 6px calc(10px + env(safe-area-inset-bottom));}
+  .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;}
+  .nav-item.active{color:var(--deep-green);}
+  .nav-item svg{width:19px;height:19px;}
+
+  .page-title{font-family:'Amiri',serif;font-size:22px;color:var(--deep-green);margin-bottom:16px;}
+  .about-logo{width:100%;border-radius:16px;margin-bottom:18px;border:1px solid var(--line);}
+  .info-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;}
+  .info-card h3{font-size:13px;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+  .info-card p{font-size:14.5px;line-height:1.6;color:var(--ink);}
+  .info-card .motto{font-style:italic;color:var(--deep-green);font-weight:600;}
+  .contact-item{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;text-decoration:none;color:var(--ink);}
+  .contact-icon{width:40px;height:40px;border-radius:10px;background:var(--deep-green);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .contact-icon svg{width:20px;height:20px;color:var(--gold-soft);}
+  .contact-text b{display:block;font-size:14px;}
+  .contact-text span{font-size:12.5px;color:var(--muted);}
 </style>
 </head>
 <body>
 <div id="app">
   <div class="topbar">
-    <div class="app-title">حديث · Hadisi</div>
-    <div class="app-sub">Zaɓaɓɓun Hadisan Manzon Allah ﷺ</div>
+    <div class="brand-row">
+      <img class="brand-logo" src="logo.png" alt="Alamalu logo">
+      <div>
+        <div class="app-title">الأعمال · Alamalu</div>
+        <div class="app-sub">Zaɓaɓɓun Hadisan Manzon Allah ﷺ</div>
+      </div>
+    </div>
     <div class="search-row">
       <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
       <input type="text" placeholder="Nemo Hadisi ko kalma..." id="searchInput" oninput="doSearch()">
     </div>
   </div>
 
-  <div class="content">
+  <div class="content" id="mainContent">
     <div class="screen active" id="screen-home">
       <div class="section-label">Rukunin Hadisai</div>
       <div class="cat-grid" id="catGrid"></div>
       <div id="searchResults" style="display:none;margin-top:18px;"></div>
     </div>
 
-    <div class="screen" id="screen-list">
-      <div class="back-row" onclick="goHome()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
-        <span>Rukunoni</span>
+    <div class="screen" id="screen-about">
+      <img class="about-logo" src="logo.png" alt="Alamalu">
+      <div class="page-title">Game da Mu</div>
+      <div class="info-card">
+        <h3>App</h3>
+        <p><b>Alamalu</b> — App na karanta Hadisan Manzon Allah ﷺ, rukuni-rukuni, a Hausa da Larabci.</p>
       </div>
-      <div class="cat-header">
-        <div class="cat-emblem" id="listEmblem"></div>
-        <div><h2 id="listTitle"></h2><p id="listCount"></p></div>
+      <div class="info-card">
+        <h3>Mai Ɗaukar Nauyi</h3>
+        <p>AL IKWAN GROUP ASSOCIATION<br>Ƙarƙashin jagorancin: MADARATUL DARIL IMAM, Unguwar Liman, Katsina</p>
+        <p class="motto">"Taimakon juna da Al'umma"</p>
       </div>
-      <div id="hadithList"></div>
+      <div class="info-card">
+        <h3>Mawallafin Littafin</h3>
+        <p>Shaik Imam Muhammad Lawal Katsina</p>
+      </div>
     </div>
 
-    <div class="screen" id="screen-detail">
-      <div class="back-row" onclick="goBackToList()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
-        <span id="detailBackLabel">Koma</span>
-      </div>
-      <div class="detail-card">
-        <div class="detail-arabic" id="detailArabic"></div>
-        <div class="detail-text" id="detailText"></div>
-        <div class="detail-footer">
-          <div class="detail-src">Hadisi na <b id="detailNum"></b></div>
-          <button class="save-btn" id="saveBtn" onclick="toggleSave()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-5-7 5V4a1 1 0 0 1 1-1z"/></svg>
-            <span id="saveLabel">Ajiye</span>
-          </button>
-        </div>
-      </div>
+    <div class="screen" id="screen-contact">
+      <div class="page-title">Tuntuɓe Mu</div>
+      <a class="contact-item" href="https://wa.me/2348038604701" target="_blank">
+        <div class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1 4 4.1-1A10 10 0 1 0 12 2Zm5.7 14.2c-.2.6-1.2 1.2-1.7 1.3-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.7-1.2-4.4-3.9-4.6-4.1-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.1.1.3 0 .5-.1.2-.1.3-.3.5-.1.2-.3.4-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.6.8 1.9.9.3.1.5.2.6.3.1.2.1.7-.1 1.3Z"/></svg></div>
+        <div class="contact-text"><b>WhatsApp 1</b><span>0803 860 4701</span></div>
+      </a>
+      <a class="contact-item" href="https://wa.me/2348035939681" target="_blank">
+        <div class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1 4 4.1-1A10 10 0 1 0 12 2Zm5.7 14.2c-.2.6-1.2 1.2-1.7 1.3-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.7-1.2-4.4-3.9-4.6-4.1-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.1.1.3 0 .5-.1.2-.1.3-.3.5-.1.2-.3.4-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.6.8 1.9.9.3.1.5.2.6.3.1.2.1.7-.1 1.3Z"/></svg></div>
+        <div class="contact-text"><b>WhatsApp 2</b><span>0803 593 9681</span></div>
+      </a>
+      <a class="contact-item" href="https://wa.me/2348036720807" target="_blank">
+        <div class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1 4 4.1-1A10 10 0 1 0 12 2Zm5.7 14.2c-.2.6-1.2 1.2-1.7 1.3-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.7-1.2-4.4-3.9-4.6-4.1-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.1.1.3 0 .5-.1.2-.1.3-.3.5-.1.2-.3.4-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.6.8 1.9.9.3.1.5.2.6.3.1.2.1.7-.1 1.3Z"/></svg></div>
+        <div class="contact-text"><b>WhatsApp 3</b><span>0803 672 0807</span></div>
+      </a>
+      <a class="contact-item" href="mailto:ibrahimmujittaba9@gmail.com">
+        <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+        <div class="contact-text"><b>Email</b><span>ibrahimmujittaba9@gmail.com</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div id="screen-book" style="display:none;">
+    <div class="back-row" onclick="goHome()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      <span id="bookBackLabel">Rukunoni</span>
+    </div>
+    <div class="page-band" id="pageBandTitle"></div>
+    <div class="page-sub" id="pageSub"></div>
+    <div id="verseList"></div>
+    <div class="pager">
+      <button id="prevBtn" onclick="pagePrev()">← Baya</button>
+      <span class="page-indicator" id="pageIndicator"></span>
+      <button id="nextBtn" onclick="pageNext()">Gaba →</button>
     </div>
   </div>
 
   <div class="bottom-nav">
-    <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Gida</div>
-    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-5-7 5V4a1 1 0 0 1 1-1z"/></svg>Ajiye</div>
-    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Ni</div>
+    <div class="nav-item active" id="nav-home" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Gida</div>
+    <div class="nav-item" id="nav-about" onclick="showPage('about')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Game da Mu</div>
+    <div class="nav-item" id="nav-contact" onclick="showPage('contact')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6.3 6.3l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>Tuntuɓe Mu</div>
   </div>
 </div>
 
 <script>
+const PAGE_SIZE = 10;
+
 const DATA = {
-  niyya:{ name:"Niyya da Zuciya", emblem:"ﷺ", hadiths:[
+  niyya:{ name:"Niyya da Zuciya", arabicName:"باب النية والقلب", hadiths:[
     {ar:"إِنَّمَا اَلْأَعْمَالُ بِالنِّيَّاتِ", h:"Dukkan aiki sai da niyya."},
     {ar:"اَلْحَيَاءُ مِنَ اَلْإِيمَانِ", h:"Kunya tana daga Imani."},
     {ar:"مَنْ تَكَبَّرَ وَضَعَهُ اَللَّهُ", h:"Wanda ya yi girman kai, Allah zai ƙasƙantar da shi."},
     {ar:"وَمَنْ تَوَاضَّعَ رَفَعَهُ", h:"Wanda ya ƙasƙantar da kansa, Allah zai ɗaukaka shi."},
     {ar:"جُبِلَتِ الْقُلُوبُ عَلَى حُبِّ مَنْ أَحْسَنَ إِلَيْهَا وَبُغْضِ مَنْ أَسَاءَ إِلَيْهَا", h:"An halicci zuciya a bisa son wanda ya kyautata mata, da ƙin wanda ya munana mata."},
   ]},
-  hulda:{ name:"Huldar Jama'a", emblem:"﴾﴿", hadiths:[
+  hulda:{ name:"Huldar Jama'a", arabicName:"باب حسن المعاملة", hadiths:[
     {ar:"خَيْرُ النَّاسِ مَنْ يَنْفَعُ النَّاسَ", h:"Mafificin mutane, shi ne wanda yake amfanar da mutane."},
     {ar:"وَشَرُّ النَّاسِ مَنْ يَضُرُّ النَّاسَ", h:"Mafi munin mutane, shi ne wanda yake cutar da mutane."},
     {ar:"لَا يَرْحَمُ اَللَّهُ مَنْ لَا يَرْحَمُ النَّاسَ", h:"Allah ba ya jin ƙai ga wanda ba ya jin ƙan mutane."},
@@ -151,7 +189,7 @@ const DATA = {
     {ar:"عَلَامَةُ الْمُنَافِقِ ثَلَاثٌ", h:"Alamun munafiki guda uku ne."},
     {ar:"إِذَا حَدَّثَ كَذَبَ وَإِذَا وَعَدَ أَخْلَفَ وَإِذَا اُؤْتُمِنَ خَانَ", h:"Idan ya yi magana sai ya yi ƙarya, idan ya yi alkawari sai ya karya shi, idan aka amince masa da wani abu sai ya yi ha'inci."},
   ]},
-  ilimi:{ name:"Ilimi da Malamai", emblem:"﴾ع﴿", hadiths:[
+  ilimi:{ name:"Ilimi da Malamai", arabicName:"باب العلم والعلماء", hadiths:[
     {ar:"كُنْ عَبْدًا لِلْعُلَمَاءِ تَرْبَحْ فِي الدُّنْيَا وَالْآخِرَةِ", h:"Ka kasance bawa ga malamai, za ka yi riba a duniya da lahira."},
     {ar:"خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", h:"Mafi alherinku shi ne wanda ya koyi Alƙur'ani ya kuma koyar da shi."},
     {ar:"مَنْ لَمْ يَنْفَعْهُ عِلْمُهُ ضَرَّهُ جَهْلُهُ", h:"Wanda ilminsa bai amfane shi ba, jahilcinsa zai cutar da shi."},
@@ -162,7 +200,7 @@ const DATA = {
     {ar:"اَلْجَاهِرُ بِالْقُرْآنِ كَالْمُسِرِّ بِالصَّدَقَةِ", h:"Mai bayyana karatun Alƙur'ani, kamar mai ɓoye sadaka ne."},
     {ar:"مَنْ حَفِظَ أَرْبَعِينَ حَدِيثًا مِنْ أُمَّتِي مِنْ أَمْرِ دِينِهِ", h:"Wanda ya haddace Hadisai arba'in daga al'ummata, daga al'amuran addininsa, Allah zai tashe shi cikin jama'ar Annabawa, Siddiƙai, Shahidai, da Sahihai."},
   ]},
-  iyali:{ name:"Iyali da Aure", emblem:"﴾هـ﴿", hadiths:[
+  iyali:{ name:"Iyali da Aure", arabicName:"باب الأسرة والزواج", hadiths:[
     {ar:"خَيْرُكُمْ خَيْرُكُمْ لِنِسَائِهِ", h:"Mafi alherinku, shi ne wanda ya fi kyautata wa matansa."},
     {ar:"خَيْرُكُمْ خَيْرُكُمْ لِعِيَالِهِ", h:"Mafi alherinku, shi ne wanda ya fi kyautata wa iyalansa."},
     {ar:"خَيْرُ الْأَوْلَادِ مَنْ كَانَ عَبْدًا لِوَالِدَيْهِ", h:"Mafi alherin ɗiya, shi ne wanda ya kasance bawa (mai biyayya) ga iyayensa."},
@@ -175,13 +213,13 @@ const DATA = {
     {ar:"اِتَّقِ اَللَّهَ وَاعْدِلُوا بَيْنَ أَوْلَادِكُمْ كَمَا تُحِبُّونَ أَنْ تَبَرُّوكُمْ", h:"Ku ji tsoron Allah, ku yi adalci a tsakanin 'ya'yanku, kamar yadda kuke son su kyautata muku."},
     {ar:"وَصِلُوا أَرْحَامَكُمْ", h:"Ku sada zumuncinku."},
   ]},
-  ibada:{ name:"Ibada da Tsafta", emblem:"ﷲ", hadiths:[
+  ibada:{ name:"Ibada da Tsafta", arabicName:"باب العبادة والطهارة", hadiths:[
     {ar:"تَجِبُ اَلْجُمْعَةُ عَلَى كُلِّ مُسْلِمٍ إِلَّا اِمْرَأَةً أَوْ صَبِيًّا أَوْ مَمْلُوكًا", h:"Sallar Juma'a wajibi ce a kan kowane musulmi, sai dai mace, ko ƙaramin yaro, ko bawa."},
     {ar:"إِنَّ أَوَّلَ مَا يُحَاسَبُ بِهِ اَلْعَبْدُ فِي اَلْقَبْرِ اَلْبَوْلُ", h:"Farkon abin da za a fara yin wa bawa hisabi da shi a cikin kabari, shi ne (tsaftar) fitsari."},
     {ar:"تَخَلَّلُوا فَإِنَّهُ نَظَافَةٌ وَالنَّظَافَةُ تَدْعُو إِلَى الْإِيمَانِ وَالْإِيمَانُ مَعَ صَاحِبِهِ فِي الْجَنَّةِ", h:"Ku yi asawaki (share hakori), domin tsafta ce, tsafta kuma tana kira zuwa ga Imani, Imani kuma yana tare da mai shi a Aljanna."},
     {ar:"تَدَاوَوْا عِبَادَ اَللَّهِ فَإِنَّ اَللَّهَ تَعَالَى لَمْ يَضَعْ دَاءً إِلَّا وَضَعَ لَهُ دَوَاءً غَيْرَ دَاءٍ وَاحِدٍ اَلْهَرَمُ", h:"Ku nemi magani, bayin Allah, domin Allah Maɗaukaki bai saukar da wata cuta ba face Ya saukar mata da magani, sai dai cuta guda: tsufa."},
   ]},
-  sadaka:{ name:"Sadaka da Arziki", emblem:"﴾ص﴿", hadiths:[
+  sadaka:{ name:"Sadaka da Arziki", arabicName:"باب الصدقة والرزق", hadiths:[
     {ar:"مَنْ أَدَّى الزَّكَاةَ وَقَرَى الضَّيْفَ وَأَعْطَى فِي النَّائِبَةِ فَقَدْ بَرِئَ مِنَ الشُّحِّ", h:"Wanda ya bayar da zakka, ya karɓi baƙo da kyautatawa, kuma ya taimaka a lokacin buƙata, to ya kuɓuta daga rowa."},
     {ar:"بَاكِرُوا فِي طَلَبِ الرِّزْقِ وَالْحَوَائِجِ فَإِنَّ الْغُدُوَّ بَرَكَةٌ وَنَجَاحٌ", h:"Ku yi wuri wajen neman arziki da biyan buƙatu, domin wuri albarka ne kuma nasara ce."},
     {ar:"بَاكِرُوا بِالصَّدَقَةِ فَإِنَّ الْبَلَاءَ لَا يَتَخَطَّى الصَّدَقَةَ", h:"Ku yi wuri wajen bayar da sadaka, domin bala'i ba ya tsallake sadaka."},
@@ -190,7 +228,7 @@ const DATA = {
     {ar:"وَلِلسَّائِلِ حَقٌّ وَإِنْ جَاءَ عَلَى فَرَسٍ", h:"Mai roƙo yana da hakki, koda ya zo bisa doki."},
     {ar:"اَلْقَانِعُ غَنِيٌّ وَلَوْ عَدِمَ اَلدَّجَاجَةِ، وَالْحَرِيصُ فَقِيرٌ وَإِنْ مَلَكَ اَلدُّنْيَا", h:"Mai gamsuwa da abinsa mawadaci ne koda ba shi da tsakon kaza, mai kwaɗayi kuwa talaka ne koda ya mallaki duniya."},
   ]},
-  fadi:{ name:"Fadi, Shiru da Fasiƙanci", emblem:"﴾ق﴿", hadiths:[
+  fadi:{ name:"Fadi, Shiru da Fasiƙanci", arabicName:"باب القول والصمت", hadiths:[
     {ar:"مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ", h:"Wanda ya kasance yana imani da Allah da Ranar Lahira, to ya faɗi alheri, ko ya yi shiru."},
     {ar:"مَنْ صَمَتَ نَجَا", h:"Wanda ya yi shiru, ya tsira."},
     {ar:"اَلدَّيْنُ هَمٌّ فِي اَللَّيْلِ وَمَذَلَّةٌ فِي اَلنَّهَارِ", h:"Bashi damuwa ne da dare, kuma ƙasƙanci ne da rana."},
@@ -201,7 +239,7 @@ const DATA = {
     {ar:"اَلْجَلِيبُ مَرْزُوقٌ وَالْمُحْتَكِرُ مَلْعُونٌ", h:"Mai kawo kaya (kasuwanci) ana yi masa arziki, mai ɓoye kaya don ƙarin farashi kuwa an la'ance shi."},
     {ar:"اَلْجَفَاءُ كُلُّ اَلْجَفَاءِ وَالْكُفْرِ وَالنِّفَاقِ مَنْ سَمِعَ مُنَادِيَ اللَّهِ يُنَادِي لِلصَّلَاةِ فَلَا يُجِيبُ", h:"Cikakken tsananin zafi da kafirci da munafunci shi ne, wanda ya ji mai kiran Allah yana kira zuwa Sallah, bai amsa ba."},
   ]},
-  mutum3:{ name:"Mutane Uku (Nau'in Hadisai)", emblem:"3", hadiths:[
+  mutum3:{ name:"Mutane Uku", arabicName:"باب الثلاثة", hadiths:[
     {ar:"ثَلَاثٌ مَنْ كُنَّ فِيهِ وَجَدَ حَلَاوَةَ الْإِيمَانِ", h:"Abu uku, duk wanda suka kasance a cikinsa, zai ɗanɗana zaƙin Imani: Allah da ManzonSa su fi kowa so a gareshi; ya so wani don Allah kaɗai; kuma ya ƙi komawa kafirci bayan Allah Ya tsamo shi daga ciki, kamar yadda yake ƙin a jefa shi cikin wuta."},
     {ar:"ثَلَاثَةٌ يُحِبُّهُمُ اَللَّهُ", h:"Mutum uku Allah yana son su: wanda ya raina jin dadin dukiya ya riƙa aikin alkhairi da haƙuri; wanda ya nemi izinin tafiya cikin adalci; da wanda ke jin tsoron Allah cikin abin da ke ɓoye da bayyane."},
     {ar:"ثَلَاثَةٌ لَا يَحْجُبُونَ عَنِ النَّارِ", h:"Mutum uku ba abin da zai hana su shiga wuta: mai gaba da iyaye, me sha giya, da mai neman zama shugaba ba tare da hakkinsa ba."},
@@ -216,43 +254,70 @@ Object.keys(DATA).forEach(key=>{
   const card = document.createElement('div');
   card.className='cat-card';
   card.onclick=()=>openCategory(key);
-  card.innerHTML = `<div class="cat-emblem">${c.emblem}</div><div class="cat-name">${c.name}</div><div class="cat-count">${c.hadiths.length} Hadisai</div>`;
+  card.innerHTML = `<div class="cat-emblem">${key.substring(0,1).toUpperCase()}</div><div class="cat-name">${c.name}</div><div class="cat-count">${c.hadiths.length} Hadisai</div>`;
   grid.appendChild(card);
 });
 
-let currentCat=null, currentIndex=null;
-let saved = new Set();
+let currentCat=null, currentPage=0;
 
-function showScreen(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+function clearNav(){ document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); }
+
+function showMainScreen(id){
+  document.getElementById('screen-book').style.display='none';
+  document.querySelectorAll('#mainContent .screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('mainContent').style.display='block';
+}
+
+function showPage(name){
+  clearNav();
+  if(name==='about'){ showMainScreen('screen-about'); document.getElementById('nav-about').classList.add('active'); }
+  if(name==='contact'){ showMainScreen('screen-contact'); document.getElementById('nav-contact').classList.add('active'); }
+}
 
 function openCategory(key){
   currentCat=key;
-  const c=DATA[key];
-  document.getElementById('listEmblem').textContent=c.emblem;
-  document.getElementById('listTitle').textContent=c.name;
-  document.getElementById('listCount').textContent=c.hadiths.length+" Hadisai a wannan rukuni";
-  const list=document.getElementById('hadithList'); list.innerHTML='';
-  c.hadiths.forEach((h,i)=>{
-    const el=document.createElement('div'); el.className='hadith-card'; el.onclick=()=>openDetail(key,i);
-    el.innerHTML=`<div class="hadith-excerpt">${h.h}</div><div class="hadith-meta"><span class="hadith-num">${i+1}</span></div>`;
-    list.appendChild(el);
+  currentPage=0;
+  document.getElementById('mainContent').style.display='none';
+  document.getElementById('screen-book').style.display='block';
+  document.getElementById('bookBackLabel').textContent = DATA[key].name;
+  renderPage();
+}
+
+function totalPages(key){ return Math.max(1, Math.ceil(DATA[key].hadiths.length / PAGE_SIZE)); }
+
+function renderPage(){
+  const c = DATA[currentCat];
+  document.getElementById('pageBandTitle').textContent = c.arabicName;
+  const total = totalPages(currentCat);
+  document.getElementById('pageSub').textContent = c.name + " — Shafi " + (currentPage+1) + " na " + total;
+  const start = currentPage * PAGE_SIZE;
+  const pageItems = c.hadiths.slice(start, start + PAGE_SIZE);
+  const list = document.getElementById('verseList');
+  list.innerHTML='';
+  pageItems.forEach(h=>{
+    const row = document.createElement('div');
+    row.className='verse-row';
+    row.innerHTML = `<div class="verse-ar"><span class="ornament">✿</span>${h.ar}</div><div class="verse-ha">${h.h}</div>`;
+    list.appendChild(row);
   });
-  showScreen('screen-list');
+  document.getElementById('pageIndicator').textContent = (currentPage+1) + " / " + total;
+  document.getElementById('prevBtn').disabled = currentPage===0;
+  document.getElementById('nextBtn').disabled = currentPage>=total-1;
+  window.scrollTo(0,0);
 }
-function goHome(){ document.getElementById('searchInput').value=''; document.getElementById('searchResults').style.display='none'; document.getElementById('catGrid').style.display='grid'; showScreen('screen-home'); }
-function openDetail(key,i){
-  currentCat=key; currentIndex=i;
-  const h=DATA[key].hadiths[i];
-  document.getElementById('detailArabic').textContent=h.ar;
-  document.getElementById('detailText').textContent=h.h;
-  document.getElementById('detailNum').textContent=(i+1)+" — "+DATA[key].name;
-  document.getElementById('detailBackLabel').textContent=DATA[key].name;
-  updateSaveBtn();
-  showScreen('screen-detail');
+
+function pageNext(){ if(currentPage < totalPages(currentCat)-1){ currentPage++; renderPage(); } }
+function pagePrev(){ if(currentPage > 0){ currentPage--; renderPage(); } }
+
+function goHome(){
+  document.getElementById('searchInput').value='';
+  document.getElementById('searchResults').style.display='none';
+  document.getElementById('catGrid').style.display='grid';
+  clearNav();
+  document.getElementById('nav-home').classList.add('active');
+  showMainScreen('screen-home');
 }
-function goBackToList(){ openCategory(currentCat); }
-function toggleSave(){ const id=currentCat+"-"+currentIndex; if(saved.has(id)) saved.delete(id); else saved.add(id); updateSaveBtn(); }
-function updateSaveBtn(){ const id=currentCat+"-"+currentIndex; const btn=document.getElementById('saveBtn'); const label=document.getElementById('saveLabel'); if(saved.has(id)){btn.classList.add('saved');label.textContent='An Ajiye';} else {btn.classList.remove('saved');label.textContent='Ajiye';} }
 
 function doSearch(){
   const q=document.getElementById('searchInput').value.trim().toLowerCase();
@@ -267,8 +332,9 @@ function doSearch(){
   });
   if(found.length===0){ results.innerHTML='<div class="no-result">Ba a sami Hadisi mai wannan kalma ba.</div>'; return; }
   found.forEach(f=>{
-    const el=document.createElement('div'); el.className='hadith-card'; el.onclick=()=>openDetail(f.key,f.i);
-    el.innerHTML=`<div class="hadith-excerpt">${f.h.h}</div><div class="hadith-meta"><span class="hadith-num">${DATA[f.key].name}</span></div>`;
+    const el=document.createElement('div'); el.className='verse-row'; el.style.cursor='pointer';
+    el.onclick=()=>{ currentCat=f.key; currentPage=Math.floor(f.i/PAGE_SIZE); document.getElementById('mainContent').style.display='none'; document.getElementById('screen-book').style.display='block'; document.getElementById('bookBackLabel').textContent=DATA[f.key].name; renderPage(); };
+    el.innerHTML=`<div class="verse-ar"><span class="ornament">✿</span>${f.h.ar}</div><div class="verse-ha">${f.h.h}</div>`;
     results.appendChild(el);
   });
 }

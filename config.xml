@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.hadisi.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Hadisi</name>
-    <description>App na karanta Hadisan Manzon Allah ﷺ, rukuni-rukuni, a Hausa da Larabci.</description>
-    <author email="dev@example.com" href="https://example.com">Apps Mobile Company Dev Team</author>
+<widget id="com.alikwan.alamalu" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Alamalu</name>
+    <description>App na karanta Hadisan Manzon Allah ﷺ, rukuni-rukuni, a Hausa da Larabci. Wanda AL IKWAN GROUP ASSOCIATION ke daukar nauyi, karkashin jagorancin MADARATUL DARIL IMAM, Unguwar Liman, Katsina.</description>
+    <author email="ibrahimmujittaba9@gmail.com" href="https://example.com">AL IKWAN GROUP ASSOCIATION</author>
 
     <content src="index.html" />
 
@@ -11,8 +11,7 @@
     <allow-intent href="tel:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <allow-intent href="market:*" />
-
+    <allow-intent href="https://wa.me/*" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="24" />
     <preference name="android-targetSdkVersion" value="34" />
@@ -23,7 +22,10 @@
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="Orientation" value="portrait" />
 
+    <icon src="icon.png" />
+
     <platform name="android">
         <allow-intent href="market:*" />
+        <icon src="icon.png" />
     </platform>
 </widget>

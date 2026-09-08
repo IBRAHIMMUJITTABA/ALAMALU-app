@@ -8,8 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --deep-green:#0B2E22;
-    --deep-green-2:#123D2C;
+    --deep-green:#0A1F3D;
+    --deep-green-2:#122B54;
     --gold:#C9A24B;
     --gold-soft:#E9D08A;
     --cream:#F7F3E9;
@@ -84,6 +84,14 @@
   .page-card-info{flex:1;}
   .page-card-title{font-size:14.5px;font-weight:700;color:var(--ink);}
   .page-card-count{font-size:11.5px;color:var(--muted);margin-top:2px;}
+  .page-card-snippet{
+    font-family:'Amiri',serif;font-size:14px;direction:rtl;text-align:right;line-height:1.5;color:var(--deep-green);
+    margin-top:4px;
+    background:linear-gradient(90deg, rgba(201,162,75,.18), rgba(201,162,75,.03));
+    border-right:2px solid var(--gold);
+    padding:4px 8px;border-radius:4px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
   .page-card-chevron{width:18px;height:18px;color:var(--muted);transition:transform .2s ease;flex-shrink:0;}
   .page-card.open .page-card-chevron{transform:rotate(180deg);}
   .page-preview{display:none;padding:0 16px 16px;}
@@ -101,7 +109,9 @@
   }
 
   /* ===== FULL PAGE (book reading) ===== */
-  .page-band{background:var(--deep-green);color:var(--gold-soft);text-align:center;padding:16px 14px;font-family:'Amiri',serif;font-size:19px;font-weight:700;letter-spacing:.5px;}
+  .page-band{background:var(--deep-green);color:var(--gold-soft);text-align:center;padding:14px 14px 12px;}
+  .page-band-logo{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid rgba(233,208,138,.5);margin-bottom:8px;}
+  .page-band-title{font-family:'Amiri',serif;font-size:19px;font-weight:700;letter-spacing:.5px;}
   .page-sub{text-align:center;font-size:11.5px;color:var(--muted);padding:8px 20px 0;}
   .verse-row{padding:16px 20px;border-bottom:1px solid var(--line);}
   .verse-ar{text-align:right;direction:rtl;font-family:'Amiri',serif;font-size:19px;line-height:1.9;color:var(--deep-green);}
@@ -128,6 +138,26 @@
   .contact-icon svg{width:20px;height:20px;color:var(--gold-soft);}
   .contact-text b{display:block;font-size:14px;}
   .contact-text span{font-size:12.5px;color:var(--muted);}
+
+  /* ===== BACK COVER ===== */
+  #screen-backcover{
+    display:none;
+    min-height:100vh;
+    background:linear-gradient(165deg, var(--deep-green) 0%, #071429 100%);
+    color:var(--cream);
+    padding:36px 26px 40px;
+    text-align:center;
+    position:relative;
+  }
+  #screen-backcover::before{content:"";position:absolute;inset:14px;border:1px solid rgba(233,208,138,.4);border-radius:2px;pointer-events:none;}
+  .bc-back-row{display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--gold-soft);font-size:13px;margin-bottom:20px;position:relative;z-index:1;}
+  .bc-photo{width:150px;height:200px;object-fit:cover;border-radius:8px;border:2px solid var(--gold);margin:10px auto 18px;display:block;box-shadow:0 8px 24px rgba(0,0,0,.4);}
+  .bc-name{font-family:'Amiri',serif;font-size:22px;color:var(--gold);font-weight:700;}
+  .bc-role{font-size:12.5px;color:rgba(247,243,233,.7);margin-top:4px;}
+  .bc-taaziyya{margin-top:24px;padding:20px 18px;border-top:1px solid rgba(201,162,75,.3);border-bottom:1px solid rgba(201,162,75,.3);}
+  .bc-taaziyya .ar{font-family:'Amiri',serif;font-size:17px;direction:rtl;line-height:2;color:var(--gold-soft);}
+  .bc-taaziyya .ha{font-size:13.5px;color:rgba(247,243,233,.85);margin-top:14px;line-height:1.7;}
+  .bc-footer{font-size:11px;color:rgba(247,243,233,.5);margin-top:22px;}
 </style>
 </head>
 <body>
@@ -217,13 +247,31 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
       <span>Duk Shafuka</span>
     </div>
-    <div class="page-band" id="pageBandTitle"></div>
+    <div class="page-band">
+      <img class="page-band-logo" src="group-logo.png" alt="AL IKWAN GROUP">
+      <div class="page-band-title" id="pageBandTitle"></div>
+    </div>
     <div class="page-sub" id="pageSub"></div>
     <div id="verseList"></div>
     <div class="pager">
       <button id="prevBtn" onclick="pagePrev()">← Shafi da ya gabata</button>
       <button id="nextBtn" onclick="pageNext()">Shafi na gaba →</button>
     </div>
+  </div>
+
+  <div id="screen-backcover">
+    <div class="bc-back-row" onclick="closeBackCover()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      <span>Koma</span>
+    </div>
+    <img class="bc-photo" src="author.png" alt="Sheikh Imam Muhammad Lawal Katsina">
+    <div class="bc-name">Shaik Imam Muhammad Lawal Katsina</div>
+    <div class="bc-role">Mawallafin Littafin Alamalu</div>
+    <div class="bc-taaziyya">
+      <div class="ar">رَحِمَهُ اللَّهُ رَحْمَةً وَاسِعَةً وَأَسْكَنَهُ فَسِيحَ جَنَّاتِهِ</div>
+      <div class="ha">Allah Ya jiƙan Sheikh da rahama mai yawa, Ya sanya shi cikin mafi alherin bayinSa, Ya saukar da shi a fadin Aljanna, kuma Ya sakawa iyalansa da almajiransa da masu son shi haƙuri da lada mai girma. Amin.</div>
+    </div>
+    <div class="bc-footer">AL IKWAN GROUP ASSOCIATION<br>Taimakon Juna da Al'umma</div>
   </div>
 
   <div class="bottom-nav">
@@ -400,7 +448,7 @@ PAGES.forEach(p=>{
       <div class="page-num-badge">${p.n}</div>
       <div class="page-card-info">
         <div class="page-card-title">Shafi ${p.n}</div>
-        <div class="page-card-count">${p.hadiths.length} Hadisai</div>
+        <div class="page-card-snippet">${first.ar}</div>
       </div>
       <svg class="page-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>
     </div>
@@ -450,11 +498,24 @@ function renderBookPage(){
     list.appendChild(row);
   });
   document.getElementById('prevBtn').disabled = currentPageNum<=1;
-  document.getElementById('nextBtn').disabled = currentPageNum>=PAGES.length;
+  document.getElementById('nextBtn').disabled = false;
+  document.getElementById('nextBtn').textContent = currentPageNum>=PAGES.length ? "Bangon Ƙarshe →" : "Shafi na gaba →";
   window.scrollTo(0,0);
 }
-function pageNext(){ if(currentPageNum<PAGES.length){ currentPageNum++; renderBookPage(); } }
+function pageNext(){
+  if(currentPageNum<PAGES.length){ currentPageNum++; renderBookPage(); }
+  else { showBackCover(); }
+}
 function pagePrev(){ if(currentPageNum>1){ currentPageNum--; renderBookPage(); } }
+function showBackCover(){
+  document.getElementById('screen-book').style.display='none';
+  document.getElementById('screen-backcover').style.display='block';
+  window.scrollTo(0,0);
+}
+function closeBackCover(){
+  document.getElementById('screen-backcover').style.display='none';
+  document.getElementById('screen-book').style.display='block';
+}
 
 function clearNav(){ document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); }
 function showMainScreen(id){

@@ -22,10 +22,10 @@
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="Orientation" value="portrait" />
 
-    <icon src="icon.png" />
+    <icon src="www/icon.png" />
 
     <platform name="android">
         <allow-intent href="market:*" />
-        <icon src="icon.png" />
+        <icon src="www/icon.png" />
     </platform>
 </widget>

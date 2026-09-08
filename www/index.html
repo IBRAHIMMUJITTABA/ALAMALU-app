@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Alamalu — App na Karatu</title>
+<title>Alamalu — Littafin Hadisi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --deep-green:#0F3D2E;
-    --deep-green-2:#164A38;
+    --deep-green:#0B2E22;
+    --deep-green-2:#123D2C;
     --gold:#C9A24B;
-    --gold-soft:#E4C97A;
+    --gold-soft:#E9D08A;
     --cream:#F7F3E9;
     --ink:#1B2620;
     --muted:#6B7A72;
@@ -21,34 +21,87 @@
   html,body{height:100%;}
   body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;}
   #app{max-width:420px;margin:0 auto;min-height:100vh;background:var(--cream);position:relative;overflow-x:hidden;}
+
+  /* ===== COVER ===== */
+  #screen-cover{
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 50% 15%, rgba(233,208,138,.12), transparent 55%),
+      linear-gradient(165deg, var(--deep-green) 0%, #08211A 100%);
+    color:var(--cream);
+    display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+    padding:36px 26px 40px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  #screen-cover::before{
+    content:"";position:absolute;inset:14px;border:1px solid rgba(201,162,75,.45);border-radius:2px;pointer-events:none;
+  }
+  #screen-cover::after{
+    content:"";position:absolute;inset:20px;border:1px solid rgba(201,162,75,.22);border-radius:2px;pointer-events:none;
+  }
+  .cover-bismillah{font-family:'Amiri',serif;font-size:15px;color:var(--gold-soft);line-height:1.9;direction:rtl;margin-top:8px;}
+  .cover-logo{width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin:22px 0 14px;box-shadow:0 0 0 6px rgba(201,162,75,.12);}
+  .cover-title{font-family:'Amiri',serif;font-size:40px;font-weight:700;color:var(--gold);letter-spacing:1px;}
+  .cover-title-sub{font-family:'Amiri',serif;font-size:15px;color:var(--gold-soft);margin-top:4px;direction:rtl;}
+  .cover-tag{font-size:12.5px;color:rgba(247,243,233,.65);margin-top:10px;letter-spacing:.5px;}
+  .cover-hadith{margin-top:26px;padding:18px 16px;border-top:1px solid rgba(201,162,75,.3);border-bottom:1px solid rgba(201,162,75,.3);}
+  .cover-hadith .ar{font-family:'Amiri',serif;font-size:17px;direction:rtl;line-height:2;color:var(--gold-soft);}
+  .cover-hadith .ha{font-size:12.5px;color:rgba(247,243,233,.75);margin-top:10px;line-height:1.6;}
+  .cover-btn{
+    margin-top:28px;background:var(--gold);color:var(--deep-green);border:none;border-radius:30px;
+    padding:14px 40px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;letter-spacing:.3px;cursor:pointer;
+  }
+  .cover-footer{font-size:11px;color:rgba(247,243,233,.5);margin-top:18px;}
+
+  /* ===== SHARED APP SHELL ===== */
+  #app-shell{display:none;}
   .topbar{background:linear-gradient(160deg,var(--deep-green) 0%,var(--deep-green-2) 100%);color:var(--cream);padding:18px 20px 26px;position:relative;}
   .topbar::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:18px;background:var(--cream);border-radius:18px 18px 0 0;}
   .brand-row{display:flex;align-items:center;gap:12px;}
   .brand-logo{width:42px;height:42px;border-radius:10px;object-fit:cover;border:1px solid rgba(255,255,255,.25);flex-shrink:0;}
-  .app-title{font-family:'Amiri',serif;font-size:26px;font-weight:700;letter-spacing:.3px;}
-  .app-sub{margin-top:2px;font-size:12.5px;color:var(--gold-soft);font-weight:500;}
+  .app-title{font-family:'Amiri',serif;font-size:24px;font-weight:700;letter-spacing:.3px;}
+  .app-sub{margin-top:2px;font-size:12px;color:var(--gold-soft);font-weight:500;}
   .search-row{margin-top:16px;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:11px 14px;}
   .search-row input{background:transparent;border:0;outline:0;color:var(--cream);font-size:14px;width:100%;font-family:'Inter',sans-serif;}
   .search-row input::placeholder{color:rgba(247,243,233,.55);}
   .search-icon{width:16px;height:16px;flex-shrink:0;opacity:.75;}
   .content{padding:18px 20px 90px;}
   .section-label{font-size:13px;font-weight:600;color:var(--deep-green);margin:6px 0 12px;}
-  .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  .cat-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 12px;cursor:pointer;transition:transform .15s ease;}
-  .cat-card:active{transform:scale(.97);}
-  .cat-emblem{width:36px;height:36px;border-radius:10px;background:var(--deep-green);display:flex;align-items:center;justify-content:center;color:var(--gold-soft);font-family:'Amiri',serif;font-size:16px;margin-bottom:10px;}
-  .cat-name{font-size:14px;font-weight:600;color:var(--ink);line-height:1.3;}
-  .cat-count{font-size:11.5px;color:var(--muted);margin-top:4px;}
   .screen{display:none;animation:fadeIn .18s ease;}
   .screen.active{display:block;}
   @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
-  .back-row{display:flex;align-items:center;gap:10px;margin-bottom:0;cursor:pointer;padding:14px 20px 0;}
+  .back-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;cursor:pointer;}
   .back-row svg{width:20px;height:20px;color:var(--deep-green);}
   .back-row span{font-size:14px;font-weight:600;color:var(--deep-green);}
   .no-result{text-align:center;color:var(--muted);font-size:13px;padding:30px 10px;}
 
-  /* Book-page reading style */
-  .page-band{background:var(--deep-green);color:var(--gold-soft);text-align:center;padding:16px 14px;font-family:'Amiri',serif;font-size:19px;font-weight:700;direction:rtl;letter-spacing:.5px;}
+  /* ===== PAGE LIST (accordion preview) ===== */
+  .page-card{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;}
+  .page-card-head{display:flex;align-items:center;gap:14px;padding:15px 16px;cursor:pointer;}
+  .page-num-badge{width:42px;height:42px;border-radius:10px;background:var(--deep-green);color:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-family:'Amiri',serif;font-size:16px;font-weight:700;flex-shrink:0;}
+  .page-card-info{flex:1;}
+  .page-card-title{font-size:14.5px;font-weight:700;color:var(--ink);}
+  .page-card-count{font-size:11.5px;color:var(--muted);margin-top:2px;}
+  .page-card-chevron{width:18px;height:18px;color:var(--muted);transition:transform .2s ease;flex-shrink:0;}
+  .page-card.open .page-card-chevron{transform:rotate(180deg);}
+  .page-preview{display:none;padding:0 16px 16px;}
+  .page-card.open .page-preview{display:block;}
+  .preview-ar{
+    font-family:'Amiri',serif;font-size:17px;text-align:right;direction:rtl;line-height:1.9;color:var(--deep-green);
+    background:linear-gradient(90deg, rgba(201,162,75,.18), rgba(201,162,75,.05));
+    border-right:3px solid var(--gold);
+    padding:10px 12px;border-radius:6px;
+  }
+  .preview-ha{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.5;}
+  .open-page-btn{
+    margin-top:12px;width:100%;background:var(--deep-green);color:var(--gold-soft);border:none;border-radius:10px;
+    padding:11px;font-size:13.5px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;
+  }
+
+  /* ===== FULL PAGE (book reading) ===== */
+  .page-band{background:var(--deep-green);color:var(--gold-soft);text-align:center;padding:16px 14px;font-family:'Amiri',serif;font-size:19px;font-weight:700;letter-spacing:.5px;}
   .page-sub{text-align:center;font-size:11.5px;color:var(--muted);padding:8px 20px 0;}
   .verse-row{padding:16px 20px;border-bottom:1px solid var(--line);}
   .verse-ar{text-align:right;direction:rtl;font-family:'Amiri',serif;font-size:19px;line-height:1.9;color:var(--deep-green);}
@@ -78,6 +131,26 @@
 </style>
 </head>
 <body>
+
+<div id="screen-cover">
+  <div>
+    <div class="cover-bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>وَصَلَّى اللَّهُ عَلَى النَّبِيِّ الْكَرِيمِ</div>
+    <img class="cover-logo" src="logo.png" alt="Alamalu">
+    <div class="cover-title">الأعمال</div>
+    <div class="cover-title-sub">Alamalu</div>
+    <div class="cover-tag">Littafin Hadisan Manzon Allah ﷺ</div>
+  </div>
+  <div class="cover-hadith">
+    <div class="ar">نَضَّرَ اللَّهُ إِمْرَءً سَمِعَ مَقَالَتِي فَوَعَاهَا فَأَدَّاهَا كَمَا سَمِعَهَا</div>
+    <div class="ha">Allah ya ni'imta mutumin da ya ji zancena ya kiyaye ta, ya bayar da ita kamar yadda ya ji ta.</div>
+  </div>
+  <div>
+    <button class="cover-btn" onclick="openBook()">Buɗe Littafi</button>
+    <div class="cover-footer">AL IKWAN GROUP ASSOCIATION</div>
+  </div>
+</div>
+
+<div id="app-shell">
 <div id="app">
   <div class="topbar">
     <div class="brand-row">
@@ -95,9 +168,9 @@
 
   <div class="content" id="mainContent">
     <div class="screen active" id="screen-home">
-      <div class="section-label">Rukunin Hadisai</div>
-      <div class="cat-grid" id="catGrid"></div>
-      <div id="searchResults" style="display:none;margin-top:18px;"></div>
+      <div class="section-label">Zaɓi Shafi</div>
+      <div id="pageListWrap"></div>
+      <div id="searchResults" style="display:none;margin-top:6px;"></div>
     </div>
 
     <div class="screen" id="screen-about">
@@ -105,7 +178,7 @@
       <div class="page-title">Game da Mu</div>
       <div class="info-card">
         <h3>App</h3>
-        <p><b>Alamalu</b> — App na karanta Hadisan Manzon Allah ﷺ, rukuni-rukuni, a Hausa da Larabci.</p>
+        <p><b>Alamalu</b> — App na karanta Hadisan Manzon Allah ﷺ, shafi bayan shafi, a Hausa da Larabci.</p>
       </div>
       <div class="info-card">
         <h3>Mai Ɗaukar Nauyi</h3>
@@ -140,17 +213,16 @@
   </div>
 
   <div id="screen-book" style="display:none;">
-    <div class="back-row" onclick="goHome()">
+    <div class="back-row" onclick="closeBookPage()" style="padding:16px 20px 0;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
-      <span id="bookBackLabel">Rukunoni</span>
+      <span>Duk Shafuka</span>
     </div>
     <div class="page-band" id="pageBandTitle"></div>
     <div class="page-sub" id="pageSub"></div>
     <div id="verseList"></div>
     <div class="pager">
-      <button id="prevBtn" onclick="pagePrev()">← Baya</button>
-      <span class="page-indicator" id="pageIndicator"></span>
-      <button id="nextBtn" onclick="pageNext()">Gaba →</button>
+      <button id="prevBtn" onclick="pagePrev()">← Shafi da ya gabata</button>
+      <button id="nextBtn" onclick="pageNext()">Shafi na gaba →</button>
     </div>
   </div>
 
@@ -160,160 +232,246 @@
     <div class="nav-item" id="nav-contact" onclick="showPage('contact')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6.3 6.3l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>Tuntuɓe Mu</div>
   </div>
 </div>
+</div>
 
 <script>
-const PAGE_SIZE = 10;
+const PAGES = [
+{n:1, hadiths:[
+{ar:"اَلْأَعْمَالُ بِالنِّيَاتِ", h:"Dukkan aiki sai da niyya."},
+{ar:"اَلْمُسْتَشَارُ مُؤْتَمَنٌ", h:"Mai shawara amintacce ne."},
+{ar:"مَّا نَدِمَ مَنِ اسْتَشَارَ", h:"Mai shawara ba ya nadama."},
+{ar:"اَلصَّمْتُ سَلَامَةٌ", h:"Kawaici kuɓuta ne."},
+{ar:"مَنْ صَمَتَ نَجَا", h:"Wanda ya yi kawaici ya tsira."},
+{ar:"أَلَا مَنَةُ تَجُرُّ الرِّزْقَ", h:"Amana tana jawo arziki."},
+{ar:"وَالْخِيَانَةُ تَجُرُّ الْفَقْرَ", h:"Ha'inci yana jawo talauci."},
+{ar:"خَيْرُ النَّاسِ مَنْ يَّنْفَعُ النَّاسَ", h:"Mafificin mutane wanda yake amfanar da mutane."},
+{ar:"وَشَرُّ النَّاسِ مَنْ يَّضُرُّ النَّاسَ", h:"Koma bayan mutane, wanda yake cutar da mutane."},
+{ar:"لَا يَرْحَمُ اللَّهُ مَنْ لَا يَرْحَمُ النَّاسَ", h:"Allah ba ya jin ƙan wanda ba ya jin ƙan mutane."},
+{ar:"اَلرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَٰنُ", h:"Masu tausayi, Rahaman (Allah) yana yi musu rahama."},
+{ar:"يَسِّرُوا وَلَا تُعَسِّرُوا", h:"Ku sauƙaƙa, kada ku tsananta."},
+{ar:"إِنَّ أَشْقَى الْأَشْقِيَاءِ مَنِ اجْتَمَعَ عَلَيْهِ فَقْرُ الدُّنْيَا وَالْعَذَابُ الْآخِرَةِ", h:"Mafi tabewar mutane, wanda talaucin duniya ya gamu da shi, kuma da azabar Lahira."},
+{ar:"اَلْحَيَاءُ مِنَ الْإِيمَانِ", h:"Kunya tana daga Imani."},
+{ar:"اَلدَّيْنُ شَرُّ الدِّينِ", h:"Bashi sharri ne ga addini."},
+{ar:"أَقِلَّ مِنَ الدَّيْنِ تَعِشْ حُرًّا", h:"Idan ka rage bashi, za ka rayu da 'yanci."},
+{ar:"اَلدَّيْنُ هَمٌّ فِي اللَّيْلِ وَمَذَلَّةٌ فِي النَّهَارِ", h:"Bashi damuwa ne da dare, kuma ƙasƙanci ne da rana."},
+{ar:"مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ", h:"Wanda ya kasance yana imani da Allah da Ranar Lahira, to ya faɗi alheri, ko ya yi shiru."},
+]},
+{n:2, hadiths:[
+{ar:"وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيُكْرِمْ ضَيْفَهُ", h:"Sannan wanda ya kasance yana imani da Allah da Ranar Lahira, to ya girmama baƙonsa."},
+{ar:"وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلَا يُؤْذِ جَارَهُ", h:"Sannan duk wanda ya kasance yana imani da Allah da Ranar Lahira, to kada ya cutar da maƙwabcinsa."},
+{ar:"خَيْرُكُمْ مَنْ يُّرْجَى خَيْرُهُ وَيُؤْمَنُ شَرُّهُ", h:"Mafificinku, wanda ake fatan alherinsa, kuma ake amincewa daga sharrinsa."},
+{ar:"كُنْ عَبْدًا لِّلْعُلَمَاءِ تَرْبَحْ فِي الدُّنْيَا وَالْآخِرَةِ", h:"Ka kasance bawa ga malamai, za ka yi riba a duniya da Lahira."},
+{ar:"خَيْرُ الْأَوْلَادِ مَنْ كَانَ عَبْدًا لِّوَالِدَيْهِ", h:"Mafificin ɗiya, wanda ya kasance mai biyayya ga iyayensa."},
+{ar:"خَيْرُكُمْ خَيْرُكُمْ لِنِسَائِهِ", h:"Mafificinku, wanda ya fi kyautata wa matansa."},
+{ar:"خَيْرُكُمْ خَيْرُكُمْ لِعِيَالِهِ", h:"Mafificinku, wanda ya fi kyautata wa iyalansa."},
+{ar:"خَيْرُكُمْ مَنْ تَفَقَّهَ فِي الدِّينِ", h:"Mafificinku, wanda ya san addini."},
+{ar:"خَيْرُكُمْ مَنْ عَلِمَ الْقُرْآنَ وَعَلَّمَهُ", h:"Mafificinku, wanda ya san Alƙur'ani kuma ya sanar da wani."},
+{ar:"مَنِ اسْتَعَانَكُمْ بِاللَّهِ فَأَعِينُوهُ", h:"Wanda ya nemi taimako gareku don Allah, to ku taimake shi."},
+{ar:"وَمَنْ سَأَلَكُمْ بِاللَّهِ فَأَعْطُوهُ", h:"Kuma wanda ya roƙe ku domin Allah, to ku bashi."},
+{ar:"فَاللَّهُ فِي عَوْنِ الْعَبْدِ مَا كَانَ الْعَبْدُ فِي عَوْنِ أَخِيهِ", h:"Domin Allah yana cikin taimakon bawa, matuƙar bawan yana cikin taimakon ɗan'uwansa."},
+{ar:"مَا قَلَّ وَكَفَى خَيْرٌ مِّمَّا كَثُرَ وَأَلْهَى", h:"Abinda ya ƙaranta kuma ya isa, ya fi alheri daga abinda ya yawaita kuma ya shagalta."},
+{ar:"اَلْقَانِعُ غَنِيٌّ وَلَوْ عَدِمَ حُرُورَ الدَّجَاجَةِ", h:"Mai gamsuwa da abinsa, mawadaci ne, koda ba shi da tsakon kaza."},
+{ar:"اَلْحَرِيصُ فَقِيرٌ وَإِنْ مَلَكَ الدُّنْيَا", h:"Mai kwaɗayi, talaka ne koda ya mallaki duniya."},
+{ar:"اَلْبَرَكَةُ مَعَ أَكَابِرِكُمْ", h:"Albarka tana tare da manyanku."},
+{ar:"بَرُّوا آبَاءَكُمْ تَبَرَّكُمْ أَبْنَاؤُكُمْ", h:"Ku kyautata wa iyayenku, 'ya'yanku za su kyautata muku."},
+{ar:"وَعِفُّوا تَعِفَّ نِسَاؤُكُمْ", h:"Ku kame kanku daga matan mutane, matanku za su kame kansu."},
+{ar:"كِيلُوا طَعَامَكُمْ يُبَارِكِ اللَّهُ لَكُمْ فِيهِ", h:"Ku auna abincinku, Allah zai sanya albarka gare ku a cikinsa."},
+]},
+{n:3, hadiths:[
+{ar:"إِيَّاكُمْ وَالْكَذِبَ فَإِنَّ الْكَذِبَ يُجَانِبُ الْإِيمَانَ", h:"Ku nisanci ƙarya, domin ƙarya tana nisantar da Imani."},
+{ar:"مِنْ مَكَارِمِ الْأَخْلَاقِ", h:"Yana daga cikin manya-manyan halaye."},
+{ar:"أَنْ تَعْفُوَ عَمَّنْ ظَلَمَكَ", h:"Ka yi afuwa ga wanda ya zalunce ka."},
+{ar:"وَتُعْطِيَ مَنْ حَرَمَكَ", h:"Ka bayar wa wanda ya hana ka."},
+{ar:"وَتَصِلَ مَنْ قَطَعَكَ", h:"Ka sadu (ka kulla zumunci) da wanda ya yanke maka."},
+{ar:"عَلَيْكَ بِذَاتِ الدِّينِ وَإِلَّا تَرِبَتْ يَدَاكَ", h:"Ka riƙi ma'abociyar addini, in ba haka ba hannunka zai talauta."},
+{ar:"عَلَيْكَ بِذَاتِ الدِّينِ يُغْنِكَ اللَّهُ", h:"Ka riƙi ma'abociyar addini, Allah zai wadatar da kai."},
+{ar:"مَنْ تَكَبَّرَ وَضَعَهُ اللَّهُ", h:"Wanda ya yi girman kai, Allah zai ƙasƙantar da shi."},
+{ar:"وَمَنْ تَوَاضَعَ رَفَعَهُ", h:"Wanda ya ƙasƙantar da kansa, Allah zai ɗaukaka shi."},
+{ar:"يَنْبَغِي لِلْإِنْسَانِ أَلَّا يُرَى إِلَّا مُحَصِّلًا حَسَنَةً لِّمَعَادِهِ أَوْ دِرْهَمًا لِّمَعَاشِهِ", h:"Ya kamata ga mutum kada a gan shi sai yana tabbatar da kyakkyawan aiki don Lahirarsa, ko neman abin biyan buƙata don rayuwarsa."},
+{ar:"وَيَتْرُكَ مَا لَا يَعْنِيهِ", h:"Kuma ya bar abin da bai damce shi ba."},
+{ar:"اَلْمَنِيَّةُ وَلَا الدَّنِيَّةُ", h:"Mutuwa, ba ƙasƙanci ba."},
+{ar:"اَلتَّقَلُّلُ وَلَا التَّوَسُّلُ", h:"Ka rage bukatun ka, ba roƙo ba."},
+{ar:"اِغْتَنِمْ خَمْسًا قَبْلَ خَمْسٍ", h:"Ka ribaci abubuwa biyar kafin (masu zuwa) biyar."},
+{ar:"شَبَابَكَ قَبْلَ هَرَمِكَ", h:"Kuruciyarka kafin tsufanka."},
+{ar:"وَصِحَّتَكَ قَبْلَ سُقْمِكَ", h:"Da lafiyarka kafin rashin lafiyarka."},
+{ar:"وَفَرَاغَكَ قَبْلَ شُغْلِكَ", h:"Da faragarka kafin shagalinka."},
+{ar:"وَغِنَاكَ قَبْلَ فَقْرِكَ", h:"Da wadatarka kafin talaucinka."},
+{ar:"وَحَيَاتَكَ قَبْلَ مَوْتِكَ", h:"Da rayuwarka kafin mutuwarka."},
+{ar:"عَلَيْكَ بِالسُّكُوتِ", h:"Ka riƙi kawaici."},
+{ar:"وَلُزُومِ الْبَيْتِ", h:"Da lazimtar gidanka."},
+{ar:"وَالرِّضَى بِالْقَلِيلِ مِنَ الْقُوتِ", h:"Da yarda da ɗan abinci kaɗan."},
+{ar:"وَتَبَصُّرُ الْعَوَاقِبِ يُؤْمَنُ الْمَعَاطِبِ", h:"Kula da ƙarshen abu, ana amincewa daga halaka."},
+{ar:"اَلْمُسْلِمُ مَنْ سَلِمَ النَّاسُ مِنْ لِسَانِهِ وَيَدِهِ", h:"Cikakken musulmi, shi ne wanda mutane suka kuɓuta daga cutarwar harshensa da hannunsa."},
+{ar:"عَلَامَةُ الْمُنَافِقِ ثَلَاثٌ", h:"Alamun munafiki guda uku ne."},
+{ar:"إِذَا حَدَّثَ كَذَبَ وَإِذَا وَعَدَ أَخْلَفَ وَإِذَا اؤْتُمِنَ خَانَ", h:"Idan ya yi magana sai ya yi ƙarya, idan ya yi alkawari sai ya karya shi, idan aka amince masa da wani abu sai ya yi ha'inci."},
+]},
+{n:4, hadiths:[
+{ar:"إِنَّ اللَّهَ يَنْهَاكُمْ عَنْ قِيلٍ وَقَالٍ", h:"Allah ya hana ku daga faɗi-in-faɗi."},
+{ar:"وَكَثْرَةِ السُّؤَالِ وَإِضَاعَةِ الْمَالِ", h:"Da yawan tambayoyi da wulaƙantar da dukiya."},
+{ar:"وَمَنْعٍ وَهَاتِ وَعُقُوقِ الْأُمَّهَاتِ", h:"Da rowa da roƙo da kuma saɓawa iyaye."},
+{ar:"مَنْ لَّمْ يَنْفَعْهُ عِلْمُهُ ضَرَّهُ جَهْلُهُ", h:"Wanda ilminsa bai amfane shi ba, jahilcinsa zai cutar da shi."},
+{ar:"مَنْ طَلَبَ الْعِلْمَ تَكَفَّلَ اللَّهُ بِرِزْقِهِ", h:"Wanda ya nemi ilimi, Allah zai ɗauki nauyin arzikinsa."},
+{ar:"اِتَّقُوا النَّارَ وَلَوْ بِشِقِّ تَمْرَةٍ", h:"Ku ji tsoron wuta, koda da tsagin dabino."},
+{ar:"وَلِلسَّائِلِ حَقٌّ وَإِنْ جَاءَ عَلَى فَرَسٍ", h:"Mai roƙo yana da hakki, koda ya zo bisa doki."},
+{ar:"يَا ابْنَ آدَمَ أَنْفِقْ يُنْفَقْ عَلَيْكَ", h:"Ya ɗan Adam, ka ciyar, za a ciyar da kai."},
+{ar:"وَوَسِّعْ يُوَسَّعْ عَلَيْكَ", h:"Ka yalwata, za a yalwata maka."},
+{ar:"وَلَا تَقْتُرْ فَيُقْتَرَ عَلَيْكَ", h:"Kada ka yi ƙoro, in ba haka ba za a yi maka ƙoro."},
+{ar:"وَاشْتَرِ الْبَاقِيَ بِالْفَانِي قَبْلَ أَنْ تَبْلُغَ الرُّوحُ التَّرَاقِيَ", h:"Ka saye dawwamamme da ƙarewa, tun kafin rai ya kai maƙogaro."},
+{ar:"كَفَى بِالْمَرْءِ إِثْمًا أَنْ يُّضَيِّعَ مَنْ يَّقُوتُ", h:"Ya isa mutum ya zama mai zunubi ta hanyar kyale wanda yake ciyarwa (rasa hankalinsa game da shi)."},
+{ar:"أَبْغَضُ الْحَلَالِ إِلَى اللَّهِ الطَّلَاقُ", h:"Mafi ƙin halas a wurin Allah, shi ne saki."},
+{ar:"أَبْغَضُ الْعِبَادِ إِلَى اللَّهِ الْأَلَدُّ الْخَصْمُ", h:"Mafi ƙin bayi a wurin Allah, mai tsananta husuma."},
+{ar:"يَا ابْنَ آدَمَ أَطِعْ رَبَّكَ تُسَمَّى عَاقِلًا وَلَا تَعْصِهِ فَتُسَمَّى جَاهِلًا", h:"Ya ɗan Adam, ka bi Ubangijinka, za a ce da kai mai hankali; kada ka saɓa masa, in ba haka ba za a ce da kai wawa."},
+{ar:"اِتَّبِعُوا الْعُلَمَاءَ فَإِنَّهُمْ سُرُجُ الدُّنْيَا وَمَصَابِيحُ الْآخِرَةِ", h:"Ku bi malamai, domin su ne fitilun duniya kuma su ne hasken Lahira."},
+{ar:"اِتَّخِذُوا الْغَنَمَ فَإِنَّهَا بَرَكَةٌ", h:"Ku riƙi awaki da tumaki, domin su albarka ne."},
+{ar:"اِتَّقِ اللَّهَ فِيمَا تَعْلَمُ", h:"Ka ji tsoron Allah cikin abinda ka sani."},
+{ar:"اِتَّقِ اللَّهَ فِي عُسْرِكَ وَيُسْرِكَ", h:"Ka ji tsoron Allah cikin tsananinka da sauƙinka."},
+{ar:"اِتَّقِ اللَّهَ وَاعْدِلُوا بَيْنَ أَوْلَادِكُمْ كَمَا تُحِبُّونَ أَنْ تَبَرُّوكُمْ", h:"Ku ji tsoron Allah, ku yi adalci a tsakanin 'ya'yanku, kamar yadda kuke son su kyautata muku."},
+]},
+{n:5, hadiths:[
+{ar:"اِتَّقِ اللَّهَ وَصِلُوا أَرْحَامَكُمْ", h:"Ku ji tsoron Allah, ku sada zumuncinku."},
+{ar:"اِتَّقُوا الْبَوْلَ فَإِنَّهُ أَوَّلُ مَا يُحَاسَبُ بِهِ الْعَبْدُ فِي الْقَبْرِ", h:"Ku kiyaye bawali, domin shi ne farkon abinda za a fara yi wa bawa hisabi da shi a cikin ƙabari."},
+{ar:"اِتَّقُوا دَعْوَةَ الْمَظْلُومِ وَلَوْ كَانَ كَافِرًا لِأَنَّهُ لَيْسَ دُونَهَا حِجَابٌ", h:"Ku ji tsoron addu'ar wanda aka zalunta, koda kafiri ne, domin babu shamaki tsakaninta da Allah."},
+{ar:"بَاكِرُوا فِي طَلَبِ الرِّزْقِ وَالْحَوَائِجِ فَإِنَّ الْغُدُوَّ بَرَكَةٌ وَنَجَاحٌ", h:"Ku yi wuri wajen neman arziki da biyan buƙatu, domin wuri albarka ne kuma nasara ce."},
+{ar:"بَاكِرُوا بِالصَّدَقَةِ فَإِنَّ الْبَلَاءَ لَا يَتَخَطَّى الصَّدَقَةَ", h:"Ku yi wuri wajen bayar da sadaka, domin bala'i ba ya tsallake sadaka."},
+{ar:"بِحَسْبِ امْرِئٍ مِّنَ الْإِيمَانِ أَنْ يَّقُولَ رَضِيتُ بِاللَّهِ رَبًّا وَبِالْإِسْلَامِ دِينًا وَبِمُحَمَّدٍ رَسُولًا", h:"Ya isa mutum ya zama daga cikin Imani, ya ce na yarda da Allah a matsayin Ubangiji, da Musulunci a matsayin addini, da Muhammadu a matsayin Manzo."},
+{ar:"بَابَانِ مُعَجَّلَانِ عُقُوبَتُهُمَا فِي الدُّنْيَا الْبَغْيُ وَعُقُوقُ الْوَالِدَيْنِ", h:"Ƙofa biyu ne ake gaggauta hukuncinsu a duniya: zalunci da saɓawa iyaye."},
+{ar:"بِحَسْبِ امْرِئٍ مِّنَ الشَّرِّ أَنْ يُّشَارَ إِلَيْهِ بِأَصَابِعَ فِي دِينٍ أَوْ دُنْيَا إِلَّا مَنْ عَصَمَهُ اللَّهُ", h:"Ya isa mutum ya zama daga sharri, a yi masa nuni da yatsu cikin addini ko duniya, sai wanda Allah ya kiyaye."},
+{ar:"بِحَسْبِ امْرِئٍ إِذَا رَأَى مُنْكَرًا لَّا يَسْتَطِيعُ لَهُ تَغْيِيرًا أَنْ يَّعْلَمَ اللَّهَ أَنَّهُ لَهُ مُنْكِرٌ", h:"Ya isa mutum, idan ya ga wani abin ƙi kuma bai iya canza shi ba, ya sanar da Allah cewa shi mai ƙin sa ne a zuciyarsa."},
+{ar:"بِحَسْبِ امْرِئٍ يَّدْعُو أَنْ يَّقُولَ اللَّهُمَّ اغْفِرْ لِي وَارْحَمْنِي وَأَدْخِلْنِي الْجَنَّةَ", h:"Ya isa mutum, idan zai yi addu'a, ya ce: Ya Ubangiji, ka yi mini gafara, ka ji ƙaina, ka shigar da ni Aljanna."},
+{ar:"بَخٍ بَخٍ لِّخَمْسٍ مَّا أَثْقَلَهُنَّ فِي الْمِيزَانِ سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ", h:"Madalla, madalla ga kalmomi biyar da suka fi nauyi a ma'aunin aiki: Subhanallahi, Walhamdu lillahi, Wala ilaha illallahu, Wallahu Akbar."},
+{ar:"وَالْوَلَدُ الصَّالِحُ يَتَوَفَّى لِلْمَرْءِ فَيَحْتَسِبُهُ", h:"Da ɗa nagari, idan ya rasu ga mutum, sai ya nemi lada daga wurin Allah a kansa."},
+]},
+{n:6, hadiths:[
+{ar:"بَرَاءَةٌ مِّنَ الْكِبْرِ لُبْسُ الصُّوفِ وَمُجَالَسَةُ الْفُقَرَاءِ الْمُؤْمِنِينَ وَرُكُوبُ الْحِمَارِ وَاعْتِقَالُ الْعَنْزِ", h:"Kuɓuta daga girman kai: sanya sufi, zama tare da matalauta muminai, hawan jaki, da riƙe akuya."},
+{ar:"مَنْ أَتَى الزَّكَاةَ وَقَرَى الضَّيْفَ وَأَعْطَى فِي النَّائِبَةِ بَرِئَ مِنَ الشُّحِّ", h:"Wanda ya bayar da zakka, ya karɓi baƙo da kyautatawa, kuma ya taimaka a lokacin buƙata, to ya kuɓuta daga rowa."},
+{ar:"تَجِبُ الْجُمْعَةُ عَلَى كُلِّ مُسْلِمٍ إِلَّا امْرَأَةً أَوْ صَبِيًّا أَوْ مَمْلُوكًا", h:"Sallar Juma'a wajibi ce a kan kowane musulmi, sai dai mace, ko ƙaramin yaro, ko bawa."},
+{ar:"وَإِنْ رَّأَيْتُمْ فِيهِ الْهَلَكَةَ فَإِنَّ فِيهِ النَّجَاةَ", h:"Idan kun ga a cikinsa halaka, to a cikinsa akwai tsira."},
+{ar:"وَاجْتَنِبُوا الْكَذِبَ وَإِنْ رَّأَيْتُمْ فِيهِ النَّجَاةَ فَإِنَّ فِيهِ الْهَلَكَةَ", h:"Ku nisanci ƙarya, koda kun ga a cikinta tsira, domin a cikinta akwai halaka."},
+{ar:"تَخَلَّلُوا فَإِنَّهُ نَظَافَةٌ وَالنَّظَافَةُ تَدْعُو إِلَى الْإِيمَانِ وَالْإِيمَانُ مَعَ صَاحِبِهِ فِي الْجَنَّةِ", h:"Ku yi asawaki (share hakori), domin tsafta ce, tsafta kuma tana kira zuwa ga Imani, Imani kuma yana tare da mai shi a Aljanna."},
+{ar:"تَدَاوَوْا عِبَادَ اللَّهِ فَإِنَّ اللَّهَ تَعَالَى لَمْ يَضَعْ دَاءً إِلَّا وَضَعَ لَهُ دَوَاءً غَيْرَ دَاءٍ وَاحِدٍ الْهَرَمُ", h:"Ku nemi magani, bayin Allah, domin Allah bai saukar da wata cuta ba face Ya saukar mata da magani, sai dai cuta guda: tsufa."},
+{ar:"تَخَيَّرُوا لِنُطَفِكُمْ فَانْكِحُوا الْأَكْفَاءَ وَأَنْكِحُوا إِلَيْهِمْ", h:"Ku yi zaɓi ga (uwar) 'ya'yanku, ku aura tanka, ku kuma aura wa masu daidaita ku."},
+{ar:"تَحَفَّظُوا مِنَ الْأَرْضِ فَإِنَّهَا أُمُّكُمْ فَإِنَّهُ لَيْسَ مِنْ أَحَدٍ عَامِلٌ عَلَيْهَا خَيْرًا أَوْ شَرًّا إِلَّا وَهِيَ مُخْبِرَةٌ بِهِ", h:"Ku kiyaye ƙasa, domin ita mahaifiyarku ce; babu wani da zai yi aiki a kanta na alheri ko na sharri face za ta bayar da labarinsa."},
+]},
+{n:7, hadiths:[
+{ar:"تَدَارَكُوا الْغُمُومَ وَالْهُمُومَ بِالصَّدَقَاتِ يَكْشِفُ اللَّهُ تَعَالَى ضُرَّكُمْ وَيَنْصُرُكُمْ عَلَى عَدُوِّكُمْ", h:"Ku riƙi baƙin ciki da damuwarku da sadaka, Allah zai kau da wahalarku kuma Ya taimake ku a kan maƙiyanku."},
+{ar:"تَنَاكَحُوا فَإِنِّي مُكَاثِرٌ بِكُمُ الْأُمَمَ وَلَا تَكُونُوا كَرَهَبَانِيَّةِ النَّصَارَى", h:"Ku yi aure, domin zan yi alfahari da yawanku a gaban sauran al'ummu, kada ku zamo kamar ruhbanci na Nasara."},
+{ar:"تَزَوَّجُوا وَلَا تُطَلِّقُوا فَإِنَّ الطَّلَاقَ يَهْتَزُّ مِنْهُ الْعَرْشُ", h:"Ku yi aure amma kada ku yi sauƙin saki, domin Al'arshi yana girgiza sabodan sakin aure."},
+{ar:"ثَلَاثٌ مَّنْ كُنَّ فِيهِ وَجَدَ حَلَاوَةَ الْإِيمَانِ أَنْ يَّكُونَ اللَّهُ وَرَسُولُهُ أَحَبَّ إِلَيْهِ مِمَّا سِوَاهُمَا وَأَنْ يُّحِبَّ الْمَرْءَ لَا يُحِبُّهُ إِلَّا لِلَّهِ وَأَنْ يَّكْرَهَ أَنْ يَّعُودَ فِي الْكُفْرِ بَعْدَ إِذْ أَنْقَذَهُ اللَّهُ مِنْهُ كَمَا يَكْرَهُ أَنْ يُّلْقَى فِي النَّارِ", h:"Abu uku, duk wanda suka kasance a cikinsa, zai ɗanɗana zaƙin Imani: Allah da ManzonSa su fi kowa so a gareshi; ya so wani don Allah kaɗai; kuma ya ƙi komawa kafirci bayan Allah Ya tsamo shi daga ciki, kamar yadda yake ƙin a jefa shi cikin wuta."},
+{ar:"ثَلَاثَةٌ مَّنْ كُنَّ فِيهِ كُتِبَ مِنَ الْأَبْدَالِ رِضًا بِالْقَضَاءِ وَالصَّبْرِ عَنْ مَحَارِمِ اللَّهِ وَالْغَضَبِ فِي ذَاتِ اللَّهِ عَزَّ وَجَلَّ", h:"Abu uku, duk wanda suka kasance a cikinsa, za a rubuta shi daga cikin yantattun bayi: yardar da hukuncin Allah, haƙuri akan abinda Allah ya haramta, da fushi don ɗaukakar Allah."},
+{ar:"ثَلَاثَةٌ مَّنْ كُنَّ فِيهِ حَاسَبَهُ اللَّهُ تَعَالَى حِسَابًا يَّسِيرًا وَأَدْخَلَهُ الْجَنَّةَ بِرَحْمَتِهِ تُعْطِي مَنْ حَرَمَكَ وَتَصِلُ مَنْ قَطَعَكَ وَتَعْفُو عَمَّنْ ظَلَمَكَ", h:"Abu uku, duk wanda suka kasance a cikinsa, Allah zai yi masa hisabi mai sauƙi kuma zai shigar da shi Aljanna da rahamarSa: ka bayar wa wanda ya hana ka, ka sadu da wanda ya yanke maka, ka yi afuwa ga wanda ya zalunce ka."},
+]},
+{n:8, hadiths:[
+{ar:"ثَلَاثَةٌ يَّضْحَكُ اللَّهُ تَعَالَى إِلَيْهِمُ الرَّجُلُ إِذَا جَنَّ اللَّيْلُ يُصَلِّي وَالْقَوْمُ إِذَا صَفُّوا لِلْقِتَالِ وَالْقَوْمُ إِذَا قَامُوا لِلصَّلَاةِ", h:"Mutum uku Allah yana kallonsu da yardar rai: wanda dare ya yi sai yana sallah, mutane idan sun daidaita sahu don yaƙi, da mutane idan sun tashi tsaye don sallah."},
+{ar:"ثَلَاثَةٌ لَّا تَرَى أَعْيُنُهُمُ النَّارَ يَوْمَ الْقِيَامَةِ عَيْنٌ بَكَتْ مِنْ خَشْيَةِ اللَّهِ وَعَيْنٌ حَرَسَتْ فِي سَبِيلِ اللَّهِ وَعَيْنٌ غَضَّتْ عَنْ مَحَارِمِ اللَّهِ", h:"Idanuwan mutum uku ba za su taɓa ganin wuta ba a Ranar Ƙiyama: ido da ya yi kuka don tsoron Allah, ido da ya yi tsaro a hanyar Allah, da ido da ya kame kansa daga abin da Allah ya haramta."},
+{ar:"ثَلَاثَةٌ لَّا تُرْفَعُ صَلَاتُهُمْ فَوْقَ رُءُوسِهِمْ شِبْرًا رَّجُلٌ أَمَّ قَوْمًا وَهُمْ لَهُ كَارِهُونَ وَامْرَأَةٌ بَاتَتْ وَزَوْجُهَا سَاخِطٌ عَلَيْهَا وَأَخَوَانِ مُتَصَارِمَانِ", h:"Sallar mutum uku ba a ɗaukaka ta sama da kawunansu ko ɗan tazara ba: wanda ya yi wa jama'a limanci alhali suna ƙin sa, mace da mijinta yana fushi da ita da dare, da 'yan'uwa masu husuma."},
+{ar:"ثَلَاثَةٌ لَّا يَحْجُبُونَ عَنِ النَّارِ الْمَنَّانُ وَعَاقٌّ لِّوَالِدَيْهِ وَمُدْمِنُ الْخَمْرِ", h:"Mutum uku babu abinda zai hana su shiga wuta: mai gori, mai gaba da iyaye, da mai shan giya akai-akai."},
+{ar:"ثَلَاثَةٌ لَّا يَسْتَخِفُّ بِحَقِّهِمْ إِلَّا مُنَافِقٌ بَيِّنُ النِّفَاقِ ذُو الشَّيْبَةِ فِي الْإِسْلَامِ وَالْمُقْسِطُ وَمُعَلِّمُ الْخَيْرِ", h:"Babu wanda zai raina hakkin mutum uku sai bayyanannen munafiki: tsohon musulmi mai furfura, shugaba mai adalci, da mai koyar da alheri."},
+{ar:"ثَلَاثَةٌ لَّا يَدْخُلُونَ الْجَنَّةَ أَبَدًا الدَّيُّوثُ وَالرَّجُلَةُ مِنَ النِّسَاءِ وَمُدْمِنُ الْخَمْرِ", h:"Mutum uku ba za su shiga Aljanna ba har abada: marar kishi, mace mai kama da namiji, da mai shan giya akai-akai."},
+]},
+{n:9, hadiths:[
+{ar:"ثَلَاثَةٌ لَّا يُكَلِّمُهُمُ اللَّهُ يَوْمَ الْقِيَامَةِ وَلَا يَنْظُرُ إِلَيْهِمْ وَلَا يُزَكِّيهِمْ وَلَهُمْ عَذَابٌ أَلِيمٌ الْمُسْبِلُ إِزَارَهُ بَطَرًا وَالْمَنَّانُ الَّذِي لَا يُعْطِي شَيْئًا إِلَّا وَمَنَّهُ وَالْمُنَفِّقُ سِلْعَتَهُ بِالْحَلِفِ الْكَاذِبِ", h:"Mutum uku Allah ba zai yi musu magana ba a Ranar Ƙiyama, ba zai kalle su ba, ba zai tsarkake su ba, kuma za su sami azaba mai raɗaɗi: mai ja da suturarsa ƙasa don girman kai, mai gori wanda ba ya bayar da wani abu sai ya yi gori, da mai sayar da kayansa da rantsuwar ƙarya."},
+{ar:"اَلْجَارُ أَحَقُّ بِصَقَبِ الْجَارِ", h:"Maƙwabci ya fi cancanta da gidan maƙwabci (na kusa)."},
+{ar:"جَالِسُوا الْعُلَمَاءَ وَخَالِطُوا الْحُكَمَاءَ", h:"Ku zauna da malamai, ku cuɗanya da masu hikima."},
+{ar:"جَالِسُوا مَعَ الْكُبَرَاءِ وَسَائِلُوا الْعُلَمَاءَ وَخَالِطُوا الْحُكَمَاءَ", h:"Ku zauna tare da manya, ku yi tambaya ga malamai, ku cuɗanya da masu hikima."},
+{ar:"جُبِلَتِ الْقُلُوبُ عَلَى حُبِّ مَنْ أَحْسَنَ إِلَيْهَا وَبُغْضِ مَنْ أَسَاءَ إِلَيْهَا", h:"An halicci zuciya a bisa son wanda ya kyautata mata, da ƙin wanda ya munana mata."},
+{ar:"جَدِّدُوا إِيمَانَكُمْ وَأَكْثِرُوا مِنْ قَوْلِ لَا إِلَٰهَ إِلَّا اللَّهُ", h:"Ku sabunta imaninku, ku yawaita faɗar La'ilaha illallah."},
+{ar:"جَزَاءُ الْغَنِيِّ عَنِ الْفَقِيرِ النَّصِيحَةُ وَالدُّعَاءُ", h:"Sakamakon mawadaci daga matalauci, nasiha da addu'a."},
+]},
+{n:10, hadiths:[
+{ar:"اَلْجَارُ قَبْلَ الدَّارِ وَالرَّفِيقُ قَبْلَ الطَّرِيقِ وَالزَّادُ قَبْلَ الرَّحِيلِ", h:"Ka nemi maƙwabci kafin ka yi gida, ka nemi abokin tafiya kafin tafiya, ka nemi guzuri kafin ka kama hanya."},
+{ar:"اَلْجَالِبُ مَرْزُوقٌ وَالْمُحْتَكِرُ مَلْعُونٌ", h:"Mai kawo kaya (kasuwanci) ana masa arziki, mai ɓoye kaya don ƙarin farashi an la'ance shi."},
+{ar:"اَلْجَاهِرُ بِالْقُرْآنِ كَالْمُسِرِّ بِالصَّدَقَةِ", h:"Mai bayyana karatun Alƙur'ani, kamar mai ɓoye sadaka ne."},
+{ar:"اَلْجَفَاءُ كُلُّ الْجَفَاءِ وَالْكُفْرِ وَالنِّفَاقِ مَنْ سَمِعَ مُنَادِيَ اللَّهِ تَعَالَى يُنَادِي لِلصَّلَاةِ وَيَدْعُو لِلْفَلَاحِ فَلَا يُجِيبُهُ", h:"Cikakken tsananin zafi da kafirci da munafunci, shi ne wanda ya ji mai kiran Allah yana kira zuwa Sallah kuma yana kira zuwa ga tsira, bai amsa ba."},
+{ar:"اَلْجِهَادُ أَرْبَعُ الْأَمْرِ بِالْمَعْرُوفِ وَالنَّهْيِ عَنِ الْمُنْكَرِ وَالصِّدْقِ فِي مَوَاطِنِ الصَّبْرِ وَشَنَآنِ الْفَاسِقِ", h:"Jihadi abu huɗu ne: umarni da alheri, hani ga mummuna, gaskiya a lokutan haƙuri, da ƙin fasiƙi."},
+{ar:"حَامِلُ الْقُرْآنِ حَامِلُ رَايَةِ الْإِسْلَامِ مَنْ أَكْرَمَهُ فَقَدْ أَكْرَمَ اللَّهَ وَمَنْ أَهَانَهُ فَقَدْ لَعَنَهُ اللَّهُ", h:"Mai ɗaukar (koyon) Alƙur'ani, shi ne mai ɗaukar tutar Musulunci; wanda ya girmama shi, haƙiƙa ya girmama Allah, wanda kuma ya wulaƙanta shi, haƙiƙa tsinuwar Allah ta tabbata a gareshi."},
+{ar:"لَيْسَ مِنَّا مَنْ لَطَمَ الْخُدُودَ وَشَقَّ الْجُيُوبَ وَدَعَا بِدَعْوَى الْجَاهِلِيَّةِ", h:"Ba ya tare da mu wanda ya mari kumatunsa, ya yaga aljihunsa, kuma ya yi kiran irin na Jahiliyya."},
+{ar:"مَنْ حَفِظَ أَرْبَعِينَ حَدِيثًا مِّنْ أُمَّتِي مِنْ أَمْرِ دِينِهَا حَشَرَهُ اللَّهُ تَعَالَى فِي زُمْرَةِ النَّبِيِّينَ وَالصِّدِّيقِينَ وَالشُّهَدَاءِ وَالصَّالِحِينَ وَحَسُنَ أُولَٰئِكَ رَفِيقًا", h:"Wanda ya haddace Hadisai arba'in daga al'ummata, daga al'amuran addininsa, Allah zai tada shi cikin jama'ar Annabawa, Siddiƙai, Shahidai, da Sahihai; kuma sun yi kyau a matsayin abokan tafiya."},
+]},
+];
 
-const DATA = {
-  niyya:{ name:"Niyya da Zuciya", arabicName:"باب النية والقلب", hadiths:[
-    {ar:"إِنَّمَا اَلْأَعْمَالُ بِالنِّيَّاتِ", h:"Dukkan aiki sai da niyya."},
-    {ar:"اَلْحَيَاءُ مِنَ اَلْإِيمَانِ", h:"Kunya tana daga Imani."},
-    {ar:"مَنْ تَكَبَّرَ وَضَعَهُ اَللَّهُ", h:"Wanda ya yi girman kai, Allah zai ƙasƙantar da shi."},
-    {ar:"وَمَنْ تَوَاضَّعَ رَفَعَهُ", h:"Wanda ya ƙasƙantar da kansa, Allah zai ɗaukaka shi."},
-    {ar:"جُبِلَتِ الْقُلُوبُ عَلَى حُبِّ مَنْ أَحْسَنَ إِلَيْهَا وَبُغْضِ مَنْ أَسَاءَ إِلَيْهَا", h:"An halicci zuciya a bisa son wanda ya kyautata mata, da ƙin wanda ya munana mata."},
-  ]},
-  hulda:{ name:"Huldar Jama'a", arabicName:"باب حسن المعاملة", hadiths:[
-    {ar:"خَيْرُ النَّاسِ مَنْ يَنْفَعُ النَّاسَ", h:"Mafificin mutane, shi ne wanda yake amfanar da mutane."},
-    {ar:"وَشَرُّ النَّاسِ مَنْ يَضُرُّ النَّاسَ", h:"Mafi munin mutane, shi ne wanda yake cutar da mutane."},
-    {ar:"لَا يَرْحَمُ اَللَّهُ مَنْ لَا يَرْحَمُ النَّاسَ", h:"Allah ba ya jin ƙai ga wanda ba ya jin ƙan mutane."},
-    {ar:"اَلرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَٰنُ", h:"Masu tausayi, Mai Rahama (Allah) zai yi musu rahama."},
-    {ar:"يَسِّرُوا وَلَا تُعَسِّرُوا", h:"Ku sauƙaƙa, kada ku tsananta."},
-    {ar:"اَلْمُسْلِمُ مَنْ سَلِمَ اَلنَّاسُ مِنْ لِسَانِهِ وَيَدِهِ", h:"Cikakken musulmi, shi ne wanda mutane suka kuɓuta daga cutarwar harshensa da hannunsa."},
-    {ar:"أَنْ تَعْفُوَ عَمَّنْ ظَلَمَكَ", h:"Kayi afuwa ga wanda ya zalunce ka."},
-    {ar:"وَتُعْطِيَ مَنْ حَرَمَكَ", h:"Ka bayar wa wanda ya hana ka."},
-    {ar:"وَتَصِلَ مَنْ قَطَعَكَ", h:"Ka sadu (ka kulla zumunci) da wanda ya yanke maka."},
-    {ar:"مِنْ مَكَارِمِ الْأَخْلَاقِ", h:"Wannan yana daga cikin manya-manyan halaye."},
-    {ar:"أَلَا مُنَةُ تَجُرُّ الرِّزْقَ", h:"Amana tana jawo arziki."},
-    {ar:"وَالْخِيَانَةُ تَجُرُّ الْفَقْرَ", h:"Ha'inci kuwa yana jawo talauci."},
-    {ar:"إِيَّاكُمْ وَالْكَذِبَ فَإِنَّ الْكَذِبَ يُجَانِبُ الْإِيمَانَ", h:"Ku nisanci ƙarya, domin ƙarya tana nisantar (mutum) daga Imani."},
-    {ar:"عَلَامَةُ الْمُنَافِقِ ثَلَاثٌ", h:"Alamun munafiki guda uku ne."},
-    {ar:"إِذَا حَدَّثَ كَذَبَ وَإِذَا وَعَدَ أَخْلَفَ وَإِذَا اُؤْتُمِنَ خَانَ", h:"Idan ya yi magana sai ya yi ƙarya, idan ya yi alkawari sai ya karya shi, idan aka amince masa da wani abu sai ya yi ha'inci."},
-  ]},
-  ilimi:{ name:"Ilimi da Malamai", arabicName:"باب العلم والعلماء", hadiths:[
-    {ar:"كُنْ عَبْدًا لِلْعُلَمَاءِ تَرْبَحْ فِي الدُّنْيَا وَالْآخِرَةِ", h:"Ka kasance bawa ga malamai, za ka yi riba a duniya da lahira."},
-    {ar:"خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", h:"Mafi alherinku shi ne wanda ya koyi Alƙur'ani ya kuma koyar da shi."},
-    {ar:"مَنْ لَمْ يَنْفَعْهُ عِلْمُهُ ضَرَّهُ جَهْلُهُ", h:"Wanda ilminsa bai amfane shi ba, jahilcinsa zai cutar da shi."},
-    {ar:"مَنْ طَلَبَ اَلْعِلْمَ تَكَفَّلَ اَللَّهُ بِرِزْقِهِ", h:"Wanda ya nemi ilimi, Allah zai ɗauki nauyin arzikinsa."},
-    {ar:"اِتَّبِعُوا اَلْعُلَمَاءَ فَإِنَّهُمْ سُرُجُ اَلدُّنْيَا وَمَصَابِيحُ اَلْآخِرَةِ", h:"Ku bi malamai, domin su ne fitilun duniya kuma su ne hasken lahira."},
-    {ar:"جَالِسُوا اَلْعُلَمَاءَ وَخَالِطُوا اَلْحُكَمَاءَ", h:"Ku zauna tare da malamai, ku cuɗanya da masu hikima."},
-    {ar:"حَامِلُ الْقُرْآنِ حَامِلُ رَايَةِ الْإِسْلَامِ", h:"Mai ɗaukar (koyon) Alƙur'ani, shi ne mai ɗaukar tutar Musulunci."},
-    {ar:"اَلْجَاهِرُ بِالْقُرْآنِ كَالْمُسِرِّ بِالصَّدَقَةِ", h:"Mai bayyana karatun Alƙur'ani, kamar mai ɓoye sadaka ne."},
-    {ar:"مَنْ حَفِظَ أَرْبَعِينَ حَدِيثًا مِنْ أُمَّتِي مِنْ أَمْرِ دِينِهِ", h:"Wanda ya haddace Hadisai arba'in daga al'ummata, daga al'amuran addininsa, Allah zai tashe shi cikin jama'ar Annabawa, Siddiƙai, Shahidai, da Sahihai."},
-  ]},
-  iyali:{ name:"Iyali da Aure", arabicName:"باب الأسرة والزواج", hadiths:[
-    {ar:"خَيْرُكُمْ خَيْرُكُمْ لِنِسَائِهِ", h:"Mafi alherinku, shi ne wanda ya fi kyautata wa matansa."},
-    {ar:"خَيْرُكُمْ خَيْرُكُمْ لِعِيَالِهِ", h:"Mafi alherinku, shi ne wanda ya fi kyautata wa iyalansa."},
-    {ar:"خَيْرُ الْأَوْلَادِ مَنْ كَانَ عَبْدًا لِوَالِدَيْهِ", h:"Mafi alherin ɗiya, shi ne wanda ya kasance bawa (mai biyayya) ga iyayensa."},
-    {ar:"بَرُّوا آبَاءَكُمْ تَبَرَّكُمْ أَبْنَاؤُكُمْ", h:"Ku kyautata wa iyayenku, 'ya'yanku za su kyautata muku."},
-    {ar:"تَخَيَّرُوا لِنُطَفِكُمْ فَانْكِحُوا الْأَكْفَاءَ وَأَنْكِحُوا إِلَيْهِمْ", h:"Ku yi zaɓi ga (uwar) 'ya'yanku, ku aura tanka (mai daidaita ku), ku kuma aura wa masu daidaita ku."},
-    {ar:"تَحَفَّظُوا مِنَ الْأَرْضِ فَإِنَّهَا أُمُّكُمْ", h:"Ku kiyaye ƙasa, domin ita mahaifiyarku ce."},
-    {ar:"تَنَاكَحُوا فَإِنِّي مُكَاثِرٌ بِكُمُ اَلْأُمَمَ", h:"Ku yi aure, domin zan yi alfahari da yawanku a gaban sauran al'ummu."},
-    {ar:"تَزَوَّجُوا وَلَا تُطَلِّقُوا فَإِنَّ الطَّلَاقَ يَهْتَزُّ مِنْهُ الْعَرْشُ", h:"Ku yi aure amma kada ku yi sauƙin saki, domin Al'arshi yana girgiza sabodan sakin aure."},
-    {ar:"أَبْغَضُ الْحَلَالِ إِلَى اَللَّهِ الطَّلَاقُ", h:"Mafi ƙin abin halas a wurin Allah, shi ne saki."},
-    {ar:"اِتَّقِ اَللَّهَ وَاعْدِلُوا بَيْنَ أَوْلَادِكُمْ كَمَا تُحِبُّونَ أَنْ تَبَرُّوكُمْ", h:"Ku ji tsoron Allah, ku yi adalci a tsakanin 'ya'yanku, kamar yadda kuke son su kyautata muku."},
-    {ar:"وَصِلُوا أَرْحَامَكُمْ", h:"Ku sada zumuncinku."},
-  ]},
-  ibada:{ name:"Ibada da Tsafta", arabicName:"باب العبادة والطهارة", hadiths:[
-    {ar:"تَجِبُ اَلْجُمْعَةُ عَلَى كُلِّ مُسْلِمٍ إِلَّا اِمْرَأَةً أَوْ صَبِيًّا أَوْ مَمْلُوكًا", h:"Sallar Juma'a wajibi ce a kan kowane musulmi, sai dai mace, ko ƙaramin yaro, ko bawa."},
-    {ar:"إِنَّ أَوَّلَ مَا يُحَاسَبُ بِهِ اَلْعَبْدُ فِي اَلْقَبْرِ اَلْبَوْلُ", h:"Farkon abin da za a fara yin wa bawa hisabi da shi a cikin kabari, shi ne (tsaftar) fitsari."},
-    {ar:"تَخَلَّلُوا فَإِنَّهُ نَظَافَةٌ وَالنَّظَافَةُ تَدْعُو إِلَى الْإِيمَانِ وَالْإِيمَانُ مَعَ صَاحِبِهِ فِي الْجَنَّةِ", h:"Ku yi asawaki (share hakori), domin tsafta ce, tsafta kuma tana kira zuwa ga Imani, Imani kuma yana tare da mai shi a Aljanna."},
-    {ar:"تَدَاوَوْا عِبَادَ اَللَّهِ فَإِنَّ اَللَّهَ تَعَالَى لَمْ يَضَعْ دَاءً إِلَّا وَضَعَ لَهُ دَوَاءً غَيْرَ دَاءٍ وَاحِدٍ اَلْهَرَمُ", h:"Ku nemi magani, bayin Allah, domin Allah Maɗaukaki bai saukar da wata cuta ba face Ya saukar mata da magani, sai dai cuta guda: tsufa."},
-  ]},
-  sadaka:{ name:"Sadaka da Arziki", arabicName:"باب الصدقة والرزق", hadiths:[
-    {ar:"مَنْ أَدَّى الزَّكَاةَ وَقَرَى الضَّيْفَ وَأَعْطَى فِي النَّائِبَةِ فَقَدْ بَرِئَ مِنَ الشُّحِّ", h:"Wanda ya bayar da zakka, ya karɓi baƙo da kyautatawa, kuma ya taimaka a lokacin buƙata, to ya kuɓuta daga rowa."},
-    {ar:"بَاكِرُوا فِي طَلَبِ الرِّزْقِ وَالْحَوَائِجِ فَإِنَّ الْغُدُوَّ بَرَكَةٌ وَنَجَاحٌ", h:"Ku yi wuri wajen neman arziki da biyan buƙatu, domin wuri albarka ne kuma nasara ce."},
-    {ar:"بَاكِرُوا بِالصَّدَقَةِ فَإِنَّ الْبَلَاءَ لَا يَتَخَطَّى الصَّدَقَةَ", h:"Ku yi wuri wajen bayar da sadaka, domin bala'i ba ya tsallake sadaka."},
-    {ar:"تَدَارَكُوا الْغُمُومَ وَالْهُمُومَ بِالصَّدَقَاتِ يَكْشِفُ اَللَّهُ تَعَالَى ضُرَّكُمْ وَيَنْصُرَكُمْ عَلَى عَدُوِّكُمْ", h:"Ku riƙi bacin rai da damuwarku da sadaka, Allah zai kau da wahalarku kuma Ya taimake ku a kan maƙiyanku."},
-    {ar:"كِيلُوا طَعَامَكُمْ يُبَارِكِ اَللَّهُ لَكُمْ فِيهِ", h:"Ku auna abincinku, Allah zai sanya albarka a cikinsa gareku."},
-    {ar:"وَلِلسَّائِلِ حَقٌّ وَإِنْ جَاءَ عَلَى فَرَسٍ", h:"Mai roƙo yana da hakki, koda ya zo bisa doki."},
-    {ar:"اَلْقَانِعُ غَنِيٌّ وَلَوْ عَدِمَ اَلدَّجَاجَةِ، وَالْحَرِيصُ فَقِيرٌ وَإِنْ مَلَكَ اَلدُّنْيَا", h:"Mai gamsuwa da abinsa mawadaci ne koda ba shi da tsakon kaza, mai kwaɗayi kuwa talaka ne koda ya mallaki duniya."},
-  ]},
-  fadi:{ name:"Fadi, Shiru da Fasiƙanci", arabicName:"باب القول والصمت", hadiths:[
-    {ar:"مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ", h:"Wanda ya kasance yana imani da Allah da Ranar Lahira, to ya faɗi alheri, ko ya yi shiru."},
-    {ar:"مَنْ صَمَتَ نَجَا", h:"Wanda ya yi shiru, ya tsira."},
-    {ar:"اَلدَّيْنُ هَمٌّ فِي اَللَّيْلِ وَمَذَلَّةٌ فِي اَلنَّهَارِ", h:"Bashi damuwa ne da dare, kuma ƙasƙanci ne da rana."},
-    {ar:"أَقِلَّ مِنَ اَلدَّيْنِ تَعِشْ حُرًّا", h:"Ka rage yawan bashi, za ka rayu da 'yanci."},
-    {ar:"اِعْتَنِمْ خَمْسًا قَبْلَ خَمْسٍ", h:"Ka ribaci abubuwa biyar kafin biyar (masu zuwa)."},
-    {ar:"شَبَابَكَ قَبْلَ هَرَمِكَ وَصِحَّتَكَ قَبْلَ سُقْمِكَ وَغِنَاكَ قَبْلَ فَقْرِكَ وَفَرَاغَكَ قَبْلَ شُغْلِكَ وَحَيَاتَكَ قَبْلَ مَوْتِكَ", h:"Kuruciyarka kafin tsufanka, lafiyarka kafin rashin lafiyarka, wadatarka kafin talaucinka, faragarka kafin shagalarka, da rayuwarka kafin mutuwarka."},
-    {ar:"عَلَيْكَ بِالسُّكُوتِ وَلُزُومِ الْبَيْتِ وَالرِّضَى بِالْقَلِيلِ مِنَ الْقُوتِ", h:"Ka riƙe kawaici, ka lazimci gidanka, ka gamsu da ɗan abinci."},
-    {ar:"اَلْجَلِيبُ مَرْزُوقٌ وَالْمُحْتَكِرُ مَلْعُونٌ", h:"Mai kawo kaya (kasuwanci) ana yi masa arziki, mai ɓoye kaya don ƙarin farashi kuwa an la'ance shi."},
-    {ar:"اَلْجَفَاءُ كُلُّ اَلْجَفَاءِ وَالْكُفْرِ وَالنِّفَاقِ مَنْ سَمِعَ مُنَادِيَ اللَّهِ يُنَادِي لِلصَّلَاةِ فَلَا يُجِيبُ", h:"Cikakken tsananin zafi da kafirci da munafunci shi ne, wanda ya ji mai kiran Allah yana kira zuwa Sallah, bai amsa ba."},
-  ]},
-  mutum3:{ name:"Mutane Uku", arabicName:"باب الثلاثة", hadiths:[
-    {ar:"ثَلَاثٌ مَنْ كُنَّ فِيهِ وَجَدَ حَلَاوَةَ الْإِيمَانِ", h:"Abu uku, duk wanda suka kasance a cikinsa, zai ɗanɗana zaƙin Imani: Allah da ManzonSa su fi kowa so a gareshi; ya so wani don Allah kaɗai; kuma ya ƙi komawa kafirci bayan Allah Ya tsamo shi daga ciki, kamar yadda yake ƙin a jefa shi cikin wuta."},
-    {ar:"ثَلَاثَةٌ يُحِبُّهُمُ اَللَّهُ", h:"Mutum uku Allah yana son su: wanda ya raina jin dadin dukiya ya riƙa aikin alkhairi da haƙuri; wanda ya nemi izinin tafiya cikin adalci; da wanda ke jin tsoron Allah cikin abin da ke ɓoye da bayyane."},
-    {ar:"ثَلَاثَةٌ لَا يَحْجُبُونَ عَنِ النَّارِ", h:"Mutum uku ba abin da zai hana su shiga wuta: mai gaba da iyaye, me sha giya, da mai neman zama shugaba ba tare da hakkinsa ba."},
-    {ar:"عَلَامَةُ الْمُنَافِقِ ثَلَاثٌ إِلَّا الشَّيْبَةَ", h:"Mutum uku ne kawai ba a taɓa musu hakkinsu ba: munafiki mai bayyanar da munafurcinsa, tsohon musulmi mai furfura, da shugaba mai adalci wanda ke sanar wa mutane aikin alkhairi."},
-    {ar:"ثَلَاثَةٌ لَا يَدْخُلُونَ الْجَنَّةَ", h:"Mutum uku ba za su taɓa shiga Aljanna ba: mai koyi da mata (da'a marar kishi), namiji mai kama da mace, da wanda ke ci gaba da shan giya."},
-  ]},
-};
-
-const grid = document.getElementById('catGrid');
-Object.keys(DATA).forEach(key=>{
-  const c = DATA[key];
+const wrap = document.getElementById('pageListWrap');
+PAGES.forEach(p=>{
   const card = document.createElement('div');
-  card.className='cat-card';
-  card.onclick=()=>openCategory(key);
-  card.innerHTML = `<div class="cat-emblem">${key.substring(0,1).toUpperCase()}</div><div class="cat-name">${c.name}</div><div class="cat-count">${c.hadiths.length} Hadisai</div>`;
-  grid.appendChild(card);
+  card.className='page-card';
+  card.id='pcard-'+p.n;
+  const first = p.hadiths[0];
+  card.innerHTML = `
+    <div class="page-card-head" onclick="togglePreview(${p.n})">
+      <div class="page-num-badge">${p.n}</div>
+      <div class="page-card-info">
+        <div class="page-card-title">Shafi ${p.n}</div>
+        <div class="page-card-count">${p.hadiths.length} Hadisai</div>
+      </div>
+      <svg class="page-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="page-preview">
+      <div class="preview-ar">${first.ar}</div>
+      <div class="preview-ha">${first.h}</div>
+      <button class="open-page-btn" onclick="openBookPage(${p.n})">Buɗe Shafi ${p.n} →</button>
+    </div>
+  `;
+  wrap.appendChild(card);
 });
 
-let currentCat=null, currentPage=0;
-
-function clearNav(){ document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); }
-
-function showMainScreen(id){
-  document.getElementById('screen-book').style.display='none';
-  document.querySelectorAll('#mainContent .screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.getElementById('mainContent').style.display='block';
+function togglePreview(n){
+  const card = document.getElementById('pcard-'+n);
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.page-card').forEach(c=>c.classList.remove('open'));
+  if(!wasOpen){ card.classList.add('open'); card.scrollIntoView({behavior:'smooth', block:'nearest'}); }
 }
 
+function openBook(){
+  document.getElementById('screen-cover').style.display='none';
+  document.getElementById('app-shell').style.display='block';
+}
+
+let currentPageNum=1;
+
+function openBookPage(n){
+  currentPageNum=n;
+  document.getElementById('mainContent').style.display='none';
+  document.getElementById('screen-book').style.display='block';
+  renderBookPage();
+}
+function closeBookPage(){
+  document.getElementById('screen-book').style.display='none';
+  document.getElementById('mainContent').style.display='block';
+}
+function renderBookPage(){
+  const p = PAGES.find(x=>x.n===currentPageNum);
+  document.getElementById('pageBandTitle').textContent = "Shafi "+p.n;
+  document.getElementById('pageSub').textContent = p.hadiths.length+" Hadisai";
+  const list = document.getElementById('verseList');
+  list.innerHTML='';
+  p.hadiths.forEach(h=>{
+    const row=document.createElement('div');
+    row.className='verse-row';
+    row.innerHTML=`<div class="verse-ar"><span class="ornament">✿</span>${h.ar}</div><div class="verse-ha">${h.h}</div>`;
+    list.appendChild(row);
+  });
+  document.getElementById('prevBtn').disabled = currentPageNum<=1;
+  document.getElementById('nextBtn').disabled = currentPageNum>=PAGES.length;
+  window.scrollTo(0,0);
+}
+function pageNext(){ if(currentPageNum<PAGES.length){ currentPageNum++; renderBookPage(); } }
+function pagePrev(){ if(currentPageNum>1){ currentPageNum--; renderBookPage(); } }
+
+function clearNav(){ document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); }
+function showMainScreen(id){
+  document.getElementById('screen-book').style.display='none';
+  document.getElementById('mainContent').style.display='block';
+  document.querySelectorAll('#mainContent .screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 function showPage(name){
   clearNav();
   if(name==='about'){ showMainScreen('screen-about'); document.getElementById('nav-about').classList.add('active'); }
   if(name==='contact'){ showMainScreen('screen-contact'); document.getElementById('nav-contact').classList.add('active'); }
 }
-
-function openCategory(key){
-  currentCat=key;
-  currentPage=0;
-  document.getElementById('mainContent').style.display='none';
-  document.getElementById('screen-book').style.display='block';
-  document.getElementById('bookBackLabel').textContent = DATA[key].name;
-  renderPage();
-}
-
-function totalPages(key){ return Math.max(1, Math.ceil(DATA[key].hadiths.length / PAGE_SIZE)); }
-
-function renderPage(){
-  const c = DATA[currentCat];
-  document.getElementById('pageBandTitle').textContent = c.arabicName;
-  const total = totalPages(currentCat);
-  document.getElementById('pageSub').textContent = c.name + " — Shafi " + (currentPage+1) + " na " + total;
-  const start = currentPage * PAGE_SIZE;
-  const pageItems = c.hadiths.slice(start, start + PAGE_SIZE);
-  const list = document.getElementById('verseList');
-  list.innerHTML='';
-  pageItems.forEach(h=>{
-    const row = document.createElement('div');
-    row.className='verse-row';
-    row.innerHTML = `<div class="verse-ar"><span class="ornament">✿</span>${h.ar}</div><div class="verse-ha">${h.h}</div>`;
-    list.appendChild(row);
-  });
-  document.getElementById('pageIndicator').textContent = (currentPage+1) + " / " + total;
-  document.getElementById('prevBtn').disabled = currentPage===0;
-  document.getElementById('nextBtn').disabled = currentPage>=total-1;
-  window.scrollTo(0,0);
-}
-
-function pageNext(){ if(currentPage < totalPages(currentCat)-1){ currentPage++; renderPage(); } }
-function pagePrev(){ if(currentPage > 0){ currentPage--; renderPage(); } }
-
 function goHome(){
   document.getElementById('searchInput').value='';
   document.getElementById('searchResults').style.display='none';
-  document.getElementById('catGrid').style.display='grid';
+  document.getElementById('pageListWrap').style.display='block';
   clearNav();
   document.getElementById('nav-home').classList.add('active');
   showMainScreen('screen-home');
@@ -321,20 +479,20 @@ function goHome(){
 
 function doSearch(){
   const q=document.getElementById('searchInput').value.trim().toLowerCase();
-  const grid=document.getElementById('catGrid'), results=document.getElementById('searchResults');
-  if(!q){ grid.style.display='grid'; results.style.display='none'; return; }
-  grid.style.display='none'; results.style.display='block'; results.innerHTML='';
+  const wrapEl=document.getElementById('pageListWrap'), results=document.getElementById('searchResults');
+  if(!q){ wrapEl.style.display='block'; results.style.display='none'; return; }
+  wrapEl.style.display='none'; results.style.display='block'; results.innerHTML='';
   let found=[];
-  Object.keys(DATA).forEach(key=>{
-    DATA[key].hadiths.forEach((h,i)=>{
-      if(h.h.toLowerCase().includes(q)) found.push({key,i,h});
+  PAGES.forEach(p=>{
+    p.hadiths.forEach(h=>{
+      if(h.h.toLowerCase().includes(q)) found.push({page:p.n, h});
     });
   });
   if(found.length===0){ results.innerHTML='<div class="no-result">Ba a sami Hadisi mai wannan kalma ba.</div>'; return; }
   found.forEach(f=>{
-    const el=document.createElement('div'); el.className='verse-row'; el.style.cursor='pointer';
-    el.onclick=()=>{ currentCat=f.key; currentPage=Math.floor(f.i/PAGE_SIZE); document.getElementById('mainContent').style.display='none'; document.getElementById('screen-book').style.display='block'; document.getElementById('bookBackLabel').textContent=DATA[f.key].name; renderPage(); };
-    el.innerHTML=`<div class="verse-ar"><span class="ornament">✿</span>${f.h.ar}</div><div class="verse-ha">${f.h.h}</div>`;
+    const el=document.createElement('div'); el.className='verse-row'; el.style.cursor='pointer'; el.style.background='#fff'; el.style.borderRadius='12px'; el.style.border='1px solid var(--line)'; el.style.marginBottom='10px';
+    el.onclick=()=>openBookPage(f.page);
+    el.innerHTML=`<div class="verse-ar"><span class="ornament">✿</span>${f.h.ar}</div><div class="verse-ha">${f.h.h}</div><div style="margin-top:8px;font-size:11px;color:var(--gold);font-weight:600;">Shafi ${f.page}</div>`;
     results.appendChild(el);
   });
 }

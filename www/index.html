@@ -53,6 +53,15 @@
     margin-top:28px;background:var(--gold);color:var(--deep-green);border:none;border-radius:30px;
     padding:14px 40px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;letter-spacing:.3px;cursor:pointer;
   }
+  .cover-arrow{
+    margin-top:14px;display:flex;justify-content:center;
+    animation:bounceDown 1.6s ease-in-out infinite;
+  }
+  .cover-arrow svg{width:22px;height:22px;color:var(--gold-soft);opacity:.8;}
+  @keyframes bounceDown{
+    0%,100%{transform:translateY(0);opacity:.5;}
+    50%{transform:translateY(8px);opacity:1;}
+  }
   .cover-footer{font-size:11px;color:rgba(247,243,233,.5);margin-top:18px;}
 
   /* ===== SHARED APP SHELL ===== */
@@ -117,6 +126,8 @@
   .verse-ar{text-align:right;direction:rtl;font-family:'Amiri',serif;font-size:19px;line-height:1.9;color:var(--deep-green);}
   .verse-ar .ornament{color:var(--gold);margin-left:6px;}
   .verse-ha{font-size:14px;line-height:1.6;color:var(--ink);margin-top:8px;}
+  .verse-tr{font-size:12.5px;font-style:italic;color:var(--muted);margin-top:6px;line-height:1.5;}
+  .verse-en{font-size:12.5px;color:#4A5A7A;margin-top:6px;line-height:1.5;border-top:1px dashed var(--line);padding-top:6px;}
   .pager{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 90px;gap:10px;}
   .pager button{flex:1;background:var(--deep-green);color:var(--gold-soft);border:none;border-radius:10px;padding:11px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;}
   .pager button:disabled{background:var(--line);color:var(--muted);}
@@ -158,9 +169,68 @@
   .bc-taaziyya .ar{font-family:'Amiri',serif;font-size:17px;direction:rtl;line-height:2;color:var(--gold-soft);}
   .bc-taaziyya .ha{font-size:13.5px;color:rgba(247,243,233,.85);margin-top:14px;line-height:1.7;}
   .bc-footer{font-size:11px;color:rgba(247,243,233,.5);margin-top:22px;}
+
+  /* ===== INTRO CREDITS ===== */
+  #screen-intro{
+    position:fixed;inset:0;z-index:999;
+    background:radial-gradient(circle at 50% 20%, rgba(233,208,138,.1), transparent 55%), linear-gradient(165deg, var(--deep-green) 0%, #071429 100%);
+    display:flex;align-items:center;justify-content:center;
+    max-width:420px;margin:0 auto;
+  }
+  .intro-slide{
+    display:none;flex-direction:column;align-items:center;text-align:center;padding:30px;
+    animation:introFade 1.1s ease forwards;
+  }
+  .intro-slide.active{display:flex;}
+  @keyframes introFade{
+    0%{opacity:0;transform:translateY(18px) scale(.96);}
+    60%{opacity:1;transform:translateY(-2px) scale(1.01);}
+    100%{opacity:1;transform:translateY(0) scale(1);}
+  }
+  .intro-photo{
+    width:150px;height:200px;object-fit:cover;border-radius:10px;
+    border:2px solid var(--gold);box-shadow:0 10px 30px rgba(0,0,0,.45);
+    animation:introPhotoPop 1s ease;
+  }
+  @keyframes introPhotoPop{
+    0%{opacity:0;transform:scale(.7) rotate(-4deg);}
+    100%{opacity:1;transform:scale(1) rotate(0deg);}
+  }
+  .intro-name{
+    font-family:'Amiri',serif;font-size:21px;color:var(--gold);font-weight:700;
+    margin-top:20px;opacity:0;animation:introNameRise .9s ease .4s forwards;
+  }
+  .intro-role{
+    font-size:12.5px;color:rgba(247,243,233,.75);letter-spacing:1px;text-transform:uppercase;
+    margin-top:6px;opacity:0;animation:introNameRise .9s ease .6s forwards;
+  }
+  @keyframes introNameRise{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  .intro-dots{position:absolute;bottom:34px;left:0;right:0;display:flex;justify-content:center;gap:7px;}
+  .intro-dot{width:6px;height:6px;border-radius:50%;background:rgba(233,208,138,.3);}
+  .intro-dot.on{background:var(--gold);}
 </style>
 </head>
 <body>
+
+<div id="screen-intro">
+  <div class="intro-slide active" id="intro-1">
+    <img class="intro-photo" src="author.png" alt="Sheikh Imam Muhammad Lawal Katsina">
+    <div class="intro-name">Shaik Imam Muhammad Lawal Katsina</div>
+    <div class="intro-role">Mawallafin Littafin</div>
+  </div>
+  <div class="intro-slide" id="intro-2">
+    <img class="intro-photo" src="developer.png" alt="Ibrahim Mujittaba">
+    <div class="intro-name">Ibrahim Mujittaba (Dr. Small)</div>
+    <div class="intro-role">Developer</div>
+  </div>
+  <div class="intro-dots">
+    <div class="intro-dot on" id="dot-1"></div>
+    <div class="intro-dot" id="dot-2"></div>
+  </div>
+</div>
 
 <div id="screen-cover">
   <div>
@@ -175,7 +245,8 @@
     <div class="ha">Allah ya ni'imta mutumin da ya ji zancena ya kiyaye ta, ya bayar da ita kamar yadda ya ji ta.</div>
   </div>
   <div>
-    <button class="cover-btn" onclick="openBook()">Buɗe Littafi</button>
+    <button class="cover-btn" onclick="openBook()">Open Book</button>
+    <div class="cover-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M6 13l6 6 6-6"/></svg></div>
     <div class="cover-footer">AL IKWAN GROUP ASSOCIATION</div>
   </div>
 </div>
@@ -198,14 +269,14 @@
 
   <div class="content" id="mainContent">
     <div class="screen active" id="screen-home">
-      <div class="section-label">Zaɓi Shafi</div>
+      <div class="section-label">Select Page</div>
       <div id="pageListWrap"></div>
       <div id="searchResults" style="display:none;margin-top:6px;"></div>
     </div>
 
     <div class="screen" id="screen-about">
       <img class="about-logo" src="logo.png" alt="Alamalu">
-      <div class="page-title">Game da Mu</div>
+      <div class="page-title">About Us</div>
       <div class="info-card">
         <h3>App</h3>
         <p><b>Alamalu</b> — App na karanta Hadisan Manzon Allah ﷺ, shafi bayan shafi, a Hausa da Larabci.</p>
@@ -222,7 +293,7 @@
     </div>
 
     <div class="screen" id="screen-contact">
-      <div class="page-title">Tuntuɓe Mu</div>
+      <div class="page-title">Contact Us</div>
       <a class="contact-item" href="https://wa.me/2348038604701" target="_blank">
         <div class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1 4 4.1-1A10 10 0 1 0 12 2Zm5.7 14.2c-.2.6-1.2 1.2-1.7 1.3-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.7-1.2-4.4-3.9-4.6-4.1-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.1.1.3 0 .5-.1.2-.1.3-.3.5-.1.2-.3.4-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.7-.1.3.1 1.6.8 1.9.9.3.1.5.2.6.3.1.2.1.7-.1 1.3Z"/></svg></div>
         <div class="contact-text"><b>WhatsApp 1</b><span>0803 860 4701</span></div>
@@ -245,7 +316,7 @@
   <div id="screen-book" style="display:none;">
     <div class="back-row" onclick="closeBookPage()" style="padding:16px 20px 0;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
-      <span>Duk Shafuka</span>
+      <span>All Pages</span>
     </div>
     <div class="page-band">
       <img class="page-band-logo" src="group-logo.png" alt="AL IKWAN GROUP">
@@ -254,15 +325,15 @@
     <div class="page-sub" id="pageSub"></div>
     <div id="verseList"></div>
     <div class="pager">
-      <button id="prevBtn" onclick="pagePrev()">← Shafi da ya gabata</button>
-      <button id="nextBtn" onclick="pageNext()">Shafi na gaba →</button>
+      <button id="prevBtn" onclick="pagePrev()">← Previous</button>
+      <button id="nextBtn" onclick="pageNext()">Next →</button>
     </div>
   </div>
 
   <div id="screen-backcover">
     <div class="bc-back-row" onclick="closeBackCover()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
-      <span>Koma</span>
+      <span>Back</span>
     </div>
     <img class="bc-photo" src="author.png" alt="Sheikh Imam Muhammad Lawal Katsina">
     <div class="bc-name">Shaik Imam Muhammad Lawal Katsina</div>
@@ -275,9 +346,9 @@
   </div>
 
   <div class="bottom-nav">
-    <div class="nav-item active" id="nav-home" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Gida</div>
-    <div class="nav-item" id="nav-about" onclick="showPage('about')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Game da Mu</div>
-    <div class="nav-item" id="nav-contact" onclick="showPage('contact')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6.3 6.3l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>Tuntuɓe Mu</div>
+    <div class="nav-item active" id="nav-home" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</div>
+    <div class="nav-item" id="nav-about" onclick="showPage('about')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>About Us</div>
+    <div class="nav-item" id="nav-contact" onclick="showPage('contact')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6.3 6.3l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>Contact Us</div>
   </div>
 </div>
 </div>
@@ -285,155 +356,155 @@
 <script>
 const PAGES = [
 {n:1, hadiths:[
-{ar:"اَلْأَعْمَالُ بِالنِّيَاتِ", h:"Dukkan aiki sai da niyya."},
-{ar:"اَلْمُسْتَشَارُ مُؤْتَمَنٌ", h:"Mai shawara amintacce ne."},
-{ar:"مَّا نَدِمَ مَنِ اسْتَشَارَ", h:"Mai shawara ba ya nadama."},
-{ar:"اَلصَّمْتُ سَلَامَةٌ", h:"Kawaici kuɓuta ne."},
-{ar:"مَنْ صَمَتَ نَجَا", h:"Wanda ya yi kawaici ya tsira."},
-{ar:"أَلَا مَنَةُ تَجُرُّ الرِّزْقَ", h:"Amana tana jawo arziki."},
-{ar:"وَالْخِيَانَةُ تَجُرُّ الْفَقْرَ", h:"Ha'inci yana jawo talauci."},
-{ar:"خَيْرُ النَّاسِ مَنْ يَّنْفَعُ النَّاسَ", h:"Mafificin mutane wanda yake amfanar da mutane."},
-{ar:"وَشَرُّ النَّاسِ مَنْ يَّضُرُّ النَّاسَ", h:"Koma bayan mutane, wanda yake cutar da mutane."},
-{ar:"لَا يَرْحَمُ اللَّهُ مَنْ لَا يَرْحَمُ النَّاسَ", h:"Allah ba ya jin ƙan wanda ba ya jin ƙan mutane."},
-{ar:"اَلرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَٰنُ", h:"Masu tausayi, Rahaman (Allah) yana yi musu rahama."},
-{ar:"يَسِّرُوا وَلَا تُعَسِّرُوا", h:"Ku sauƙaƙa, kada ku tsananta."},
-{ar:"إِنَّ أَشْقَى الْأَشْقِيَاءِ مَنِ اجْتَمَعَ عَلَيْهِ فَقْرُ الدُّنْيَا وَالْعَذَابُ الْآخِرَةِ", h:"Mafi tabewar mutane, wanda talaucin duniya ya gamu da shi, kuma da azabar Lahira."},
-{ar:"اَلْحَيَاءُ مِنَ الْإِيمَانِ", h:"Kunya tana daga Imani."},
-{ar:"اَلدَّيْنُ شَرُّ الدِّينِ", h:"Bashi sharri ne ga addini."},
-{ar:"أَقِلَّ مِنَ الدَّيْنِ تَعِشْ حُرًّا", h:"Idan ka rage bashi, za ka rayu da 'yanci."},
-{ar:"اَلدَّيْنُ هَمٌّ فِي اللَّيْلِ وَمَذَلَّةٌ فِي النَّهَارِ", h:"Bashi damuwa ne da dare, kuma ƙasƙanci ne da rana."},
-{ar:"مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ", h:"Wanda ya kasance yana imani da Allah da Ranar Lahira, to ya faɗi alheri, ko ya yi shiru."},
+{ar:"اَلْأَعْمَالُ بِالنِّيَاتِ", tr:"Al-a'maalu bin-niyyaat", h:"Dukkan aiki sai da niyya.", en:"Deeds are but by intentions."},
+{ar:"اَلْمُسْتَشَارُ مُؤْتَمَنٌ", tr:"Al-mustashaaru mu'taman", h:"Mai shawara amintacce ne.", en:"The one consulted is trusted."},
+{ar:"مَّا نَدِمَ مَنِ اسْتَشَارَ", tr:"Maa nadima manis-tashaar", h:"Mai shawara ba ya nadama.", en:"Whoever seeks counsel never regrets."},
+{ar:"اَلصَّمْتُ سَلَامَةٌ", tr:"As-samtu salaamah", h:"Kawaici kuɓuta ne.", en:"Silence is safety."},
+{ar:"مَنْ صَمَتَ نَجَا", tr:"Man samata najaa", h:"Wanda ya yi kawaici ya tsira.", en:"Whoever stays silent is saved."},
+{ar:"أَلَا مَنَةُ تَجُرُّ الرِّزْقَ", tr:"Alaa amaanatu tajurrur-rizq", h:"Amana tana jawo arziki.", en:"Trustworthiness draws provision."},
+{ar:"وَالْخِيَانَةُ تَجُرُّ الْفَقْرَ", tr:"Wal-khiyaanatu tajurrul-faqr", h:"Ha'inci yana jawo talauci.", en:"Betrayal draws poverty."},
+{ar:"خَيْرُ النَّاسِ مَنْ يَّنْفَعُ النَّاسَ", tr:"Khayrun-naasi man yanfa'un-naas", h:"Mafificin mutane wanda yake amfanar da mutane.", en:"The best of people is he who benefits people."},
+{ar:"وَشَرُّ النَّاسِ مَنْ يَّضُرُّ النَّاسَ", tr:"Wa sharrun-naasi man yadurrun-naas", h:"Koma bayan mutane, wanda yake cutar da mutane.", en:"The worst of people is he who harms people."},
+{ar:"لَا يَرْحَمُ اللَّهُ مَنْ لَا يَرْحَمُ النَّاسَ", tr:"Laa yarhamullaahu man laa yarhamun-naas", h:"Allah ba ya jin ƙan wanda ba ya jin ƙan mutane.", en:"Allah does not have mercy on one who has no mercy on people."},
+{ar:"اَلرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَٰنُ", tr:"Ar-raahimoona yarhamuhumur-Rahmaan", h:"Masu tausayi, Rahaman (Allah) yana yi musu rahama.", en:"The merciful are shown mercy by the Most Merciful."},
+{ar:"يَسِّرُوا وَلَا تُعَسِّرُوا", tr:"Yassiroo wa laa tu'assiroo", h:"Ku sauƙaƙa, kada ku tsananta.", en:"Make things easy, do not make them difficult."},
+{ar:"إِنَّ أَشْقَى الْأَشْقِيَاءِ مَنِ اجْتَمَعَ عَلَيْهِ فَقْرُ الدُّنْيَا وَالْعَذَابُ الْآخِرَةِ", tr:"Inna ashqal-ashqiyaa'i manij-tama'a alayhi faqrud-dunyaa wal-'adhaabul-aakhirah", h:"Mafi tabewar mutane, wanda talaucin duniya ya gamu da shi, kuma da azabar Lahira.", en:"The most wretched of people is one afflicted by both worldly poverty and the punishment of the Hereafter."},
+{ar:"اَلْحَيَاءُ مِنَ الْإِيمَانِ", tr:"Al-hayaa'u minal-eemaan", h:"Kunya tana daga Imani.", en:"Modesty is part of faith."},
+{ar:"اَلدَّيْنُ شَرُّ الدِّينِ", tr:"Ad-daynu sharrud-deen", h:"Bashi sharri ne ga addini.", en:"Debt is harmful to one's religion."},
+{ar:"أَقِلَّ مِنَ الدَّيْنِ تَعِشْ حُرًّا", tr:"Aqilla minad-dayni ta'ish hurran", h:"Idan ka rage bashi, za ka rayu da 'yanci.", en:"Reduce debt and you will live free."},
+{ar:"اَلدَّيْنُ هَمٌّ فِي اللَّيْلِ وَمَذَلَّةٌ فِي النَّهَارِ", tr:"Ad-daynu hammun fil-layli wa madhallatun fin-nahaar", h:"Bashi damuwa ne da dare, kuma ƙasƙanci ne da rana.", en:"Debt is anxiety by night and humiliation by day."},
+{ar:"مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ", tr:"Man kaana yu'minu billaahi wal-yawmil-aakhiri falyaqul khayran aw liyasmut", h:"Wanda ya kasance yana imani da Allah da Ranar Lahira, to ya faɗi alheri, ko ya yi shiru.", en:"Whoever believes in Allah and the Last Day should speak good or remain silent."},
 ]},
 {n:2, hadiths:[
-{ar:"وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيُكْرِمْ ضَيْفَهُ", h:"Sannan wanda ya kasance yana imani da Allah da Ranar Lahira, to ya girmama baƙonsa."},
-{ar:"وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلَا يُؤْذِ جَارَهُ", h:"Sannan duk wanda ya kasance yana imani da Allah da Ranar Lahira, to kada ya cutar da maƙwabcinsa."},
-{ar:"خَيْرُكُمْ مَنْ يُّرْجَى خَيْرُهُ وَيُؤْمَنُ شَرُّهُ", h:"Mafificinku, wanda ake fatan alherinsa, kuma ake amincewa daga sharrinsa."},
-{ar:"كُنْ عَبْدًا لِّلْعُلَمَاءِ تَرْبَحْ فِي الدُّنْيَا وَالْآخِرَةِ", h:"Ka kasance bawa ga malamai, za ka yi riba a duniya da Lahira."},
-{ar:"خَيْرُ الْأَوْلَادِ مَنْ كَانَ عَبْدًا لِّوَالِدَيْهِ", h:"Mafificin ɗiya, wanda ya kasance mai biyayya ga iyayensa."},
-{ar:"خَيْرُكُمْ خَيْرُكُمْ لِنِسَائِهِ", h:"Mafificinku, wanda ya fi kyautata wa matansa."},
-{ar:"خَيْرُكُمْ خَيْرُكُمْ لِعِيَالِهِ", h:"Mafificinku, wanda ya fi kyautata wa iyalansa."},
-{ar:"خَيْرُكُمْ مَنْ تَفَقَّهَ فِي الدِّينِ", h:"Mafificinku, wanda ya san addini."},
-{ar:"خَيْرُكُمْ مَنْ عَلِمَ الْقُرْآنَ وَعَلَّمَهُ", h:"Mafificinku, wanda ya san Alƙur'ani kuma ya sanar da wani."},
-{ar:"مَنِ اسْتَعَانَكُمْ بِاللَّهِ فَأَعِينُوهُ", h:"Wanda ya nemi taimako gareku don Allah, to ku taimake shi."},
-{ar:"وَمَنْ سَأَلَكُمْ بِاللَّهِ فَأَعْطُوهُ", h:"Kuma wanda ya roƙe ku domin Allah, to ku bashi."},
-{ar:"فَاللَّهُ فِي عَوْنِ الْعَبْدِ مَا كَانَ الْعَبْدُ فِي عَوْنِ أَخِيهِ", h:"Domin Allah yana cikin taimakon bawa, matuƙar bawan yana cikin taimakon ɗan'uwansa."},
-{ar:"مَا قَلَّ وَكَفَى خَيْرٌ مِّمَّا كَثُرَ وَأَلْهَى", h:"Abinda ya ƙaranta kuma ya isa, ya fi alheri daga abinda ya yawaita kuma ya shagalta."},
-{ar:"اَلْقَانِعُ غَنِيٌّ وَلَوْ عَدِمَ حُرُورَ الدَّجَاجَةِ", h:"Mai gamsuwa da abinsa, mawadaci ne, koda ba shi da tsakon kaza."},
-{ar:"اَلْحَرِيصُ فَقِيرٌ وَإِنْ مَلَكَ الدُّنْيَا", h:"Mai kwaɗayi, talaka ne koda ya mallaki duniya."},
-{ar:"اَلْبَرَكَةُ مَعَ أَكَابِرِكُمْ", h:"Albarka tana tare da manyanku."},
-{ar:"بَرُّوا آبَاءَكُمْ تَبَرَّكُمْ أَبْنَاؤُكُمْ", h:"Ku kyautata wa iyayenku, 'ya'yanku za su kyautata muku."},
-{ar:"وَعِفُّوا تَعِفَّ نِسَاؤُكُمْ", h:"Ku kame kanku daga matan mutane, matanku za su kame kansu."},
-{ar:"كِيلُوا طَعَامَكُمْ يُبَارِكِ اللَّهُ لَكُمْ فِيهِ", h:"Ku auna abincinku, Allah zai sanya albarka gare ku a cikinsa."},
+{ar:"وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلْيُكْرِمْ ضَيْفَهُ", tr:"Wa man kaana yu'minu billaahi wal-yawmil-aakhiri falyukrim dayfah", h:"Sannan wanda ya kasance yana imani da Allah da Ranar Lahira, to ya girmama baƙonsa.", en:"And whoever believes in Allah and the Last Day should honor his guest."},
+{ar:"وَمَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الْآخِرِ فَلَا يُؤْذِ جَارَهُ", tr:"Wa man kaana yu'minu billaahi wal-yawmil-aakhiri falaa yu'dhi jaarah", h:"Sannan duk wanda ya kasance yana imani da Allah da Ranar Lahira, to kada ya cutar da maƙwabcinsa.", en:"And whoever believes in Allah and the Last Day should not harm his neighbor."},
+{ar:"خَيْرُكُمْ مَنْ يُّرْجَى خَيْرُهُ وَيُؤْمَنُ شَرُّهُ", tr:"Khayrukum man yurjaa khayruhu wa yu'manu sharruh", h:"Mafificinku, wanda ake fatan alherinsa, kuma ake amincewa daga sharrinsa.", en:"The best of you is one whose good is hoped for and whose harm is not feared."},
+{ar:"كُنْ عَبْدًا لِّلْعُلَمَاءِ تَرْبَحْ فِي الدُّنْيَا وَالْآخِرَةِ", tr:"Kun abdan lil-'ulamaa'i tarbah fid-dunyaa wal-aakhirah", h:"Ka kasance bawa ga malamai, za ka yi riba a duniya da Lahira.", en:"Be a servant to the scholars, you will profit in this life and the next."},
+{ar:"خَيْرُ الْأَوْلَادِ مَنْ كَانَ عَبْدًا لِّوَالِدَيْهِ", tr:"Khayrul-awlaadi man kaana abdan li-waalidayh", h:"Mafificin ɗiya, wanda ya kasance mai biyayya ga iyayensa.", en:"The best of children is one obedient to his parents."},
+{ar:"خَيْرُكُمْ خَيْرُكُمْ لِنِسَائِهِ", tr:"Khayrukum khayrukum li-nisaa'ih", h:"Mafificinku, wanda ya fi kyautata wa matansa.", en:"The best of you is the best to his wives."},
+{ar:"خَيْرُكُمْ خَيْرُكُمْ لِعِيَالِهِ", tr:"Khayrukum khayrukum li-'iyaalih", h:"Mafificinku, wanda ya fi kyautata wa iyalansa.", en:"The best of you is the best to his family."},
+{ar:"خَيْرُكُمْ مَنْ تَفَقَّهَ فِي الدِّينِ", tr:"Khayrukum man tafaqqaha fid-deen", h:"Mafificinku, wanda ya san addini.", en:"The best of you is one who has understanding of the religion."},
+{ar:"خَيْرُكُمْ مَنْ عَلِمَ الْقُرْآنَ وَعَلَّمَهُ", tr:"Khayrukum man 'alimal-Qur'aana wa 'allamah", h:"Mafificinku, wanda ya san Alƙur'ani kuma ya sanar da wani.", en:"The best of you is one who learns the Qur'an and teaches it."},
+{ar:"مَنِ اسْتَعَانَكُمْ بِاللَّهِ فَأَعِينُوهُ", tr:"Manis-ta'aanakum billaahi fa-a'eenooh", h:"Wanda ya nemi taimako gareku don Allah, to ku taimake shi.", en:"Whoever seeks your help for Allah's sake, help him."},
+{ar:"وَمَنْ سَأَلَكُمْ بِاللَّهِ فَأَعْطُوهُ", tr:"Wa man sa'alakum billaahi fa-a'tooh", h:"Kuma wanda ya roƙe ku domin Allah, to ku bashi.", en:"And whoever asks you for Allah's sake, give him."},
+{ar:"فَاللَّهُ فِي عَوْنِ الْعَبْدِ مَا كَانَ الْعَبْدُ فِي عَوْنِ أَخِيهِ", tr:"Fallaahu fee awnil-abdi maa kaanal-abdu fee awni akheeh", h:"Domin Allah yana cikin taimakon bawa, matuƙar bawan yana cikin taimakon ɗan'uwansa.", en:"Allah helps the servant as long as the servant helps his brother."},
+{ar:"مَا قَلَّ وَكَفَى خَيْرٌ مِّمَّا كَثُرَ وَأَلْهَى", tr:"Maa qalla wa kafaa khayrun mimmaa kathura wa alhaa", h:"Abinda ya ƙaranta kuma ya isa, ya fi alheri daga abinda ya yawaita kuma ya shagalta.", en:"What is little but sufficient is better than what is abundant but distracting."},
+{ar:"اَلْقَانِعُ غَنِيٌّ وَلَوْ عَدِمَ حُرُورَ الدَّجَاجَةِ", tr:"Al-qaani'u ghaniyyun wa law adima huroorad-dajaajah", h:"Mai gamsuwa da abinsa, mawadaci ne, koda ba shi da tsakon kaza.", en:"The contented one is rich, even if he lacks a chicken's crop."},
+{ar:"اَلْحَرِيصُ فَقِيرٌ وَإِنْ مَلَكَ الدُّنْيَا", tr:"Al-hareesu faqeerun wa in malakad-dunyaa", h:"Mai kwaɗayi, talaka ne koda ya mallaki duniya.", en:"The greedy one is poor even if he owns the whole world."},
+{ar:"اَلْبَرَكَةُ مَعَ أَكَابِرِكُمْ", tr:"Al-barakatu ma'a akaabirikum", h:"Albarka tana tare da manyanku.", en:"Blessing is with your elders."},
+{ar:"بَرُّوا آبَاءَكُمْ تَبَرَّكُمْ أَبْنَاؤُكُمْ", tr:"Barroo aabaa'akum tabarrakum abnaa'ukum", h:"Ku kyautata wa iyayenku, 'ya'yanku za su kyautata muku.", en:"Honor your parents and your children will honor you."},
+{ar:"وَعِفُّوا تَعِفَّ نِسَاؤُكُمْ", tr:"Wa 'iffoo ta'iffa nisaa'ukum", h:"Ku kame kanku daga matan mutane, matanku za su kame kansu.", en:"Guard your chastity and your women will guard theirs."},
+{ar:"كِيلُوا طَعَامَكُمْ يُبَارِكِ اللَّهُ لَكُمْ فِيهِ", tr:"Keeloo ta'aamakum yubaarikillaahu lakum feeh", h:"Ku auna abincinku, Allah zai sanya albarka gare ku a cikinsa.", en:"Measure your food and Allah will bless it for you."},
 ]},
 {n:3, hadiths:[
-{ar:"إِيَّاكُمْ وَالْكَذِبَ فَإِنَّ الْكَذِبَ يُجَانِبُ الْإِيمَانَ", h:"Ku nisanci ƙarya, domin ƙarya tana nisantar da Imani."},
-{ar:"مِنْ مَكَارِمِ الْأَخْلَاقِ", h:"Yana daga cikin manya-manyan halaye."},
-{ar:"أَنْ تَعْفُوَ عَمَّنْ ظَلَمَكَ", h:"Ka yi afuwa ga wanda ya zalunce ka."},
-{ar:"وَتُعْطِيَ مَنْ حَرَمَكَ", h:"Ka bayar wa wanda ya hana ka."},
-{ar:"وَتَصِلَ مَنْ قَطَعَكَ", h:"Ka sadu (ka kulla zumunci) da wanda ya yanke maka."},
-{ar:"عَلَيْكَ بِذَاتِ الدِّينِ وَإِلَّا تَرِبَتْ يَدَاكَ", h:"Ka riƙi ma'abociyar addini, in ba haka ba hannunka zai talauta."},
-{ar:"عَلَيْكَ بِذَاتِ الدِّينِ يُغْنِكَ اللَّهُ", h:"Ka riƙi ma'abociyar addini, Allah zai wadatar da kai."},
-{ar:"مَنْ تَكَبَّرَ وَضَعَهُ اللَّهُ", h:"Wanda ya yi girman kai, Allah zai ƙasƙantar da shi."},
-{ar:"وَمَنْ تَوَاضَعَ رَفَعَهُ", h:"Wanda ya ƙasƙantar da kansa, Allah zai ɗaukaka shi."},
-{ar:"يَنْبَغِي لِلْإِنْسَانِ أَلَّا يُرَى إِلَّا مُحَصِّلًا حَسَنَةً لِّمَعَادِهِ أَوْ دِرْهَمًا لِّمَعَاشِهِ", h:"Ya kamata ga mutum kada a gan shi sai yana tabbatar da kyakkyawan aiki don Lahirarsa, ko neman abin biyan buƙata don rayuwarsa."},
-{ar:"وَيَتْرُكَ مَا لَا يَعْنِيهِ", h:"Kuma ya bar abin da bai damce shi ba."},
-{ar:"اَلْمَنِيَّةُ وَلَا الدَّنِيَّةُ", h:"Mutuwa, ba ƙasƙanci ba."},
-{ar:"اَلتَّقَلُّلُ وَلَا التَّوَسُّلُ", h:"Ka rage bukatun ka, ba roƙo ba."},
-{ar:"اِغْتَنِمْ خَمْسًا قَبْلَ خَمْسٍ", h:"Ka ribaci abubuwa biyar kafin (masu zuwa) biyar."},
-{ar:"شَبَابَكَ قَبْلَ هَرَمِكَ", h:"Kuruciyarka kafin tsufanka."},
-{ar:"وَصِحَّتَكَ قَبْلَ سُقْمِكَ", h:"Da lafiyarka kafin rashin lafiyarka."},
-{ar:"وَفَرَاغَكَ قَبْلَ شُغْلِكَ", h:"Da faragarka kafin shagalinka."},
-{ar:"وَغِنَاكَ قَبْلَ فَقْرِكَ", h:"Da wadatarka kafin talaucinka."},
-{ar:"وَحَيَاتَكَ قَبْلَ مَوْتِكَ", h:"Da rayuwarka kafin mutuwarka."},
-{ar:"عَلَيْكَ بِالسُّكُوتِ", h:"Ka riƙi kawaici."},
-{ar:"وَلُزُومِ الْبَيْتِ", h:"Da lazimtar gidanka."},
-{ar:"وَالرِّضَى بِالْقَلِيلِ مِنَ الْقُوتِ", h:"Da yarda da ɗan abinci kaɗan."},
-{ar:"وَتَبَصُّرُ الْعَوَاقِبِ يُؤْمَنُ الْمَعَاطِبِ", h:"Kula da ƙarshen abu, ana amincewa daga halaka."},
-{ar:"اَلْمُسْلِمُ مَنْ سَلِمَ النَّاسُ مِنْ لِسَانِهِ وَيَدِهِ", h:"Cikakken musulmi, shi ne wanda mutane suka kuɓuta daga cutarwar harshensa da hannunsa."},
-{ar:"عَلَامَةُ الْمُنَافِقِ ثَلَاثٌ", h:"Alamun munafiki guda uku ne."},
-{ar:"إِذَا حَدَّثَ كَذَبَ وَإِذَا وَعَدَ أَخْلَفَ وَإِذَا اؤْتُمِنَ خَانَ", h:"Idan ya yi magana sai ya yi ƙarya, idan ya yi alkawari sai ya karya shi, idan aka amince masa da wani abu sai ya yi ha'inci."},
+{ar:"إِيَّاكُمْ وَالْكَذِبَ فَإِنَّ الْكَذِبَ يُجَانِبُ الْإِيمَانَ", tr:"Iyyaakum wal-kadhiba fa-innal-kadhiba yujaanibul-eemaan", h:"Ku nisanci ƙarya, domin ƙarya tana nisantar da Imani.", en:"Avoid lying, for lying distances one from faith."},
+{ar:"مِنْ مَكَارِمِ الْأَخْلَاقِ", tr:"Min makaarimil-akhlaaq", h:"Yana daga cikin manya-manyan halaye.", en:"It is among the noble traits of character."},
+{ar:"أَنْ تَعْفُوَ عَمَّنْ ظَلَمَكَ", tr:"An ta'fuwa amman dhalamak", h:"Ka yi afuwa ga wanda ya zalunce ka.", en:"That you forgive whoever wronged you."},
+{ar:"وَتُعْطِيَ مَنْ حَرَمَكَ", tr:"Wa tu'tiya man haramak", h:"Ka bayar wa wanda ya hana ka.", en:"That you give to whoever deprived you."},
+{ar:"وَتَصِلَ مَنْ قَطَعَكَ", tr:"Wa tasila man qata'ak", h:"Ka sadu (ka kulla zumunci) da wanda ya yanke maka.", en:"That you maintain ties with whoever severed them with you."},
+{ar:"عَلَيْكَ بِذَاتِ الدِّينِ وَإِلَّا تَرِبَتْ يَدَاكَ", tr:"Alayka bi-dhaatid-deeni wa illaa taribat yadaak", h:"Ka riƙi ma'abociyar addini, in ba haka ba hannunka zai talauta.", en:"Choose the religious one, or else your hands will be in poverty."},
+{ar:"عَلَيْكَ بِذَاتِ الدِّينِ يُغْنِكَ اللَّهُ", tr:"Alayka bi-dhaatid-deeni yughnikallaah", h:"Ka riƙi ma'abociyar addini, Allah zai wadatar da kai.", en:"Choose the religious one, Allah will enrich you."},
+{ar:"مَنْ تَكَبَّرَ وَضَعَهُ اللَّهُ", tr:"Man takabbara wada'ahullaah", h:"Wanda ya yi girman kai, Allah zai ƙasƙantar da shi.", en:"Whoever is arrogant, Allah will humble him."},
+{ar:"وَمَنْ تَوَاضَعَ رَفَعَهُ", tr:"Wa man tawaada'a rafa'ah", h:"Wanda ya ƙasƙantar da kansa, Allah zai ɗaukaka shi.", en:"And whoever humbles himself, Allah will elevate him."},
+{ar:"يَنْبَغِي لِلْإِنْسَانِ أَلَّا يُرَى إِلَّا مُحَصِّلًا حَسَنَةً لِّمَعَادِهِ أَوْ دِرْهَمًا لِّمَعَاشِهِ", tr:"Yanbaghee lil-insaani allaa yuraa illaa muhassilan hasanatan li-ma'aadihi aw dirhaman li-ma'aashih", h:"Ya kamata ga mutum kada a gan shi sai yana tabbatar da kyakkyawan aiki don Lahirarsa, ko neman abin biyan buƙata don rayuwarsa.", en:"A person should only be seen securing good deeds for his hereafter or earning a livelihood for his life."},
+{ar:"وَيَتْرُكَ مَا لَا يَعْنِيهِ", tr:"Wa yatruka maa laa ya'neeh", h:"Kuma ya bar abin da bai damce shi ba.", en:"And leave what does not concern him."},
+{ar:"اَلْمَنِيَّةُ وَلَا الدَّنِيَّةُ", tr:"Al-maniyyatu wa laad-daniyyah", h:"Mutuwa, ba ƙasƙanci ba.", en:"Death, not disgrace."},
+{ar:"اَلتَّقَلُّلُ وَلَا التَّوَسُّلُ", tr:"At-taqallulu wa laat-tawassul", h:"Ka rage bukatun ka, ba roƙo ba.", en:"Contentment with little, not begging."},
+{ar:"اِغْتَنِمْ خَمْسًا قَبْلَ خَمْسٍ", tr:"Ightanim khamsan qabla khams", h:"Ka ribaci abubuwa biyar kafin (masu zuwa) biyar.", en:"Seize five before five."},
+{ar:"شَبَابَكَ قَبْلَ هَرَمِكَ", tr:"Shabaabaka qabla haramik", h:"Kuruciyarka kafin tsufanka.", en:"Your youth before your old age."},
+{ar:"وَصِحَّتَكَ قَبْلَ سُقْمِكَ", tr:"Wa sihhataka qabla suqmik", h:"Da lafiyarka kafin rashin lafiyarka.", en:"Your health before your sickness."},
+{ar:"وَفَرَاغَكَ قَبْلَ شُغْلِكَ", tr:"Wa faraaghaka qabla shughlik", h:"Da faragarka kafin shagalinka.", en:"Your free time before your busyness."},
+{ar:"وَغِنَاكَ قَبْلَ فَقْرِكَ", tr:"Wa ghinaaka qabla faqrik", h:"Da wadatarka kafin talaucinka.", en:"Your wealth before your poverty."},
+{ar:"وَحَيَاتَكَ قَبْلَ مَوْتِكَ", tr:"Wa hayaataka qabla mawtik", h:"Da rayuwarka kafin mutuwarka.", en:"Your life before your death."},
+{ar:"عَلَيْكَ بِالسُّكُوتِ", tr:"Alayka bis-sukoot", h:"Ka riƙi kawaici.", en:"Hold to silence."},
+{ar:"وَلُزُومِ الْبَيْتِ", tr:"Wa luzoomil-bayt", h:"Da lazimtar gidanka.", en:"And staying at home."},
+{ar:"وَالرِّضَى بِالْقَلِيلِ مِنَ الْقُوتِ", tr:"Wa ridaa bil-qaleeli minal-qoot", h:"Da yarda da ɗan abinci kaɗan.", en:"And contentment with little sustenance."},
+{ar:"وَتَبَصُّرُ الْعَوَاقِبِ يُؤْمَنُ الْمَعَاطِبِ", tr:"Wa tabassurul-'awaaqibi yu'manul-ma'aatib", h:"Kula da ƙarshen abu, ana amincewa daga halaka.", en:"Foresight of outcomes protects from ruin."},
+{ar:"اَلْمُسْلِمُ مَنْ سَلِمَ النَّاسُ مِنْ لِسَانِهِ وَيَدِهِ", tr:"Al-muslimu man salimannaasu min lisaanihi wa yadih", h:"Cikakken musulmi, shi ne wanda mutane suka kuɓuta daga cutarwar harshensa da hannunsa.", en:"The (true) Muslim is one from whose tongue and hand people are safe."},
+{ar:"عَلَامَةُ الْمُنَافِقِ ثَلَاثٌ", tr:"Alaamatul-munaafiqi thalaath", h:"Alamun munafiki guda uku ne.", en:"The signs of a hypocrite are three."},
+{ar:"إِذَا حَدَّثَ كَذَبَ وَإِذَا وَعَدَ أَخْلَفَ وَإِذَا اؤْتُمِنَ خَانَ", tr:"Idhaa haddatha kadhaba wa idhaa wa'ada akhlafa wa idhaa u'tumina khaan", h:"Idan ya yi magana sai ya yi ƙarya, idan ya yi alkawari sai ya karya shi, idan aka amince masa da wani abu sai ya yi ha'inci.", en:"When he speaks he lies, when he promises he breaks it, and when entrusted he betrays."},
 ]},
 {n:4, hadiths:[
-{ar:"إِنَّ اللَّهَ يَنْهَاكُمْ عَنْ قِيلٍ وَقَالٍ", h:"Allah ya hana ku daga faɗi-in-faɗi."},
-{ar:"وَكَثْرَةِ السُّؤَالِ وَإِضَاعَةِ الْمَالِ", h:"Da yawan tambayoyi da wulaƙantar da dukiya."},
-{ar:"وَمَنْعٍ وَهَاتِ وَعُقُوقِ الْأُمَّهَاتِ", h:"Da rowa da roƙo da kuma saɓawa iyaye."},
-{ar:"مَنْ لَّمْ يَنْفَعْهُ عِلْمُهُ ضَرَّهُ جَهْلُهُ", h:"Wanda ilminsa bai amfane shi ba, jahilcinsa zai cutar da shi."},
-{ar:"مَنْ طَلَبَ الْعِلْمَ تَكَفَّلَ اللَّهُ بِرِزْقِهِ", h:"Wanda ya nemi ilimi, Allah zai ɗauki nauyin arzikinsa."},
-{ar:"اِتَّقُوا النَّارَ وَلَوْ بِشِقِّ تَمْرَةٍ", h:"Ku ji tsoron wuta, koda da tsagin dabino."},
-{ar:"وَلِلسَّائِلِ حَقٌّ وَإِنْ جَاءَ عَلَى فَرَسٍ", h:"Mai roƙo yana da hakki, koda ya zo bisa doki."},
-{ar:"يَا ابْنَ آدَمَ أَنْفِقْ يُنْفَقْ عَلَيْكَ", h:"Ya ɗan Adam, ka ciyar, za a ciyar da kai."},
-{ar:"وَوَسِّعْ يُوَسَّعْ عَلَيْكَ", h:"Ka yalwata, za a yalwata maka."},
-{ar:"وَلَا تَقْتُرْ فَيُقْتَرَ عَلَيْكَ", h:"Kada ka yi ƙoro, in ba haka ba za a yi maka ƙoro."},
-{ar:"وَاشْتَرِ الْبَاقِيَ بِالْفَانِي قَبْلَ أَنْ تَبْلُغَ الرُّوحُ التَّرَاقِيَ", h:"Ka saye dawwamamme da ƙarewa, tun kafin rai ya kai maƙogaro."},
-{ar:"كَفَى بِالْمَرْءِ إِثْمًا أَنْ يُّضَيِّعَ مَنْ يَّقُوتُ", h:"Ya isa mutum ya zama mai zunubi ta hanyar kyale wanda yake ciyarwa (rasa hankalinsa game da shi)."},
-{ar:"أَبْغَضُ الْحَلَالِ إِلَى اللَّهِ الطَّلَاقُ", h:"Mafi ƙin halas a wurin Allah, shi ne saki."},
-{ar:"أَبْغَضُ الْعِبَادِ إِلَى اللَّهِ الْأَلَدُّ الْخَصْمُ", h:"Mafi ƙin bayi a wurin Allah, mai tsananta husuma."},
-{ar:"يَا ابْنَ آدَمَ أَطِعْ رَبَّكَ تُسَمَّى عَاقِلًا وَلَا تَعْصِهِ فَتُسَمَّى جَاهِلًا", h:"Ya ɗan Adam, ka bi Ubangijinka, za a ce da kai mai hankali; kada ka saɓa masa, in ba haka ba za a ce da kai wawa."},
-{ar:"اِتَّبِعُوا الْعُلَمَاءَ فَإِنَّهُمْ سُرُجُ الدُّنْيَا وَمَصَابِيحُ الْآخِرَةِ", h:"Ku bi malamai, domin su ne fitilun duniya kuma su ne hasken Lahira."},
-{ar:"اِتَّخِذُوا الْغَنَمَ فَإِنَّهَا بَرَكَةٌ", h:"Ku riƙi awaki da tumaki, domin su albarka ne."},
-{ar:"اِتَّقِ اللَّهَ فِيمَا تَعْلَمُ", h:"Ka ji tsoron Allah cikin abinda ka sani."},
-{ar:"اِتَّقِ اللَّهَ فِي عُسْرِكَ وَيُسْرِكَ", h:"Ka ji tsoron Allah cikin tsananinka da sauƙinka."},
-{ar:"اِتَّقِ اللَّهَ وَاعْدِلُوا بَيْنَ أَوْلَادِكُمْ كَمَا تُحِبُّونَ أَنْ تَبَرُّوكُمْ", h:"Ku ji tsoron Allah, ku yi adalci a tsakanin 'ya'yanku, kamar yadda kuke son su kyautata muku."},
+{ar:"إِنَّ اللَّهَ يَنْهَاكُمْ عَنْ قِيلٍ وَقَالٍ", tr:"Innallaaha yanhaakum an qeelin wa qaal", h:"Allah ya hana ku daga faɗi-in-faɗi.", en:"Allah forbids you from idle gossip."},
+{ar:"وَكَثْرَةِ السُّؤَالِ وَإِضَاعَةِ الْمَالِ", tr:"Wa kathratis-su'aali wa idaa'atil-maal", h:"Da yawan tambayoyi da wulaƙantar da dukiya.", en:"And excessive questioning and wasting wealth."},
+{ar:"وَمَنْعٍ وَهَاتِ وَعُقُوقِ الْأُمَّهَاتِ", tr:"Wa man'in wa haati wa 'uqooqil-ummahaat", h:"Da rowa da roƙo da kuma saɓawa iyaye.", en:"And stinginess, excessive demands, and disobedience to mothers."},
+{ar:"مَنْ لَّمْ يَنْفَعْهُ عِلْمُهُ ضَرَّهُ جَهْلُهُ", tr:"Man lam yanfa'hu ilmuhu darrahu jahluh", h:"Wanda ilminsa bai amfane shi ba, jahilcinsa zai cutar da shi.", en:"Whoever's knowledge does not benefit him, his ignorance will harm him."},
+{ar:"مَنْ طَلَبَ الْعِلْمَ تَكَفَّلَ اللَّهُ بِرِزْقِهِ", tr:"Man talabal-ilma takaffalallaahu bi-rizqih", h:"Wanda ya nemi ilimi, Allah zai ɗauki nauyin arzikinsa.", en:"Whoever seeks knowledge, Allah guarantees his provision."},
+{ar:"اِتَّقُوا النَّارَ وَلَوْ بِشِقِّ تَمْرَةٍ", tr:"Ittaqun-naara wa law bi-shiqqi tamrah", h:"Ku ji tsoron wuta, koda da tsagin dabino.", en:"Guard yourselves from the Fire, even with half a date."},
+{ar:"وَلِلسَّائِلِ حَقٌّ وَإِنْ جَاءَ عَلَى فَرَسٍ", tr:"Wa lis-saa'ili haqqun wa in jaa'a alaa faras", h:"Mai roƙo yana da hakki, koda ya zo bisa doki.", en:"The beggar has a right, even if he comes riding a horse."},
+{ar:"يَا ابْنَ آدَمَ أَنْفِقْ يُنْفَقْ عَلَيْكَ", tr:"Yaa ibna Aadama anfiq yunfaq alayk", h:"Ya ɗan Adam, ka ciyar, za a ciyar da kai.", en:"O son of Adam, spend, and you will be spent upon."},
+{ar:"وَوَسِّعْ يُوَسَّعْ عَلَيْكَ", tr:"Wa wassi' yuwassa' alayk", h:"Ka yalwata, za a yalwata maka.", en:"Be generous, and it will be made generous for you."},
+{ar:"وَلَا تَقْتُرْ فَيُقْتَرَ عَلَيْكَ", tr:"Wa laa taqtur fa-yuqtara alayk", h:"Kada ka yi ƙoro, in ba haka ba za a yi maka ƙoro.", en:"Do not be stingy, lest it be withheld from you."},
+{ar:"وَاشْتَرِ الْبَاقِيَ بِالْفَانِي قَبْلَ أَنْ تَبْلُغَ الرُّوحُ التَّرَاقِيَ", tr:"Wash-taril-baaqiya bil-faani qabla an tablughar-roohut-taraaqiy", h:"Ka saye dawwamamme da ƙarewa, tun kafin rai ya kai maƙogaro.", en:"Buy the everlasting with the fleeting, before the soul reaches the throat."},
+{ar:"كَفَى بِالْمَرْءِ إِثْمًا أَنْ يُّضَيِّعَ مَنْ يَّقُوتُ", tr:"Kafaa bil-mar'i ithman an yudayyi'a man yaqoot", h:"Ya isa mutum ya zama mai zunubi ta hanyar kyale wanda yake ciyarwa (rasa hankalinsa game da shi).", en:"It is enough sin for a man to neglect those he is responsible for."},
+{ar:"أَبْغَضُ الْحَلَالِ إِلَى اللَّهِ الطَّلَاقُ", tr:"Abghadul-halaali ilallaahit-talaaq", h:"Mafi ƙin halas a wurin Allah, shi ne saki.", en:"The most hated of permissible things to Allah is divorce."},
+{ar:"أَبْغَضُ الْعِبَادِ إِلَى اللَّهِ الْأَلَدُّ الْخَصْمُ", tr:"Abghadul-ibaadi ilallaahil-aladdul-khasm", h:"Mafi ƙin bayi a wurin Allah, mai tsananta husuma.", en:"The most hated of servants to Allah is the most quarrelsome disputer."},
+{ar:"يَا ابْنَ آدَمَ أَطِعْ رَبَّكَ تُسَمَّى عَاقِلًا وَلَا تَعْصِهِ فَتُسَمَّى جَاهِلًا", tr:"Yaa ibna Aadama ati' rabbaka tusammaa aaqilan wa laa ta'sihi fatusammaa jaahilaa", h:"Ya ɗan Adam, ka bi Ubangijinka, za a ce da kai mai hankali; kada ka saɓa masa, in ba haka ba za a ce da kai wawa.", en:"O son of Adam, obey your Lord and be called wise; disobey Him and be called foolish."},
+{ar:"اِتَّبِعُوا الْعُلَمَاءَ فَإِنَّهُمْ سُرُجُ الدُّنْيَا وَمَصَابِيحُ الْآخِرَةِ", tr:"Ittabi'ul-ulamaa'a fa-innahum surujud-dunyaa wa masaabeehul-aakhirah", h:"Ku bi malamai, domin su ne fitilun duniya kuma su ne hasken Lahira.", en:"Follow the scholars, for they are the lamps of this world and the lights of the Hereafter."},
+{ar:"اِتَّخِذُوا الْغَنَمَ فَإِنَّهَا بَرَكَةٌ", tr:"Ittakhidhul-ghanama fa-innahaa barakah", h:"Ku riƙi awaki da tumaki, domin su albarka ne.", en:"Keep sheep and goats, for they are a blessing."},
+{ar:"اِتَّقِ اللَّهَ فِيمَا تَعْلَمُ", tr:"Ittaqillaaha feemaa ta'lam", h:"Ka ji tsoron Allah cikin abinda ka sani.", en:"Fear Allah in what you know."},
+{ar:"اِتَّقِ اللَّهَ فِي عُسْرِكَ وَيُسْرِكَ", tr:"Ittaqillaaha fee usrika wa yusrik", h:"Ka ji tsoron Allah cikin tsananinka da sauƙinka.", en:"Fear Allah in your hardship and ease."},
+{ar:"اِتَّقِ اللَّهَ وَاعْدِلُوا بَيْنَ أَوْلَادِكُمْ كَمَا تُحِبُّونَ أَنْ تَبَرُّوكُمْ", tr:"Ittaqillaaha wa a'diloo bayna awlaadikum kamaa tuhibboona an tabarrookum", h:"Ku ji tsoron Allah, ku yi adalci a tsakanin 'ya'yanku, kamar yadda kuke son su kyautata muku.", en:"Fear Allah and be just among your children, as you wish them to honor you."},
 ]},
 {n:5, hadiths:[
-{ar:"اِتَّقِ اللَّهَ وَصِلُوا أَرْحَامَكُمْ", h:"Ku ji tsoron Allah, ku sada zumuncinku."},
-{ar:"اِتَّقُوا الْبَوْلَ فَإِنَّهُ أَوَّلُ مَا يُحَاسَبُ بِهِ الْعَبْدُ فِي الْقَبْرِ", h:"Ku kiyaye bawali, domin shi ne farkon abinda za a fara yi wa bawa hisabi da shi a cikin ƙabari."},
-{ar:"اِتَّقُوا دَعْوَةَ الْمَظْلُومِ وَلَوْ كَانَ كَافِرًا لِأَنَّهُ لَيْسَ دُونَهَا حِجَابٌ", h:"Ku ji tsoron addu'ar wanda aka zalunta, koda kafiri ne, domin babu shamaki tsakaninta da Allah."},
-{ar:"بَاكِرُوا فِي طَلَبِ الرِّزْقِ وَالْحَوَائِجِ فَإِنَّ الْغُدُوَّ بَرَكَةٌ وَنَجَاحٌ", h:"Ku yi wuri wajen neman arziki da biyan buƙatu, domin wuri albarka ne kuma nasara ce."},
-{ar:"بَاكِرُوا بِالصَّدَقَةِ فَإِنَّ الْبَلَاءَ لَا يَتَخَطَّى الصَّدَقَةَ", h:"Ku yi wuri wajen bayar da sadaka, domin bala'i ba ya tsallake sadaka."},
-{ar:"بِحَسْبِ امْرِئٍ مِّنَ الْإِيمَانِ أَنْ يَّقُولَ رَضِيتُ بِاللَّهِ رَبًّا وَبِالْإِسْلَامِ دِينًا وَبِمُحَمَّدٍ رَسُولًا", h:"Ya isa mutum ya zama daga cikin Imani, ya ce na yarda da Allah a matsayin Ubangiji, da Musulunci a matsayin addini, da Muhammadu a matsayin Manzo."},
-{ar:"بَابَانِ مُعَجَّلَانِ عُقُوبَتُهُمَا فِي الدُّنْيَا الْبَغْيُ وَعُقُوقُ الْوَالِدَيْنِ", h:"Ƙofa biyu ne ake gaggauta hukuncinsu a duniya: zalunci da saɓawa iyaye."},
-{ar:"بِحَسْبِ امْرِئٍ مِّنَ الشَّرِّ أَنْ يُّشَارَ إِلَيْهِ بِأَصَابِعَ فِي دِينٍ أَوْ دُنْيَا إِلَّا مَنْ عَصَمَهُ اللَّهُ", h:"Ya isa mutum ya zama daga sharri, a yi masa nuni da yatsu cikin addini ko duniya, sai wanda Allah ya kiyaye."},
-{ar:"بِحَسْبِ امْرِئٍ إِذَا رَأَى مُنْكَرًا لَّا يَسْتَطِيعُ لَهُ تَغْيِيرًا أَنْ يَّعْلَمَ اللَّهَ أَنَّهُ لَهُ مُنْكِرٌ", h:"Ya isa mutum, idan ya ga wani abin ƙi kuma bai iya canza shi ba, ya sanar da Allah cewa shi mai ƙin sa ne a zuciyarsa."},
-{ar:"بِحَسْبِ امْرِئٍ يَّدْعُو أَنْ يَّقُولَ اللَّهُمَّ اغْفِرْ لِي وَارْحَمْنِي وَأَدْخِلْنِي الْجَنَّةَ", h:"Ya isa mutum, idan zai yi addu'a, ya ce: Ya Ubangiji, ka yi mini gafara, ka ji ƙaina, ka shigar da ni Aljanna."},
-{ar:"بَخٍ بَخٍ لِّخَمْسٍ مَّا أَثْقَلَهُنَّ فِي الْمِيزَانِ سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ", h:"Madalla, madalla ga kalmomi biyar da suka fi nauyi a ma'aunin aiki: Subhanallahi, Walhamdu lillahi, Wala ilaha illallahu, Wallahu Akbar."},
-{ar:"وَالْوَلَدُ الصَّالِحُ يَتَوَفَّى لِلْمَرْءِ فَيَحْتَسِبُهُ", h:"Da ɗa nagari, idan ya rasu ga mutum, sai ya nemi lada daga wurin Allah a kansa."},
+{ar:"اِتَّقِ اللَّهَ وَصِلُوا أَرْحَامَكُمْ", tr:"Ittaqillaaha wa siloo arhaamakum", h:"Ku ji tsoron Allah, ku sada zumuncinku.", en:"Fear Allah and maintain your family ties."},
+{ar:"اِتَّقُوا الْبَوْلَ فَإِنَّهُ أَوَّلُ مَا يُحَاسَبُ بِهِ الْعَبْدُ فِي الْقَبْرِ", tr:"Ittaqul-bawla fa-innahu awwalu maa yuhaasabu bihil-abdu fil-qabr", h:"Ku kiyaye bawali, domin shi ne farkon abinda za a fara yi wa bawa hisabi da shi a cikin ƙabari.", en:"Guard against urine (impurity), for it is the first thing a servant is questioned about in the grave."},
+{ar:"اِتَّقُوا دَعْوَةَ الْمَظْلُومِ وَلَوْ كَانَ كَافِرًا لِأَنَّهُ لَيْسَ دُونَهَا حِجَابٌ", tr:"Ittaqoo da'watal-mathloomi wa law kaana kaafiran li-annahu laysa doonahaa hijaab", h:"Ku ji tsoron addu'ar wanda aka zalunta, koda kafiri ne, domin babu shamaki tsakaninta da Allah.", en:"Beware the supplication of the oppressed, even if a disbeliever, for there is no veil between it and Allah."},
+{ar:"بَاكِرُوا فِي طَلَبِ الرِّزْقِ وَالْحَوَائِجِ فَإِنَّ الْغُدُوَّ بَرَكَةٌ وَنَجَاحٌ", tr:"Baakiroo fee talabir-rizqi wal-hawaa'iji fa-innal-ghuduwwa barakatun wa najaah", h:"Ku yi wuri wajen neman arziki da biyan buƙatu, domin wuri albarka ne kuma nasara ce.", en:"Go early in seeking provision and needs, for early morning brings blessing and success."},
+{ar:"بَاكِرُوا بِالصَّدَقَةِ فَإِنَّ الْبَلَاءَ لَا يَتَخَطَّى الصَّدَقَةَ", tr:"Baakiroo bis-sadaqati fa-innal-balaa'a laa yatakhattas-sadaqah", h:"Ku yi wuri wajen bayar da sadaka, domin bala'i ba ya tsallake sadaka.", en:"Give charity early, for calamity does not pass over charity."},
+{ar:"بِحَسْبِ امْرِئٍ مِّنَ الْإِيمَانِ أَنْ يَّقُولَ رَضِيتُ بِاللَّهِ رَبًّا وَبِالْإِسْلَامِ دِينًا وَبِمُحَمَّدٍ رَسُولًا", tr:"Bi-hasbim-ri'in minal-eemaani an yaqoola radeetu billaahi rabban wa bil-islaami deenan wa bi-Muhammadin rasoolaa", h:"Ya isa mutum ya zama daga cikin Imani, ya ce na yarda da Allah a matsayin Ubangiji, da Musulunci a matsayin addini, da Muhammadu a matsayin Manzo.", en:"It suffices as faith for a man to say: I am pleased with Allah as Lord, Islam as religion, and Muhammad as Messenger."},
+{ar:"بَابَانِ مُعَجَّلَانِ عُقُوبَتُهُمَا فِي الدُّنْيَا الْبَغْيُ وَعُقُوقُ الْوَالِدَيْنِ", tr:"Baabaani mu'ajjalaani uqoobatuhumaa fid-dunyaa: al-baghyu wa uqooqul-waalidayn", h:"Ƙofa biyu ne ake gaggauta hukuncinsu a duniya: zalunci da saɓawa iyaye.", en:"Two sins whose punishment is hastened in this world: oppression and disobedience to parents."},
+{ar:"بِحَسْبِ امْرِئٍ مِّنَ الشَّرِّ أَنْ يُّشَارَ إِلَيْهِ بِأَصَابِعَ فِي دِينٍ أَوْ دُنْيَا إِلَّا مَنْ عَصَمَهُ اللَّهُ", tr:"Bi-hasbim-ri'in minash-sharri an yushaara ilayhi bi-asaabi'a fee deenin aw dunyaa illaa man asamahullaah", h:"Ya isa mutum ya zama daga sharri, a yi masa nuni da yatsu cikin addini ko duniya, sai wanda Allah ya kiyaye.", en:"It suffices as evil for a man to be pointed at in religion or worldly matters, except one Allah protects."},
+{ar:"بِحَسْبِ امْرِئٍ إِذَا رَأَى مُنْكَرًا لَّا يَسْتَطِيعُ لَهُ تَغْيِيرًا أَنْ يَّعْلَمَ اللَّهَ أَنَّهُ لَهُ مُنْكِرٌ", tr:"Bi-hasbim-ri'in idhaa ra'aa munkaran laa yastatee'u lahu taghyeeran an ya'lamallaaha annahu lahu munkir", h:"Ya isa mutum, idan ya ga wani abin ƙi kuma bai iya canza shi ba, ya sanar da Allah cewa shi mai ƙin sa ne a zuciyarsa.", en:"It suffices for a man, seeing wrong he cannot change, to let Allah know he disapproves of it in his heart."},
+{ar:"بِحَسْبِ امْرِئٍ يَّدْعُو أَنْ يَّقُولَ اللَّهُمَّ اغْفِرْ لِي وَارْحَمْنِي وَأَدْخِلْنِي الْجَنَّةَ", tr:"Bi-hasbim-ri'in yad'oo an yaqoolal-laahumma-ghfirlee war-hamnee wa adkhilnil-jannah", h:"Ya isa mutum, idan zai yi addu'a, ya ce: Ya Ubangiji, ka yi mini gafara, ka ji ƙaina, ka shigar da ni Aljanna.", en:"It suffices for a man's supplication to say: O Allah, forgive me, have mercy on me, admit me to Paradise."},
+{ar:"بَخٍ بَخٍ لِّخَمْسٍ مَّا أَثْقَلَهُنَّ فِي الْمِيزَانِ سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ", tr:"Bakhin bakhin li-khamsin maa athqalahunna fil-meezaan: Subhaanallaahi wal-hamdu lillaahi wa laa ilaaha illallaahu wallaahu akbar", h:"Madalla, madalla ga kalmomi biyar da suka fi nauyi a ma'aunin aiki: Subhanallahi, Walhamdu lillahi, Wala ilaha illallahu, Wallahu Akbar.", en:"How excellent are five words, so heavy on the scale: Glory to Allah, Praise to Allah, No god but Allah, Allah is Greatest."},
+{ar:"وَالْوَلَدُ الصَّالِحُ يَتَوَفَّى لِلْمَرْءِ فَيَحْتَسِبُهُ", tr:"Wal-waladus-saalihu yatawaffaa lil-mar'i fa-yahtasibuh", h:"Da ɗa nagari, idan ya rasu ga mutum, sai ya nemi lada daga wurin Allah a kansa.", en:"And a righteous child who dies, for whom one seeks reward from Allah."},
 ]},
 {n:6, hadiths:[
-{ar:"بَرَاءَةٌ مِّنَ الْكِبْرِ لُبْسُ الصُّوفِ وَمُجَالَسَةُ الْفُقَرَاءِ الْمُؤْمِنِينَ وَرُكُوبُ الْحِمَارِ وَاعْتِقَالُ الْعَنْزِ", h:"Kuɓuta daga girman kai: sanya sufi, zama tare da matalauta muminai, hawan jaki, da riƙe akuya."},
-{ar:"مَنْ أَتَى الزَّكَاةَ وَقَرَى الضَّيْفَ وَأَعْطَى فِي النَّائِبَةِ بَرِئَ مِنَ الشُّحِّ", h:"Wanda ya bayar da zakka, ya karɓi baƙo da kyautatawa, kuma ya taimaka a lokacin buƙata, to ya kuɓuta daga rowa."},
-{ar:"تَجِبُ الْجُمْعَةُ عَلَى كُلِّ مُسْلِمٍ إِلَّا امْرَأَةً أَوْ صَبِيًّا أَوْ مَمْلُوكًا", h:"Sallar Juma'a wajibi ce a kan kowane musulmi, sai dai mace, ko ƙaramin yaro, ko bawa."},
-{ar:"وَإِنْ رَّأَيْتُمْ فِيهِ الْهَلَكَةَ فَإِنَّ فِيهِ النَّجَاةَ", h:"Idan kun ga a cikinsa halaka, to a cikinsa akwai tsira."},
-{ar:"وَاجْتَنِبُوا الْكَذِبَ وَإِنْ رَّأَيْتُمْ فِيهِ النَّجَاةَ فَإِنَّ فِيهِ الْهَلَكَةَ", h:"Ku nisanci ƙarya, koda kun ga a cikinta tsira, domin a cikinta akwai halaka."},
-{ar:"تَخَلَّلُوا فَإِنَّهُ نَظَافَةٌ وَالنَّظَافَةُ تَدْعُو إِلَى الْإِيمَانِ وَالْإِيمَانُ مَعَ صَاحِبِهِ فِي الْجَنَّةِ", h:"Ku yi asawaki (share hakori), domin tsafta ce, tsafta kuma tana kira zuwa ga Imani, Imani kuma yana tare da mai shi a Aljanna."},
-{ar:"تَدَاوَوْا عِبَادَ اللَّهِ فَإِنَّ اللَّهَ تَعَالَى لَمْ يَضَعْ دَاءً إِلَّا وَضَعَ لَهُ دَوَاءً غَيْرَ دَاءٍ وَاحِدٍ الْهَرَمُ", h:"Ku nemi magani, bayin Allah, domin Allah bai saukar da wata cuta ba face Ya saukar mata da magani, sai dai cuta guda: tsufa."},
-{ar:"تَخَيَّرُوا لِنُطَفِكُمْ فَانْكِحُوا الْأَكْفَاءَ وَأَنْكِحُوا إِلَيْهِمْ", h:"Ku yi zaɓi ga (uwar) 'ya'yanku, ku aura tanka, ku kuma aura wa masu daidaita ku."},
-{ar:"تَحَفَّظُوا مِنَ الْأَرْضِ فَإِنَّهَا أُمُّكُمْ فَإِنَّهُ لَيْسَ مِنْ أَحَدٍ عَامِلٌ عَلَيْهَا خَيْرًا أَوْ شَرًّا إِلَّا وَهِيَ مُخْبِرَةٌ بِهِ", h:"Ku kiyaye ƙasa, domin ita mahaifiyarku ce; babu wani da zai yi aiki a kanta na alheri ko na sharri face za ta bayar da labarinsa."},
+{ar:"بَرَاءَةٌ مِّنَ الْكِبْرِ لُبْسُ الصُّوفِ وَمُجَالَسَةُ الْفُقَرَاءِ الْمُؤْمِنِينَ وَرُكُوبُ الْحِمَارِ وَاعْتِقَالُ الْعَنْزِ", tr:"Baraa'atun minal-kibri lubsus-soofi wa mujaalasatul-fuqaraa'il-mu'mineena wa rukoobul-himaari wa i'tiqaalul-anz", h:"Kuɓuta daga girman kai: sanya sufi, zama tare da matalauta muminai, hawan jaki, da riƙe akuya.", en:"Freedom from arrogance: wearing wool, sitting with poor believers, riding a donkey, and keeping a goat."},
+{ar:"مَنْ أَتَى الزَّكَاةَ وَقَرَى الضَّيْفَ وَأَعْطَى فِي النَّائِبَةِ بَرِئَ مِنَ الشُّحِّ", tr:"Man ataz-zakaata wa qaradad-dayfa wa a'taa fin-naa'ibati bari'a minash-shuhh", h:"Wanda ya bayar da zakka, ya karɓi baƙo da kyautatawa, kuma ya taimaka a lokacin buƙata, to ya kuɓuta daga rowa.", en:"Whoever pays zakat, hosts guests well, and gives in times of need, is free from stinginess."},
+{ar:"تَجِبُ الْجُمْعَةُ عَلَى كُلِّ مُسْلِمٍ إِلَّا امْرَأَةً أَوْ صَبِيًّا أَوْ مَمْلُوكًا", tr:"Tajibul-jumu'atu alaa kulli muslimin illaa imra'atan aw sabiyyan aw mamlookaa", h:"Sallar Juma'a wajibi ce a kan kowane musulmi, sai dai mace, ko ƙaramin yaro, ko bawa.", en:"Friday prayer is obligatory on every Muslim, except a woman, a young child, or a slave."},
+{ar:"وَإِنْ رَّأَيْتُمْ فِيهِ الْهَلَكَةَ فَإِنَّ فِيهِ النَّجَاةَ", tr:"Wa in ra'aytum feehil-halakata fa-inna feehin-najaah", h:"Idan kun ga a cikinsa halaka, to a cikinsa akwai tsira.", en:"If you see ruin in it, salvation is also in it."},
+{ar:"وَاجْتَنِبُوا الْكَذِبَ وَإِنْ رَّأَيْتُمْ فِيهِ النَّجَاةَ فَإِنَّ فِيهِ الْهَلَكَةَ", tr:"Wajtaniboul-kadhiba wa in ra'aytum feehin-najaata fa-inna feehil-halakah", h:"Ku nisanci ƙarya, koda kun ga a cikinta tsira, domin a cikinta akwai halaka.", en:"Avoid lying, even if you see salvation in it, for ruin is in it."},
+{ar:"تَخَلَّلُوا فَإِنَّهُ نَظَافَةٌ وَالنَّظَافَةُ تَدْعُو إِلَى الْإِيمَانِ وَالْإِيمَانُ مَعَ صَاحِبِهِ فِي الْجَنَّةِ", tr:"Takhallaloo fa-innahu nadhaafatun wan-nadhaafatu tad'oo ilal-eemaani wal-eemaanu ma'a saahibihi fil-jannah", h:"Ku yi asawaki (share hakori), domin tsafta ce, tsafta kuma tana kira zuwa ga Imani, Imani kuma yana tare da mai shi a Aljanna.", en:"Use the toothstick, for it is cleanliness, and cleanliness calls to faith, and faith is with its owner in Paradise."},
+{ar:"تَدَاوَوْا عِبَادَ اللَّهِ فَإِنَّ اللَّهَ تَعَالَى لَمْ يَضَعْ دَاءً إِلَّا وَضَعَ لَهُ دَوَاءً غَيْرَ دَاءٍ وَاحِدٍ الْهَرَمُ", tr:"Tadaawaw ibaadallaahi fa-innallaaha ta'aalaa lam yada' daa'an illaa wada'a lahu dawaa'an ghayra daa'in waahidil-haram", h:"Ku nemi magani, bayin Allah, domin Allah bai saukar da wata cuta ba face Ya saukar mata da magani, sai dai cuta guda: tsufa.", en:"Seek treatment, servants of Allah, for Allah did not create a disease without creating its cure, except one: old age."},
+{ar:"تَخَيَّرُوا لِنُطَفِكُمْ فَانْكِحُوا الْأَكْفَاءَ وَأَنْكِحُوا إِلَيْهِمْ", tr:"Takhayyaroo li-nutafikum fankihul-akfaa'a wa ankihoo ilayhim", h:"Ku yi zaɓi ga (uwar) 'ya'yanku, ku aura tanka, ku kuma aura wa masu daidaita ku.", en:"Choose carefully for your offspring; marry those suitable and give in marriage to those suitable."},
+{ar:"تَحَفَّظُوا مِنَ الْأَرْضِ فَإِنَّهَا أُمُّكُمْ فَإِنَّهُ لَيْسَ مِنْ أَحَدٍ عَامِلٌ عَلَيْهَا خَيْرًا أَوْ شَرًّا إِلَّا وَهِيَ مُخْبِرَةٌ بِهِ", tr:"Tahaffathoo minal-ardi fa-innahaa ummukum fa-innahu laysa min ahadin aamilun alayhaa khayran aw sharran illaa wa hiya mukhbiratun bih", h:"Ku kiyaye ƙasa, domin ita mahaifiyarku ce; babu wani da zai yi aiki a kanta na alheri ko na sharri face za ta bayar da labarinsa.", en:"Be mindful of the earth, for it is your mother; no one does good or evil on it except it reports of it."},
 ]},
 {n:7, hadiths:[
-{ar:"تَدَارَكُوا الْغُمُومَ وَالْهُمُومَ بِالصَّدَقَاتِ يَكْشِفُ اللَّهُ تَعَالَى ضُرَّكُمْ وَيَنْصُرُكُمْ عَلَى عَدُوِّكُمْ", h:"Ku riƙi baƙin ciki da damuwarku da sadaka, Allah zai kau da wahalarku kuma Ya taimake ku a kan maƙiyanku."},
-{ar:"تَنَاكَحُوا فَإِنِّي مُكَاثِرٌ بِكُمُ الْأُمَمَ وَلَا تَكُونُوا كَرَهَبَانِيَّةِ النَّصَارَى", h:"Ku yi aure, domin zan yi alfahari da yawanku a gaban sauran al'ummu, kada ku zamo kamar ruhbanci na Nasara."},
-{ar:"تَزَوَّجُوا وَلَا تُطَلِّقُوا فَإِنَّ الطَّلَاقَ يَهْتَزُّ مِنْهُ الْعَرْشُ", h:"Ku yi aure amma kada ku yi sauƙin saki, domin Al'arshi yana girgiza sabodan sakin aure."},
-{ar:"ثَلَاثٌ مَّنْ كُنَّ فِيهِ وَجَدَ حَلَاوَةَ الْإِيمَانِ أَنْ يَّكُونَ اللَّهُ وَرَسُولُهُ أَحَبَّ إِلَيْهِ مِمَّا سِوَاهُمَا وَأَنْ يُّحِبَّ الْمَرْءَ لَا يُحِبُّهُ إِلَّا لِلَّهِ وَأَنْ يَّكْرَهَ أَنْ يَّعُودَ فِي الْكُفْرِ بَعْدَ إِذْ أَنْقَذَهُ اللَّهُ مِنْهُ كَمَا يَكْرَهُ أَنْ يُّلْقَى فِي النَّارِ", h:"Abu uku, duk wanda suka kasance a cikinsa, zai ɗanɗana zaƙin Imani: Allah da ManzonSa su fi kowa so a gareshi; ya so wani don Allah kaɗai; kuma ya ƙi komawa kafirci bayan Allah Ya tsamo shi daga ciki, kamar yadda yake ƙin a jefa shi cikin wuta."},
-{ar:"ثَلَاثَةٌ مَّنْ كُنَّ فِيهِ كُتِبَ مِنَ الْأَبْدَالِ رِضًا بِالْقَضَاءِ وَالصَّبْرِ عَنْ مَحَارِمِ اللَّهِ وَالْغَضَبِ فِي ذَاتِ اللَّهِ عَزَّ وَجَلَّ", h:"Abu uku, duk wanda suka kasance a cikinsa, za a rubuta shi daga cikin yantattun bayi: yardar da hukuncin Allah, haƙuri akan abinda Allah ya haramta, da fushi don ɗaukakar Allah."},
-{ar:"ثَلَاثَةٌ مَّنْ كُنَّ فِيهِ حَاسَبَهُ اللَّهُ تَعَالَى حِسَابًا يَّسِيرًا وَأَدْخَلَهُ الْجَنَّةَ بِرَحْمَتِهِ تُعْطِي مَنْ حَرَمَكَ وَتَصِلُ مَنْ قَطَعَكَ وَتَعْفُو عَمَّنْ ظَلَمَكَ", h:"Abu uku, duk wanda suka kasance a cikinsa, Allah zai yi masa hisabi mai sauƙi kuma zai shigar da shi Aljanna da rahamarSa: ka bayar wa wanda ya hana ka, ka sadu da wanda ya yanke maka, ka yi afuwa ga wanda ya zalunce ka."},
+{ar:"تَدَارَكُوا الْغُمُومَ وَالْهُمُومَ بِالصَّدَقَاتِ يَكْشِفُ اللَّهُ تَعَالَى ضُرَّكُمْ وَيَنْصُرُكُمْ عَلَى عَدُوِّكُمْ", tr:"Tadaarakul-ghumooma wal-humooma bis-sadaqaati yakshifullaahu ta'aalaa durrakum wa yansurukum alaa aduwwikum", h:"Ku riƙi baƙin ciki da damuwarku da sadaka, Allah zai kau da wahalarku kuma Ya taimake ku a kan maƙiyanku.", en:"Counter grief and worry with charity; Allah will remove your distress and help you against your enemy."},
+{ar:"تَنَاكَحُوا فَإِنِّي مُكَاثِرٌ بِكُمُ الْأُمَمَ وَلَا تَكُونُوا كَرَهَبَانِيَّةِ النَّصَارَى", tr:"Tanaakahoo fa-innee mukaathirun bikumul-umama wa laa takoonoo ka-rahbaaniyyatin-nasaaraa", h:"Ku yi aure, domin zan yi alfahari da yawanku a gaban sauran al'ummu, kada ku zamo kamar ruhbanci na Nasara.", en:"Marry, for I will boast of your numbers before other nations; do not be like the monasticism of the Christians."},
+{ar:"تَزَوَّجُوا وَلَا تُطَلِّقُوا فَإِنَّ الطَّلَاقَ يَهْتَزُّ مِنْهُ الْعَرْشُ", tr:"Tazawwajoo wa laa tutalliqoo fa-innat-talaaqa yahtazzu minhul-arsh", h:"Ku yi aure amma kada ku yi sauƙin saki, domin Al'arshi yana girgiza sabodan sakin aure.", en:"Marry and do not divorce lightly, for the Throne shakes because of divorce."},
+{ar:"ثَلَاثٌ مَّنْ كُنَّ فِيهِ وَجَدَ حَلَاوَةَ الْإِيمَانِ أَنْ يَّكُونَ اللَّهُ وَرَسُولُهُ أَحَبَّ إِلَيْهِ مِمَّا سِوَاهُمَا وَأَنْ يُّحِبَّ الْمَرْءَ لَا يُحِبُّهُ إِلَّا لِلَّهِ وَأَنْ يَّكْرَهَ أَنْ يَّعُودَ فِي الْكُفْرِ بَعْدَ إِذْ أَنْقَذَهُ اللَّهُ مِنْهُ كَمَا يَكْرَهُ أَنْ يُّلْقَى فِي النَّارِ", tr:"Thalaathun man kunna feehi wajada halaawatal-eemaan: an yakoonallaahu wa rasooluhu ahabba ilayhi mimmaa siwaahumaa, wa an yuhibbal-mar'a laa yuhibbuhu illaa lillaah, wa an yakraha an ya'ooda fil-kufri ba'da idh anqadhahullaahu minhu kamaa yakrahu an yulqaa fin-naar", h:"Abu uku, duk wanda suka kasance a cikinsa, zai ɗanɗana zaƙin Imani: Allah da ManzonSa su fi kowa so a gareshi; ya so wani don Allah kaɗai; kuma ya ƙi komawa kafirci bayan Allah Ya tsamo shi daga ciki, kamar yadda yake ƙin a jefa shi cikin wuta.", en:"Three things, whoever has them tastes the sweetness of faith: that Allah and His Messenger are dearer to him than all else; that he loves a person only for Allah's sake; and that he hates to return to disbelief as he hates being thrown into the Fire."},
+{ar:"ثَلَاثَةٌ مَّنْ كُنَّ فِيهِ كُتِبَ مِنَ الْأَبْدَالِ رِضًا بِالْقَضَاءِ وَالصَّبْرِ عَنْ مَحَارِمِ اللَّهِ وَالْغَضَبِ فِي ذَاتِ اللَّهِ عَزَّ وَجَلَّ", tr:"Thalaathatun man kunna feehi kutiba minal-abdaal: ridan bil-qadaa'i was-sabri an mahaarimillaahi wal-ghadabi fee dhaatillaahi azza wa jall", h:"Abu uku, duk wanda suka kasance a cikinsa, za a rubuta shi daga cikin yantattun bayi: yardar da hukuncin Allah, haƙuri akan abinda Allah ya haramta, da fushi don ɗaukakar Allah.", en:"Three things, whoever has them is written among the substitutes (Abdal): contentment with decree, patience from what Allah forbids, and anger for Allah's sake."},
+{ar:"ثَلَاثَةٌ مَّنْ كُنَّ فِيهِ حَاسَبَهُ اللَّهُ تَعَالَى حِسَابًا يَّسِيرًا وَأَدْخَلَهُ الْجَنَّةَ بِرَحْمَتِهِ تُعْطِي مَنْ حَرَمَكَ وَتَصِلُ مَنْ قَطَعَكَ وَتَعْفُو عَمَّنْ ظَلَمَكَ", tr:"Thalaathatun man kunna feehi haasabahullaahu ta'aalaa hisaaban yaseeran wa adkhalahul-jannata bi-rahmatih: tu'tee man haramaka wa tasilu man qata'aka wa ta'foo amman dhalamak", h:"Abu uku, duk wanda suka kasance a cikinsa, Allah zai yi masa hisabi mai sauƙi kuma zai shigar da shi Aljanna da rahamarSa: ka bayar wa wanda ya hana ka, ka sadu da wanda ya yanke maka, ka yi afuwa ga wanda ya zalunce ka.", en:"Three things, whoever has them, Allah will judge him with ease and admit him to Paradise by His mercy: giving to one who deprived you, maintaining ties with one who severed them, and forgiving one who wronged you."},
 ]},
 {n:8, hadiths:[
-{ar:"ثَلَاثَةٌ يَّضْحَكُ اللَّهُ تَعَالَى إِلَيْهِمُ الرَّجُلُ إِذَا جَنَّ اللَّيْلُ يُصَلِّي وَالْقَوْمُ إِذَا صَفُّوا لِلْقِتَالِ وَالْقَوْمُ إِذَا قَامُوا لِلصَّلَاةِ", h:"Mutum uku Allah yana kallonsu da yardar rai: wanda dare ya yi sai yana sallah, mutane idan sun daidaita sahu don yaƙi, da mutane idan sun tashi tsaye don sallah."},
-{ar:"ثَلَاثَةٌ لَّا تَرَى أَعْيُنُهُمُ النَّارَ يَوْمَ الْقِيَامَةِ عَيْنٌ بَكَتْ مِنْ خَشْيَةِ اللَّهِ وَعَيْنٌ حَرَسَتْ فِي سَبِيلِ اللَّهِ وَعَيْنٌ غَضَّتْ عَنْ مَحَارِمِ اللَّهِ", h:"Idanuwan mutum uku ba za su taɓa ganin wuta ba a Ranar Ƙiyama: ido da ya yi kuka don tsoron Allah, ido da ya yi tsaro a hanyar Allah, da ido da ya kame kansa daga abin da Allah ya haramta."},
-{ar:"ثَلَاثَةٌ لَّا تُرْفَعُ صَلَاتُهُمْ فَوْقَ رُءُوسِهِمْ شِبْرًا رَّجُلٌ أَمَّ قَوْمًا وَهُمْ لَهُ كَارِهُونَ وَامْرَأَةٌ بَاتَتْ وَزَوْجُهَا سَاخِطٌ عَلَيْهَا وَأَخَوَانِ مُتَصَارِمَانِ", h:"Sallar mutum uku ba a ɗaukaka ta sama da kawunansu ko ɗan tazara ba: wanda ya yi wa jama'a limanci alhali suna ƙin sa, mace da mijinta yana fushi da ita da dare, da 'yan'uwa masu husuma."},
-{ar:"ثَلَاثَةٌ لَّا يَحْجُبُونَ عَنِ النَّارِ الْمَنَّانُ وَعَاقٌّ لِّوَالِدَيْهِ وَمُدْمِنُ الْخَمْرِ", h:"Mutum uku babu abinda zai hana su shiga wuta: mai gori, mai gaba da iyaye, da mai shan giya akai-akai."},
-{ar:"ثَلَاثَةٌ لَّا يَسْتَخِفُّ بِحَقِّهِمْ إِلَّا مُنَافِقٌ بَيِّنُ النِّفَاقِ ذُو الشَّيْبَةِ فِي الْإِسْلَامِ وَالْمُقْسِطُ وَمُعَلِّمُ الْخَيْرِ", h:"Babu wanda zai raina hakkin mutum uku sai bayyanannen munafiki: tsohon musulmi mai furfura, shugaba mai adalci, da mai koyar da alheri."},
-{ar:"ثَلَاثَةٌ لَّا يَدْخُلُونَ الْجَنَّةَ أَبَدًا الدَّيُّوثُ وَالرَّجُلَةُ مِنَ النِّسَاءِ وَمُدْمِنُ الْخَمْرِ", h:"Mutum uku ba za su shiga Aljanna ba har abada: marar kishi, mace mai kama da namiji, da mai shan giya akai-akai."},
+{ar:"ثَلَاثَةٌ يَّضْحَكُ اللَّهُ تَعَالَى إِلَيْهِمُ الرَّجُلُ إِذَا جَنَّ اللَّيْلُ يُصَلِّي وَالْقَوْمُ إِذَا صَفُّوا لِلْقِتَالِ وَالْقَوْمُ إِذَا قَامُوا لِلصَّلَاةِ", tr:"Thalaathatun yadhakullaahu ta'aalaa ilayhim: ar-rajulu idhaa jannal-laylu yusallee, wal-qawmu idhaa saffoo lil-qitaal, wal-qawmu idhaa qaamoo lis-salaah", h:"Mutum uku Allah yana kallonsu da yardar rai: wanda dare ya yi sai yana sallah, mutane idan sun daidaita sahu don yaƙi, da mutane idan sun tashi tsaye don sallah.", en:"Three whom Allah looks upon with delight: a man who prays at night, a people who line up for battle, and a people who stand for prayer."},
+{ar:"ثَلَاثَةٌ لَّا تَرَى أَعْيُنُهُمُ النَّارَ يَوْمَ الْقِيَامَةِ عَيْنٌ بَكَتْ مِنْ خَشْيَةِ اللَّهِ وَعَيْنٌ حَرَسَتْ فِي سَبِيلِ اللَّهِ وَعَيْنٌ غَضَّتْ عَنْ مَحَارِمِ اللَّهِ", tr:"Thalaathatun laa taral-a'yunuhumun-naara yawmal-qiyaamah: aynun bakat min khashyatillaah, wa aynun harasat fee sabeelillaah, wa aynun ghaddat an mahaarimillaah", h:"Idanuwan mutum uku ba za su taɓa ganin wuta ba a Ranar Ƙiyama: ido da ya yi kuka don tsoron Allah, ido da ya yi tsaro a hanyar Allah, da ido da ya kame kansa daga abin da Allah ya haramta.", en:"Three eyes will never see the Fire on the Day of Judgment: an eye that wept in fear of Allah, an eye that guarded in Allah's path, and an eye that lowered itself from what Allah forbade."},
+{ar:"ثَلَاثَةٌ لَّا تُرْفَعُ صَلَاتُهُمْ فَوْقَ رُءُوسِهِمْ شِبْرًا رَّجُلٌ أَمَّ قَوْمًا وَهُمْ لَهُ كَارِهُونَ وَامْرَأَةٌ بَاتَتْ وَزَوْجُهَا سَاخِطٌ عَلَيْهَا وَأَخَوَانِ مُتَصَارِمَانِ", tr:"Thalaathatun laa turfa'u salaatuhum fawqa ru'oosihim shibraa: rajulun amma qawman wa hum lahu kaarihoon, wa imra'atun baatat wa zawjuhaa saakhitun alayhaa, wa akhawaani mutasaarimaan", h:"Sallar mutum uku ba a ɗaukaka ta sama da kawunansu ko ɗan tazara ba: wanda ya yi wa jama'a limanci alhali suna ƙin sa, mace da mijinta yana fushi da ita da dare, da 'yan'uwa masu husuma.", en:"Three whose prayer does not rise above their heads: a man who leads people while they dislike him, a woman whose husband is angry at her overnight, and two brothers in dispute."},
+{ar:"ثَلَاثَةٌ لَّا يَحْجُبُونَ عَنِ النَّارِ الْمَنَّانُ وَعَاقٌّ لِّوَالِدَيْهِ وَمُدْمِنُ الْخَمْرِ", tr:"Thalaathatun laa yuhjaboona anin-naar: al-mannaanu wa aaqqun li-waalidayhi wa mudminul-khamr", h:"Mutum uku babu abinda zai hana su shiga wuta: mai gori, mai gaba da iyaye, da mai shan giya akai-akai.", en:"Three are not shielded from the Fire: the one who reminds others of favors given, the one disobedient to parents, and the habitual drinker."},
+{ar:"ثَلَاثَةٌ لَّا يَسْتَخِفُّ بِحَقِّهِمْ إِلَّا مُنَافِقٌ بَيِّنُ النِّفَاقِ ذُو الشَّيْبَةِ فِي الْإِسْلَامِ وَالْمُقْسِطُ وَمُعَلِّمُ الْخَيْرِ", tr:"Thalaathatun laa yastakhiffu bi-haqqihim illaa munaafiqun bayyinun-nifaaq: dhush-shaybati fil-islaam wal-muqsitu wa mu'allimul-khayr", h:"Babu wanda zai raina hakkin mutum uku sai bayyanannen munafiki: tsohon musulmi mai furfura, shugaba mai adalci, da mai koyar da alheri.", en:"None belittles the right of three except an open hypocrite: the elder gray in Islam, the just ruler, and the teacher of good."},
+{ar:"ثَلَاثَةٌ لَّا يَدْخُلُونَ الْجَنَّةَ أَبَدًا الدَّيُّوثُ وَالرَّجُلَةُ مِنَ النِّسَاءِ وَمُدْمِنُ الْخَمْرِ", tr:"Thalaathatun laa yadkhuloonal-jannata abadaa: ad-dayyoothu war-rajulatu minan-nisaa'i wa mudminul-khamr", h:"Mutum uku ba za su shiga Aljanna ba har abada: marar kishi, mace mai kama da namiji, da mai shan giya akai-akai.", en:"Three will never enter Paradise: the one lacking jealousy for his family, the masculine woman, and the habitual drinker."},
 ]},
 {n:9, hadiths:[
-{ar:"ثَلَاثَةٌ لَّا يُكَلِّمُهُمُ اللَّهُ يَوْمَ الْقِيَامَةِ وَلَا يَنْظُرُ إِلَيْهِمْ وَلَا يُزَكِّيهِمْ وَلَهُمْ عَذَابٌ أَلِيمٌ الْمُسْبِلُ إِزَارَهُ بَطَرًا وَالْمَنَّانُ الَّذِي لَا يُعْطِي شَيْئًا إِلَّا وَمَنَّهُ وَالْمُنَفِّقُ سِلْعَتَهُ بِالْحَلِفِ الْكَاذِبِ", h:"Mutum uku Allah ba zai yi musu magana ba a Ranar Ƙiyama, ba zai kalle su ba, ba zai tsarkake su ba, kuma za su sami azaba mai raɗaɗi: mai ja da suturarsa ƙasa don girman kai, mai gori wanda ba ya bayar da wani abu sai ya yi gori, da mai sayar da kayansa da rantsuwar ƙarya."},
-{ar:"اَلْجَارُ أَحَقُّ بِصَقَبِ الْجَارِ", h:"Maƙwabci ya fi cancanta da gidan maƙwabci (na kusa)."},
-{ar:"جَالِسُوا الْعُلَمَاءَ وَخَالِطُوا الْحُكَمَاءَ", h:"Ku zauna da malamai, ku cuɗanya da masu hikima."},
-{ar:"جَالِسُوا مَعَ الْكُبَرَاءِ وَسَائِلُوا الْعُلَمَاءَ وَخَالِطُوا الْحُكَمَاءَ", h:"Ku zauna tare da manya, ku yi tambaya ga malamai, ku cuɗanya da masu hikima."},
-{ar:"جُبِلَتِ الْقُلُوبُ عَلَى حُبِّ مَنْ أَحْسَنَ إِلَيْهَا وَبُغْضِ مَنْ أَسَاءَ إِلَيْهَا", h:"An halicci zuciya a bisa son wanda ya kyautata mata, da ƙin wanda ya munana mata."},
-{ar:"جَدِّدُوا إِيمَانَكُمْ وَأَكْثِرُوا مِنْ قَوْلِ لَا إِلَٰهَ إِلَّا اللَّهُ", h:"Ku sabunta imaninku, ku yawaita faɗar La'ilaha illallah."},
-{ar:"جَزَاءُ الْغَنِيِّ عَنِ الْفَقِيرِ النَّصِيحَةُ وَالدُّعَاءُ", h:"Sakamakon mawadaci daga matalauci, nasiha da addu'a."},
+{ar:"ثَلَاثَةٌ لَّا يُكَلِّمُهُمُ اللَّهُ يَوْمَ الْقِيَامَةِ وَلَا يَنْظُرُ إِلَيْهِمْ وَلَا يُزَكِّيهِمْ وَلَهُمْ عَذَابٌ أَلِيمٌ الْمُسْبِلُ إِزَارَهُ بَطَرًا وَالْمَنَّانُ الَّذِي لَا يُعْطِي شَيْئًا إِلَّا وَمَنَّهُ وَالْمُنَفِّقُ سِلْعَتَهُ بِالْحَلِفِ الْكَاذِبِ", tr:"Thalaathatun laa yukallimuhumullaahu yawmal-qiyaamati wa laa yandhuru ilayhim wa laa yuzakkeehim wa lahum adhaabun aleem: al-musbilu izaarahu bataran, wal-mannaanul-ladhee laa yu'tee shay'an illaa mannah, wal-munaffiqu sil'atahu bil-halifil-kaadhib", h:"Mutum uku Allah ba zai yi musu magana ba a Ranar Ƙiyama, ba zai kalle su ba, ba zai tsarkake su ba, kuma za su sami azaba mai raɗaɗi: mai ja da suturarsa ƙasa don girman kai, mai gori wanda ba ya bayar da wani abu sai ya yi gori, da mai sayar da kayansa da rantsuwar ƙarya.", en:"Three whom Allah will not speak to, look at, or purify on the Day of Judgment, and theirs is a painful punishment: one who drags his garment in pride, one who reminds others of gifts given, and one who sells goods with false oaths."},
+{ar:"اَلْجَارُ أَحَقُّ بِصَقَبِ الْجَارِ", tr:"Al-jaaru ahaqqu bi-saqabil-jaar", h:"Maƙwabci ya fi cancanta da gidan maƙwabci (na kusa).", en:"The neighbor has more right to the adjoining property of the neighbor."},
+{ar:"جَالِسُوا الْعُلَمَاءَ وَخَالِطُوا الْحُكَمَاءَ", tr:"Jaalisul-ulamaa'a wa khaalitul-hukamaa'", h:"Ku zauna da malamai, ku cuɗanya da masu hikima.", en:"Sit with scholars and mix with the wise."},
+{ar:"جَالِسُوا مَعَ الْكُبَرَاءِ وَسَائِلُوا الْعُلَمَاءَ وَخَالِطُوا الْحُكَمَاءَ", tr:"Jaalisoo ma'al-kubaraa'i wa saa'ilul-ulamaa'a wa khaalitul-hukamaa'", h:"Ku zauna tare da manya, ku yi tambaya ga malamai, ku cuɗanya da masu hikima.", en:"Sit with the elders, question the scholars, and mix with the wise."},
+{ar:"جُبِلَتِ الْقُلُوبُ عَلَى حُبِّ مَنْ أَحْسَنَ إِلَيْهَا وَبُغْضِ مَنْ أَسَاءَ إِلَيْهَا", tr:"Jubilatil-quloobu alaa hubbi man ahsana ilayhaa wa bughdi man asaa'a ilayhaa", h:"An halicci zuciya a bisa son wanda ya kyautata mata, da ƙin wanda ya munana mata.", en:"Hearts are naturally inclined to love those who are good to them and dislike those who wrong them."},
+{ar:"جَدِّدُوا إِيمَانَكُمْ وَأَكْثِرُوا مِنْ قَوْلِ لَا إِلَٰهَ إِلَّا اللَّهُ", tr:"Jaddidoo eemaanakum wa akthiroo min qawli laa ilaaha illallaah", h:"Ku sabunta imaninku, ku yawaita faɗar La'ilaha illallah.", en:"Renew your faith and increase in saying: there is no god but Allah."},
+{ar:"جَزَاءُ الْغَنِيِّ عَنِ الْفَقِيرِ النَّصِيحَةُ وَالدُّعَاءُ", tr:"Jazaa'ul-ghaniyyi anil-faqeeri an-naseehatu wad-du'aa'", h:"Sakamakon mawadaci daga matalauci, nasiha da addu'a.", en:"The reward the poor owes the rich is sincere advice and prayer."},
 ]},
 {n:10, hadiths:[
-{ar:"اَلْجَارُ قَبْلَ الدَّارِ وَالرَّفِيقُ قَبْلَ الطَّرِيقِ وَالزَّادُ قَبْلَ الرَّحِيلِ", h:"Ka nemi maƙwabci kafin ka yi gida, ka nemi abokin tafiya kafin tafiya, ka nemi guzuri kafin ka kama hanya."},
-{ar:"اَلْجَالِبُ مَرْزُوقٌ وَالْمُحْتَكِرُ مَلْعُونٌ", h:"Mai kawo kaya (kasuwanci) ana masa arziki, mai ɓoye kaya don ƙarin farashi an la'ance shi."},
-{ar:"اَلْجَاهِرُ بِالْقُرْآنِ كَالْمُسِرِّ بِالصَّدَقَةِ", h:"Mai bayyana karatun Alƙur'ani, kamar mai ɓoye sadaka ne."},
-{ar:"اَلْجَفَاءُ كُلُّ الْجَفَاءِ وَالْكُفْرِ وَالنِّفَاقِ مَنْ سَمِعَ مُنَادِيَ اللَّهِ تَعَالَى يُنَادِي لِلصَّلَاةِ وَيَدْعُو لِلْفَلَاحِ فَلَا يُجِيبُهُ", h:"Cikakken tsananin zafi da kafirci da munafunci, shi ne wanda ya ji mai kiran Allah yana kira zuwa Sallah kuma yana kira zuwa ga tsira, bai amsa ba."},
-{ar:"اَلْجِهَادُ أَرْبَعُ الْأَمْرِ بِالْمَعْرُوفِ وَالنَّهْيِ عَنِ الْمُنْكَرِ وَالصِّدْقِ فِي مَوَاطِنِ الصَّبْرِ وَشَنَآنِ الْفَاسِقِ", h:"Jihadi abu huɗu ne: umarni da alheri, hani ga mummuna, gaskiya a lokutan haƙuri, da ƙin fasiƙi."},
-{ar:"حَامِلُ الْقُرْآنِ حَامِلُ رَايَةِ الْإِسْلَامِ مَنْ أَكْرَمَهُ فَقَدْ أَكْرَمَ اللَّهَ وَمَنْ أَهَانَهُ فَقَدْ لَعَنَهُ اللَّهُ", h:"Mai ɗaukar (koyon) Alƙur'ani, shi ne mai ɗaukar tutar Musulunci; wanda ya girmama shi, haƙiƙa ya girmama Allah, wanda kuma ya wulaƙanta shi, haƙiƙa tsinuwar Allah ta tabbata a gareshi."},
-{ar:"لَيْسَ مِنَّا مَنْ لَطَمَ الْخُدُودَ وَشَقَّ الْجُيُوبَ وَدَعَا بِدَعْوَى الْجَاهِلِيَّةِ", h:"Ba ya tare da mu wanda ya mari kumatunsa, ya yaga aljihunsa, kuma ya yi kiran irin na Jahiliyya."},
-{ar:"مَنْ حَفِظَ أَرْبَعِينَ حَدِيثًا مِّنْ أُمَّتِي مِنْ أَمْرِ دِينِهَا حَشَرَهُ اللَّهُ تَعَالَى فِي زُمْرَةِ النَّبِيِّينَ وَالصِّدِّيقِينَ وَالشُّهَدَاءِ وَالصَّالِحِينَ وَحَسُنَ أُولَٰئِكَ رَفِيقًا", h:"Wanda ya haddace Hadisai arba'in daga al'ummata, daga al'amuran addininsa, Allah zai tada shi cikin jama'ar Annabawa, Siddiƙai, Shahidai, da Sahihai; kuma sun yi kyau a matsayin abokan tafiya."},
+{ar:"اَلْجَارُ قَبْلَ الدَّارِ وَالرَّفِيقُ قَبْلَ الطَّرِيقِ وَالزَّادُ قَبْلَ الرَّحِيلِ", tr:"Al-jaaru qablad-daari war-rafeequ qablat-tareeqi waz-zaadu qablar-raheel", h:"Ka nemi maƙwabci kafin ka yi gida, ka nemi abokin tafiya kafin tafiya, ka nemi guzuri kafin ka kama hanya.", en:"The neighbor before the house, the companion before the road, and provisions before the journey."},
+{ar:"اَلْجَالِبُ مَرْزُوقٌ وَالْمُحْتَكِرُ مَلْعُونٌ", tr:"Al-jaalibu marzooqun wal-muhtakiru mal'oon", h:"Mai kawo kaya (kasuwanci) ana masa arziki, mai ɓoye kaya don ƙarin farashi an la'ance shi.", en:"The one who brings goods to market is provided for; the hoarder is cursed."},
+{ar:"اَلْجَاهِرُ بِالْقُرْآنِ كَالْمُسِرِّ بِالصَّدَقَةِ", tr:"Al-jaahiru bil-Qur'aani kal-musirri bis-sadaqah", h:"Mai bayyana karatun Alƙur'ani, kamar mai ɓoye sadaka ne.", en:"One who recites the Qur'an aloud is like one who gives charity openly; one who recites quietly is like one who gives charity secretly."},
+{ar:"اَلْجَفَاءُ كُلُّ الْجَفَاءِ وَالْكُفْرِ وَالنِّفَاقِ مَنْ سَمِعَ مُنَادِيَ اللَّهِ تَعَالَى يُنَادِي لِلصَّلَاةِ وَيَدْعُو لِلْفَلَاحِ فَلَا يُجِيبُهُ", tr:"Al-jafaa'u kullul-jafaa'i wal-kufri wan-nifaaqi man sami'a munaadiyallaahi ta'aalaa yunaadee lis-salaati wa yad'oo lil-falaahi falaa yujeebuh", h:"Cikakken tsananin zafi da kafirci da munafunci, shi ne wanda ya ji mai kiran Allah yana kira zuwa Sallah kuma yana kira zuwa ga tsira, bai amsa ba.", en:"The height of harshness, disbelief, and hypocrisy is one who hears the caller to prayer and success, yet does not respond."},
+{ar:"اَلْجِهَادُ أَرْبَعُ الْأَمْرِ بِالْمَعْرُوفِ وَالنَّهْيِ عَنِ الْمُنْكَرِ وَالصِّدْقِ فِي مَوَاطِنِ الصَّبْرِ وَشَنَآنِ الْفَاسِقِ", tr:"Al-jihaadu arba'ul-amri bil-ma'roofi wan-nahyi anil-munkari was-sidqi fee mawaatinis-sabri wa shanaa'anil-faasiq", h:"Jihadi abu huɗu ne: umarni da alheri, hani ga mummuna, gaskiya a lokutan haƙuri, da ƙin fasiƙi.", en:"Jihad is four things: enjoining good, forbidding evil, truthfulness in times of patience, and disliking the sinful."},
+{ar:"حَامِلُ الْقُرْآنِ حَامِلُ رَايَةِ الْإِسْلَامِ مَنْ أَكْرَمَهُ فَقَدْ أَكْرَمَ اللَّهَ وَمَنْ أَهَانَهُ فَقَدْ لَعَنَهُ اللَّهُ", tr:"Haamilul-Qur'aani haamilu raayatil-islaam, man akramahu faqad akramallaah, wa man ahaanahu faqad la'anahullaah", h:"Mai ɗaukar (koyon) Alƙur'ani, shi ne mai ɗaukar tutar Musulunci; wanda ya girmama shi, haƙiƙa ya girmama Allah, wanda kuma ya wulaƙanta shi, haƙiƙa tsinuwar Allah ta tabbata a gareshi.", en:"The bearer of the Qur'an is the bearer of Islam's banner; whoever honors him has honored Allah, and whoever disgraces him is cursed by Allah."},
+{ar:"لَيْسَ مِنَّا مَنْ لَطَمَ الْخُدُودَ وَشَقَّ الْجُيُوبَ وَدَعَا بِدَعْوَى الْجَاهِلِيَّةِ", tr:"Laysa minnaa man latamal-khudooda wa shaqqal-juyooba wa da'aa bi-da'wal-jaahiliyyah", h:"Ba ya tare da mu wanda ya mari kumatunsa, ya yaga aljihunsa, kuma ya yi kiran irin na Jahiliyya.", en:"He is not one of us who strikes his cheeks, tears his garments, and calls with the cries of pre-Islamic ignorance."},
+{ar:"مَنْ حَفِظَ أَرْبَعِينَ حَدِيثًا مِّنْ أُمَّتِي مِنْ أَمْرِ دِينِهَا حَشَرَهُ اللَّهُ تَعَالَى فِي زُمْرَةِ النَّبِيِّينَ وَالصِّدِّيقِينَ وَالشُّهَدَاءِ وَالصَّالِحِينَ وَحَسُنَ أُولَٰئِكَ رَفِيقًا", tr:"Man hafiza arba'eena hadeethan min ummatee min amri deenihaa hasharahullaahu ta'aalaa fee zumratin-nabiyyeena was-siddeeqeena wash-shuhadaa'i was-saaliheena wa hasuna ulaa'ika rafeeqaa", h:"Wanda ya haddace Hadisai arba'in daga al'ummata, daga al'amuran addininsa, Allah zai tada shi cikin jama'ar Annabawa, Siddiƙai, Shahidai, da Sahihai; kuma sun yi kyau a matsayin abokan tafiya.", en:"Whoever memorizes forty hadiths from my nation concerning its religion, Allah will raise him among the Prophets, the Truthful, the Martyrs, and the Righteous — and excellent are those as companions."},
 ]},
 ];
 
@@ -455,7 +526,7 @@ PAGES.forEach(p=>{
     <div class="page-preview">
       <div class="preview-ar">${first.ar}</div>
       <div class="preview-ha">${first.h}</div>
-      <button class="open-page-btn" onclick="openBookPage(${p.n})">Buɗe Shafi ${p.n} →</button>
+      <button class="open-page-btn" onclick="openBookPage(${p.n})">Open Page ${p.n} →</button>
     </div>
   `;
   wrap.appendChild(card);
@@ -494,12 +565,16 @@ function renderBookPage(){
   p.hadiths.forEach(h=>{
     const row=document.createElement('div');
     row.className='verse-row';
-    row.innerHTML=`<div class="verse-ar"><span class="ornament">✿</span>${h.ar}</div><div class="verse-ha">${h.h}</div>`;
+    let html = `<div class="verse-ar"><span class="ornament">✿</span>${h.ar}</div>`;
+    if(h.tr){ html += `<div class="verse-tr">${h.tr}</div>`; }
+    html += `<div class="verse-ha">${h.h}</div>`;
+    if(h.en){ html += `<div class="verse-en">${h.en}</div>`; }
+    row.innerHTML = html;
     list.appendChild(row);
   });
   document.getElementById('prevBtn').disabled = currentPageNum<=1;
   document.getElementById('nextBtn').disabled = false;
-  document.getElementById('nextBtn').textContent = currentPageNum>=PAGES.length ? "Bangon Ƙarshe →" : "Shafi na gaba →";
+  document.getElementById('nextBtn').textContent = currentPageNum>=PAGES.length ? "Back Cover →" : "Next →";
   window.scrollTo(0,0);
 }
 function pageNext(){
@@ -557,6 +632,32 @@ function doSearch(){
     results.appendChild(el);
   });
 }
+
+(function(){
+  const slide1=document.getElementById('intro-1');
+  const slide2=document.getElementById('intro-2');
+  const dot1=document.getElementById('dot-1');
+  const dot2=document.getElementById('dot-2');
+  const introEl=document.getElementById('screen-intro');
+  let step=0, timer;
+  function toSlide2(){
+    step=1;
+    slide1.classList.remove('active');
+    slide2.classList.add('active');
+    dot1.classList.remove('on'); dot2.classList.add('on');
+    timer=setTimeout(finishIntro, 2600);
+  }
+  function finishIntro(){
+    introEl.style.transition='opacity .5s ease';
+    introEl.style.opacity='0';
+    setTimeout(()=>{ introEl.style.display='none'; }, 500);
+  }
+  timer=setTimeout(toSlide2, 2600);
+  introEl.addEventListener('click', function(){
+    clearTimeout(timer);
+    if(step===0){ toSlide2(); } else { finishIntro(); }
+  });
+})();
 </script>
 </body>
 </html>
